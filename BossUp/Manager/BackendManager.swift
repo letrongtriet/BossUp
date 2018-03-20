@@ -1,0 +1,25 @@
+//
+//  BackendManager.swift
+//  BossUp
+//
+//  Created by Trong Triet Le on 18/03/2018.
+//  Copyright © 2018 Trong Triet Le. All rights reserved.
+//
+
+import Foundation
+import Firebase
+
+class BackendManager {
+    
+    static let shared: BackendManager = BackendManager()
+    
+    private init() {}
+    
+    let userReference = Database.database().reference().child(DataPath.Users)
+    let shopReference = Database.database().reference().child(DataPath.Shops)
+    
+    func createUser(user: User, userID: String){
+        BackendManager.shared.userReference.child(userID).setValue(user.toDict())
+    }
+    
+}
