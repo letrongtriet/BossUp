@@ -310,6 +310,7 @@
                     </view>
                     <connections>
                         <outlet property="menuBar" destination="glk-S1-wq9" id="bGZ-Xl-2wz"/>
+                        <outlet property="profile" destination="Wer-SO-rMU" id="N0B-nA-Lg2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0BV-Yi-ocF" userLabel="First Responder" sceneMemberID="firstResponder"/>

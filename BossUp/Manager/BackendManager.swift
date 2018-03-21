@@ -22,4 +22,12 @@ class BackendManager {
         BackendManager.shared.userReference.child(userID).setValue(user.toDict())
     }
     
+    func updateUser(user: User, userID: String) {
+        if let json = user.toDict() {
+            BackendManager.shared.userReference.child(userID).updateChildValues(json)
+        }else {
+            print("Cannot update user profile")
+        }
+    }
+    
 }

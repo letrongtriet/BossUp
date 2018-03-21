@@ -7,13 +7,16 @@
 //
 
 import UIKit
+import Firebase
 
 class profileController: UIViewController {
     
     @IBOutlet weak var menuBar: UIView!
+    @IBOutlet weak var profile: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.updateProfile()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -30,5 +33,15 @@ class profileController: UIViewController {
         menuBar.layer.shadowOpacity = 1
         menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
         menuBar.layer.shadowRadius = 2
+    }
+    
+    fileprivate func updateProfile() {
+        let user = Auth.auth().currentUser
+        
+        if user != nil {
+            if let userEmail = user?.email {
+                self.profile.text = userEmail
+            }
+        }
     }
 }
