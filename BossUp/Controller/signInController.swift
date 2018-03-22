@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class signInController: UIViewController {
     
@@ -19,14 +20,16 @@ class signInController: UIViewController {
     
     @IBAction func loginButton(_ sender: UIButton) {
         
-        let userName = self.email.text
-        let userPassword = self.password.text
-        
-        
-        
-        NavigationManager.shared.masterMenu()
+        if let userName = self.email.text, let userPassword = self.password.text {
+            Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
+                if err != nil {
+                    print(err)
+                }else {
+                    NavigationManager.shared.masterMenu()
+                }
+            }
+        }
     }
-    
     
     @IBAction func signUpButton(_ sender: UIButton) {
         NavigationManager.shared.signUp()

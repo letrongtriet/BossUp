@@ -28,6 +28,16 @@ class profileController: UIViewController {
         NavigationManager.shared.masterMenu()
     }
     
+    @IBAction func didPressSignOutButton(_ sender: UIButton) {
+        let firebaseAuth = Auth.auth()
+        do {
+            try firebaseAuth.signOut()
+            NavigationManager.shared.signIn()
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
+    
     fileprivate func setShadow() {
         menuBar.layer.shadowColor = UIColor.gray.cgColor
         menuBar.layer.shadowOpacity = 1

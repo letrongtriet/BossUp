@@ -25,6 +25,7 @@ class signUpController: UIViewController {
         self.signUpUser {completed in
             if completed {
                 print("Yes")
+                NavigationManager.shared.masterMenu()
             }else {
                 print("No")
             }
@@ -33,25 +34,23 @@ class signUpController: UIViewController {
     
     fileprivate func signUpUser(completed: @escaping (_ success:Bool) -> Void) {
         
-        let email = self.email.text!
-        let password = self.password.text!
-        
-        Auth.auth().createUser(withEmail: email, password: password) { (user, err) in
-            if err != nil {
-                print(err?.localizedDescription ?? "Cannot define error")
-                completed(false)
-            } else {
-                if let user = user {
-                    let addUser = User(currentShop: nil, email: user.email!, shop: nil)
-                    CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                    BackendManager.shared.createUser(user: addUser, userID: user.uid)
-                    completed(true)
-                } else {
-                    print("Cannot find user")
+        if let email = self.email.text, let password = self.password.text {
+            Auth.auth().createUser(withEmail: email, password: password) { (user, err) in
+                if err != nil {
+                    print(err?.localizedDescription ?? "Cannot define error")
                     completed(false)
+                } else {
+                    if let user = user {
+                        let addUser = User(currentShop: nil, email: user.email!, shop: nil)
+                        CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                        BackendManager.shared.createUser(user: addUser, userID: user.uid)
+                        completed(true)
+                    } else {
+                        print("Cannot find user")
+                        completed(false)
+                    }
                 }
             }
         }
-        
     }
 }

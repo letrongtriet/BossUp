@@ -16,6 +16,16 @@ public class NavigationManager {
     
     static let shared : NavigationManager = NavigationManager()
     
+    func signIn() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = mainStoryboard.instantiateViewController(withIdentifier: "signInController") as! signInController
+        
+        vc.view.frame = UIScreen.main.bounds
+        UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
+            window!.rootViewController = vc
+        }, completion: nil)
+    }
+    
     func signUp() {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = mainStoryboard.instantiateViewController(withIdentifier: "signUpController") as! signUpController
