@@ -81,6 +81,7 @@ class yourShopController: UIViewController {
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
         DropDown.appearance().backgroundColor = .white
         DropDown.appearance().cornerRadius = 10
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
         
         if let currentUserID = Auth.auth().currentUser?.uid {
             BackendManager.shared.userReference.child(currentUserID).observeSingleEvent(of: .value, with: { (snapshot) in
