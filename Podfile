@@ -11,7 +11,7 @@ target 'BossUp' do
   pod 'Firebase/Auth'
   
   pod 'Charts'
-  
+  pod 'DropDown'
   
   # Pods for BossUp
 

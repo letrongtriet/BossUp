@@ -451,11 +451,27 @@
                                             <action selector="didPressedMenuButton:" destination="GhC-O6-liB" eventType="touchUpInside" id="aga-sF-kvl"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bX6-Lc-BT3">
+                                        <rect key="frame" x="62" y="0.0" width="250" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="EEK-Ey-HhF"/>
+                                            <constraint firstAttribute="width" constant="250" id="FLT-0z-DxT"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                        <state key="normal">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressedShopButton:" destination="GhC-O6-liB" eventType="touchUpInside" id="QIH-Pi-uTu"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2c4-gD-go1"/>
                                     <constraint firstItem="fHv-YV-jYL" firstAttribute="centerY" secondItem="OKe-rB-pDz" secondAttribute="centerY" id="A5f-JC-0i0"/>
+                                    <constraint firstItem="bX6-Lc-BT3" firstAttribute="centerX" secondItem="OKe-rB-pDz" secondAttribute="centerX" id="TrU-Sq-0eT"/>
+                                    <constraint firstItem="bX6-Lc-BT3" firstAttribute="centerY" secondItem="OKe-rB-pDz" secondAttribute="centerY" id="Ubh-c7-Gcd"/>
                                     <constraint firstItem="fHv-YV-jYL" firstAttribute="leading" secondItem="OKe-rB-pDz" secondAttribute="leading" constant="8" id="yCb-CF-Kig"/>
                                 </constraints>
                             </view>
@@ -470,6 +486,7 @@
                     </view>
                     <connections>
                         <outlet property="menuBar" destination="OKe-rB-pDz" id="eGV-Eg-Fog"/>
+                        <outlet property="shopButton" destination="bX6-Lc-BT3" id="pbu-k4-ocb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tnT-F1-SEq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -480,7 +497,7 @@
                     <viewLayoutGuide key="safeArea" id="jiA-cj-KqQ"/>
                 </view>
             </objects>
-            <point key="canvasLocation" x="1690" y="854"/>
+            <point key="canvasLocation" x="1688.8" y="853.22338830584715"/>
         </scene>
         <!--Sign Up Controller-->
         <scene sceneID="UEX-Us-qUM">
