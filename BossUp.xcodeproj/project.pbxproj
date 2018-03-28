@@ -146,15 +146,11 @@
 			isa = PBXGroup;
 			children = (
 				357C8C1A205C0D03001D89FA /* MasterMenuController.swift */,
-				357C8C04205BFDA6001D89FA /* signInController.swift */,
-				357C8C14205C056B001D89FA /* signUpController.swift */,
-				35ACB048205C1272003669AA /* yourShopController.swift */,
-				35ACB04A205C127D003669AA /* reportController.swift */,
 				35ACB04C205C1289003669AA /* profileController.swift */,
 				35ACB04E205C1295003669AA /* settingsController.swift */,
-				35F3F854206B88B600D99EDD /* noShopVC.swift */,
-				35F3F856206B893500D99EDD /* haveShopVC.swift */,
-				356D1E04206B95530005C4BE /* createShopVC.swift */,
+				35B417D5206BA5F400E0BC48 /* Authentication */,
+				35B417D6206BA60B00E0BC48 /* Shop Management */,
+				35B417D7206BA6AD00E0BC48 /* Report Management */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -166,6 +162,34 @@
 				35155EF82061704100BF092F /* CacheManager.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		35B417D5206BA5F400E0BC48 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				357C8C04205BFDA6001D89FA /* signInController.swift */,
+				357C8C14205C056B001D89FA /* signUpController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		35B417D6206BA60B00E0BC48 /* Shop Management */ = {
+			isa = PBXGroup;
+			children = (
+				35ACB048205C1272003669AA /* yourShopController.swift */,
+				35F3F854206B88B600D99EDD /* noShopVC.swift */,
+				35F3F856206B893500D99EDD /* haveShopVC.swift */,
+				356D1E04206B95530005C4BE /* createShopVC.swift */,
+			);
+			path = "Shop Management";
+			sourceTree = "<group>";
+		};
+		35B417D7206BA6AD00E0BC48 /* Report Management */ = {
+			isa = PBXGroup;
+			children = (
+				35ACB04A205C127D003669AA /* reportController.swift */,
+			);
+			path = "Report Management";
 			sourceTree = "<group>";
 		};
 		35FE9C05205DA506009E803B /* Manager */ = {

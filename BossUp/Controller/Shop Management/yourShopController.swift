@@ -48,7 +48,7 @@ class yourShopController: UIViewController {
         return viewController
     }()
     
-    private lazy var noShopVC: createShopVC = {
+    private lazy var createShopVC: createShopVC = {
         // Load Storyboard
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         
@@ -127,7 +127,7 @@ class yourShopController: UIViewController {
             self?.shopButton.setTitle(item, for: .normal)
             
             if index == 0 {
-                self?.add(asChildViewController: <#T##UIViewController#>)
+                self?.add(asChildViewController: (self?.createShopVC)!)
             }
         }
 
