@@ -12,6 +12,7 @@
 		3565490B20613D5400FF0414 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490A20613D5400FF0414 /* Transaction.swift */; };
 		3565490D2061415B00FF0414 /* UserShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490C2061415B00FF0414 /* UserShop.swift */; };
 		3565490F206141E000FF0414 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490E206141E000FF0414 /* Category.swift */; };
+		356D1E05206B95530005C4BE /* createShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D1E04206B95530005C4BE /* createShopVC.swift */; };
 		35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35734006205E885E003FA4E5 /* BackendDataPath.swift */; };
 		357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C02205BFDA6001D89FA /* AppDelegate.swift */; };
 		357C8C05205BFDA6001D89FA /* signInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C04205BFDA6001D89FA /* signInController.swift */; };
@@ -26,6 +27,8 @@
 		35ACB04B205C127D003669AA /* reportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04A205C127D003669AA /* reportController.swift */; };
 		35ACB04D205C1289003669AA /* profileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04C205C1289003669AA /* profileController.swift */; };
 		35ACB04F205C1295003669AA /* settingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04E205C1295003669AA /* settingsController.swift */; };
+		35F3F855206B88B600D99EDD /* noShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F854206B88B600D99EDD /* noShopVC.swift */; };
+		35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F856206B893500D99EDD /* haveShopVC.swift */; };
 		35FE9C08205DA534009E803B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C07205DA534009E803B /* User.swift */; };
 		35FE9C0A205DA53D009E803B /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C09205DA53D009E803B /* Shop.swift */; };
 		35FE9C0C205DA5A7009E803B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */; };
@@ -38,6 +41,7 @@
 		3565490A20613D5400FF0414 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		3565490C2061415B00FF0414 /* UserShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShop.swift; sourceTree = "<group>"; };
 		3565490E206141E000FF0414 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		356D1E04206B95530005C4BE /* createShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createShopVC.swift; sourceTree = "<group>"; };
 		35734006205E885E003FA4E5 /* BackendDataPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendDataPath.swift; sourceTree = "<group>"; };
 		357C8BFF205BFDA6001D89FA /* BossUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BossUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357C8C02205BFDA6001D89FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +58,8 @@
 		35ACB04A205C127D003669AA /* reportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportController.swift; sourceTree = "<group>"; };
 		35ACB04C205C1289003669AA /* profileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileController.swift; sourceTree = "<group>"; };
 		35ACB04E205C1295003669AA /* settingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsController.swift; sourceTree = "<group>"; };
+		35F3F854206B88B600D99EDD /* noShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noShopVC.swift; sourceTree = "<group>"; };
+		35F3F856206B893500D99EDD /* haveShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haveShopVC.swift; sourceTree = "<group>"; };
 		35FE9C07205DA534009E803B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35FE9C09205DA53D009E803B /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -146,6 +152,9 @@
 				35ACB04A205C127D003669AA /* reportController.swift */,
 				35ACB04C205C1289003669AA /* profileController.swift */,
 				35ACB04E205C1295003669AA /* settingsController.swift */,
+				35F3F854206B88B600D99EDD /* noShopVC.swift */,
+				35F3F856206B893500D99EDD /* haveShopVC.swift */,
+				356D1E04206B95530005C4BE /* createShopVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -330,13 +339,16 @@
 				35ACB049205C1272003669AA /* yourShopController.swift in Sources */,
 				35ACB04F205C1295003669AA /* settingsController.swift in Sources */,
 				357C8C05205BFDA6001D89FA /* signInController.swift in Sources */,
+				35F3F855206B88B600D99EDD /* noShopVC.swift in Sources */,
 				357C8C17205C071C001D89FA /* NavigationManager.swift in Sources */,
 				35155EF92061704100BF092F /* CacheManager.swift in Sources */,
 				35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */,
 				3565490F206141E000FF0414 /* Category.swift in Sources */,
+				35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */,
 				357C8C19205C0AAD001D89FA /* Helper.swift in Sources */,
 				357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */,
 				357C8C15205C056B001D89FA /* signUpController.swift in Sources */,
+				356D1E05206B95530005C4BE /* createShopVC.swift in Sources */,
 				35FE9C08205DA534009E803B /* User.swift in Sources */,
 				3565490B20613D5400FF0414 /* Transaction.swift in Sources */,
 			);

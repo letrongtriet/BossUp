@@ -25,6 +25,11 @@ class signInController: UIViewController {
                 if err != nil {
                     print(err?.localizedDescription ?? "Error to be defined")
                 }else {
+                    if let user = user {
+                        CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                    } else {
+                        print("Cannot find user")
+                    }
                     NavigationManager.shared.masterMenu()
                 }
             }

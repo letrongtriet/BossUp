@@ -14,6 +14,7 @@ class yourShopController: UIViewController {
     
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var shopButton: UIButton!
+    @IBOutlet weak var containerView: UIView!
     
     let defaultList = ["Create a shop","Find a shop"]
     
@@ -21,10 +22,36 @@ class yourShopController: UIViewController {
     
     let dropDown = DropDown()
     
+    private lazy var haveShopVC: haveShopVC = {
+        // Load Storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        // Instantiate View Controller
+        var viewController = storyboard.instantiateViewController(withIdentifier: "haveShopVC") as! haveShopVC
+        
+        // Add View Controller as Child View Controller
+        self.add(asChildViewController: viewController)
+        
+        return viewController
+    }()
+    
+    private lazy var noShopVC: noShopVC = {
+        // Load Storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        // Instantiate View Controller
+        var viewController = storyboard.instantiateViewController(withIdentifier: "noShopVC") as! noShopVC
+        
+        // Add View Controller as Child View Controller
+        self.add(asChildViewController: viewController)
+        
+        return viewController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setupButton()
+        self.setupView()
         
     }
     
@@ -48,7 +75,7 @@ class yourShopController: UIViewController {
         menuBar.layer.shadowRadius = 2
     }
     
-    fileprivate func setupButton() {
+    fileprivate func setupView() {
         
         dropDown.anchorView = self.shopButton
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
@@ -68,10 +95,12 @@ class yourShopController: UIViewController {
                 if user.currentShop == "" {
                     self.dropDown.dataSource = self.defaultList
                     self.shopButton.setTitle("Create a Shop", for: .normal)
+                    self.add(asChildViewController: self.noShopVC)
                 }else {
                     print("Found a list")
                     self.shopButton.setTitle("Admin's Shop", for: .normal)
                     self.dropDown.dataSource = self.shopList
+                    self.add(asChildViewController: self.haveShopVC)
                 }
                 
             }) { (error) in
@@ -84,6 +113,32 @@ class yourShopController: UIViewController {
             self?.shopButton.setTitle(item, for: .normal)
         }
 
+    }
+    
+    fileprivate func add(asChildViewController viewController: UIViewController) {
+        // Add Child View Controller
+        addChildViewController(viewController)
+        
+        // Add Child View as Subview
+        containerView.addSubview(viewController.view)
+        
+        // Configure Child View
+        viewController.view.frame = view.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        // Notify Child View Controller
+        viewController.didMove(toParentViewController: self)
+    }
+    
+    fileprivate func remove(asChildViewController viewController: UIViewController) {
+        // Notify Child View Controller
+        viewController.willMove(toParentViewController: nil)
+        
+        // Remove Child View From Superview
+        viewController.view.removeFromSuperview()
+        
+        // Notify Child View Controller
+        viewController.removeFromParentViewController()
     }
 }
 

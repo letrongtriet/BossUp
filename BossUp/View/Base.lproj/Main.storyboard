@@ -13,7 +13,7 @@
         <!--Sign In Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="signInController" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController restorationIdentifier="signInController" storyboardIdentifier="signInController" id="BYZ-38-t0r" customClass="signInController" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -452,10 +452,10 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bX6-Lc-BT3">
-                                        <rect key="frame" x="62" y="0.0" width="250" height="50"/>
+                                        <rect key="frame" x="112" y="5" width="150" height="40"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="EEK-Ey-HhF"/>
-                                            <constraint firstAttribute="width" constant="250" id="FLT-0z-DxT"/>
+                                            <constraint firstAttribute="height" constant="40" id="EEK-Ey-HhF"/>
+                                            <constraint firstAttribute="width" constant="150" id="FLT-0z-DxT"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <state key="normal">
@@ -465,39 +465,65 @@
                                             <action selector="didPressedShopButton:" destination="GhC-O6-liB" eventType="touchUpInside" id="QIH-Pi-uTu"/>
                                         </connections>
                                     </button>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="triangle" translatesAutoresizingMaskIntoConstraints="NO" id="cOO-uh-Gyj">
+                                        <rect key="frame" x="262" y="17.5" width="15" height="15"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="15" id="4r3-wO-oTK"/>
+                                            <constraint firstAttribute="height" constant="15" id="Rmb-zy-d10"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="2c4-gD-go1"/>
+                                    <constraint firstItem="cOO-uh-Gyj" firstAttribute="leading" secondItem="bX6-Lc-BT3" secondAttribute="trailing" id="4Rg-8g-jd8"/>
                                     <constraint firstItem="fHv-YV-jYL" firstAttribute="centerY" secondItem="OKe-rB-pDz" secondAttribute="centerY" id="A5f-JC-0i0"/>
                                     <constraint firstItem="bX6-Lc-BT3" firstAttribute="centerX" secondItem="OKe-rB-pDz" secondAttribute="centerX" id="TrU-Sq-0eT"/>
                                     <constraint firstItem="bX6-Lc-BT3" firstAttribute="centerY" secondItem="OKe-rB-pDz" secondAttribute="centerY" id="Ubh-c7-Gcd"/>
+                                    <constraint firstItem="cOO-uh-Gyj" firstAttribute="centerY" secondItem="OKe-rB-pDz" secondAttribute="centerY" id="gKH-4k-fQp"/>
                                     <constraint firstItem="fHv-YV-jYL" firstAttribute="leading" secondItem="OKe-rB-pDz" secondAttribute="leading" constant="8" id="yCb-CF-Kig"/>
                                 </constraints>
                             </view>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q4V-Ch-RRw">
+                                <rect key="frame" x="0.0" y="70" width="375" height="597"/>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Ifd-bR-luP" firstAttribute="trailing" secondItem="OKe-rB-pDz" secondAttribute="trailing" id="DPe-IZ-d4o"/>
                             <constraint firstItem="OKe-rB-pDz" firstAttribute="top" secondItem="Ifd-bR-luP" secondAttribute="top" id="Fy9-Zn-rd2"/>
+                            <constraint firstItem="Ifd-bR-luP" firstAttribute="trailing" secondItem="q4V-Ch-RRw" secondAttribute="trailing" id="eI3-Y1-gdd"/>
+                            <constraint firstItem="q4V-Ch-RRw" firstAttribute="top" secondItem="OKe-rB-pDz" secondAttribute="bottom" id="eSG-6i-7Jx"/>
+                            <constraint firstItem="q4V-Ch-RRw" firstAttribute="leading" secondItem="Ifd-bR-luP" secondAttribute="leading" id="gb1-DI-tdy"/>
+                            <constraint firstItem="Ifd-bR-luP" firstAttribute="bottom" secondItem="q4V-Ch-RRw" secondAttribute="bottom" id="km4-oH-NWF"/>
                             <constraint firstItem="OKe-rB-pDz" firstAttribute="leading" secondItem="Ifd-bR-luP" secondAttribute="leading" id="qDj-WT-4hf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ifd-bR-luP"/>
                     </view>
                     <connections>
+                        <outlet property="containerView" destination="q4V-Ch-RRw" id="05o-rU-W8U"/>
                         <outlet property="menuBar" destination="OKe-rB-pDz" id="eGV-Eg-Fog"/>
                         <outlet property="shopButton" destination="bX6-Lc-BT3" id="pbu-k4-ocb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tnT-F1-SEq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <view contentMode="scaleToFill" id="BFa-eC-j5S">
-                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                    <viewLayoutGuide key="safeArea" id="jiA-cj-KqQ"/>
-                </view>
             </objects>
-            <point key="canvasLocation" x="1688.8" y="853.22338830584715"/>
+            <point key="canvasLocation" x="1241" y="852"/>
+        </scene>
+        <!--Have ShopVC-->
+        <scene sceneID="mTu-Du-3Qd">
+            <objects>
+                <viewController restorationIdentifier="haveShopVC" storyboardIdentifier="haveShopVC" id="z1x-PK-dBZ" customClass="haveShopVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="QNI-cH-mvq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="6Rv-c3-rBE"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xvd-Oo-mzG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2129" y="850"/>
         </scene>
         <!--Sign Up Controller-->
         <scene sceneID="UEX-Us-qUM">
@@ -591,6 +617,36 @@
             </objects>
             <point key="canvasLocation" x="963" y="119"/>
         </scene>
+        <!--No ShopVC-->
+        <scene sceneID="Fr8-vL-bDL">
+            <objects>
+                <viewController restorationIdentifier="noShopVC" storyboardIdentifier="noShopVC" id="kEk-C9-qdF" customClass="noShopVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wWP-yz-gda">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="oNc-G2-G5G"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kc2-0u-0NR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2935" y="850"/>
+        </scene>
+        <!--Create ShopVC-->
+        <scene sceneID="Mwq-Au-KUj">
+            <objects>
+                <viewController restorationIdentifier="createShopVC" storyboardIdentifier="createShopVC" id="DRu-Ke-Ejr" customClass="createShopVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PjL-Hx-ilm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="Uum-ra-HeL"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pGh-Bj-TwC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3735" y="850"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ic_activity" width="75" height="75"/>
@@ -599,5 +655,6 @@
         <image name="ic_profile" width="75" height="75"/>
         <image name="ic_settings" width="75" height="75"/>
         <image name="shop" width="512" height="512"/>
+        <image name="triangle" width="1200" height="1067"/>
     </resources>
 </document>
