@@ -127,6 +127,7 @@ class yourShopController: UIViewController {
             self?.shopButton.setTitle(item, for: .normal)
             
             if index == 0 {
+                self?.remove(asChildViewController: (self?.noShopVC)!)
                 self?.add(asChildViewController: (self?.createShopVC)!)
             }
         }
