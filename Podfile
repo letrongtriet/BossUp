@@ -12,6 +12,7 @@ target 'BossUp' do
   
   pod 'Charts'
   pod 'DropDown'
+  pod 'IQKeyboardManagerSwift'
   
   # Pods for BossUp
 

@@ -23,7 +23,7 @@ class signInController: UIViewController {
         if let userName = self.email.text, let userPassword = self.password.text {
             Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
                 if err != nil {
-                    print(err)
+                    print(err?.localizedDescription ?? "Error to be defined")
                 }else {
                     NavigationManager.shared.masterMenu()
                 }

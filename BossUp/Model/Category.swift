@@ -18,6 +18,13 @@ struct Category: Codable {
     
     func toDict() -> [String:Any]? {
         var parameters: [String:Any] = [:]
+        
+        parameters["category1"] = category1
+        parameters["category2"] = category2
+        parameters["category3"] = category3
+        parameters["category4"] = category4
+        parameters["category5"] = category5
+        
         return parameters
     }
 }

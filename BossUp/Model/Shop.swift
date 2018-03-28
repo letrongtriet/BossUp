@@ -26,6 +26,13 @@ struct Shop: Codable {
     
     func toDict() -> [String:Any]? {
         var parameters: [String:Any] = [:]
+        
+        parameters["category"] = category
+        parameters["currentCurrencyCode"] = currentCurrencyCode
+        parameters["member"] = member
+        parameters["name"] = name
+        parameters["transaction"] = transaction
+        
         return parameters
     }
 }

@@ -32,6 +32,16 @@ struct Transaction: Codable {
     
     func toDict() -> [String:Any]? {
         var parameters: [String:Any] = [:]
+        
+        parameters["capital"] = capital
+        parameters["moneyGet"] = moneyGet
+        parameters["productId"] = productId
+        parameters["productName"] = productName
+        parameters["quantity"] = quantity
+        parameters["sellerEmail"] = sellerEmail
+        parameters["sellerId"] = sellerId
+        parameters["time"] = time
+        
         return parameters
     }
     

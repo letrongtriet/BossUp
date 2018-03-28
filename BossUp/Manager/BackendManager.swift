@@ -17,6 +17,7 @@ class BackendManager {
     
     let userReference = Database.database().reference().child(DataPath.Users)
     let shopReference = Database.database().reference().child(DataPath.Shops)
+    let imageReference = Storage.storage().reference().child(DataPath.image)
     
     func createUser(user: User, userID: String){
         BackendManager.shared.userReference.child(userID).setValue(user.toDict())

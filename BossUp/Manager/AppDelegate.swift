@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import DropDown
+import IQKeyboardManagerSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,19 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         DropDown.startListeningToKeyboard()
+        IQKeyboardManager.sharedManager().enable = true
         
-        if let user = Auth.auth().currentUser {
-            print("from auth : \(user.uid)")
-            let cache = CacheManager.shared.object(forKey: "userID")
-            print(cache)
-            if CacheManager.shared.object(forKey: "userID") != nil {
-                let userID = String(describing: CacheManager.shared.object(forKey: "userID")!)
-                print("from cache: \(userID)")
-                if userID == user.uid {
-                    NavigationManager.shared.yourShop()
-                }
-            }
-        }
+        self.checkUser()
         
         return true
     }
@@ -57,6 +48,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
     }
 
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+}
 
+extension AppDelegate {
+    func checkUser() {
+        if let user = Auth.auth().currentUser {
+            if CacheManager.shared.object(forKey: "userID") != nil {
+                let userID = String(describing: CacheManager.shared.object(forKey: "userID")!)
+                if userID == user.uid {
+                    NavigationManager.shared.yourShop()
+                }
+            }
+        }
+    }
 }
 
