@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import ARSLineProgress
 
 class signInController: UIViewController {
     
@@ -20,24 +21,38 @@ class signInController: UIViewController {
     
     @IBAction func loginButton(_ sender: UIButton) {
         
-        if let userName = self.email.text, let userPassword = self.password.text {
-            Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
-                if err != nil {
-                    print(err?.localizedDescription ?? "Error to be defined")
-                }else {
-                    if let user = user {
-                        CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                    } else {
-                        print("Cannot find user")
+        ARSLineProgress.showWithPresentCompetionBlock {
+            if let userName = self.email.text, let userPassword = self.password.text {
+                Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
+                    if err != nil {
+                        ARSLineProgress.hideWithCompletionBlock {
+                            let message = err?.localizedDescription ?? "Error to be defined"
+                            self.errorAlert(title: "Error", message: message)
+                        }
+                    }else {
+                        if let user = user {
+                            ARSLineProgress.hideWithCompletionBlock {
+                                CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                                NavigationManager.shared.masterMenu()
+                            }
+                        } else {
+                            self.errorAlert(title: "Error", message: "Cannot find user")
+                        }
                     }
-                    NavigationManager.shared.masterMenu()
                 }
             }
         }
+        
     }
     
     @IBAction func signUpButton(_ sender: UIButton) {
         NavigationManager.shared.signUp()
+    }
+    
+    func errorAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

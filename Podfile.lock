@@ -1,4 +1,5 @@
 PODS:
+  - ARSLineProgress (2.2.0)
   - Charts (3.1.0):
     - Charts/Core (= 3.1.0)
   - Charts/Core (3.1.0)
@@ -58,6 +59,7 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
+  - ARSLineProgress (~> 2.0)
   - Charts
   - DropDown
   - Firebase
@@ -67,6 +69,7 @@ DEPENDENCIES:
   - IQKeyboardManagerSwift
 
 SPEC CHECKSUMS:
+  ARSLineProgress: ec2160ed0530a6e3afe2981ad28837d10d650cd1
   Charts: 0b0c96f6118b6ce63f11adbcaa3b31045ee4d772
   DropDown: 20499c7b2731b0d21609af924e47c7677a2be50d
   Firebase: cc13dfab1038c8b45d7903e01fc690451d6d0b24
@@ -82,6 +85,6 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: 17a02c88a9079ed9a2b34aa9edebf5e71a9e6508
+PODFILE CHECKSUM: afbc5a4a831c39f41faf90e9b210fad34089abea
 
 COCOAPODS: 1.4.0
