@@ -23,6 +23,7 @@
 		357C8C17205C071C001D89FA /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C16205C071C001D89FA /* NavigationManager.swift */; };
 		357C8C19205C0AAD001D89FA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C18205C0AAD001D89FA /* Helper.swift */; };
 		357C8C1B205C0D03001D89FA /* MasterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C1A205C0D03001D89FA /* MasterMenuController.swift */; };
+		358DD1E62072A0FC006DF335 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358DD1E52072A0FC006DF335 /* UserNotifications.framework */; };
 		35ACB049205C1272003669AA /* yourShopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB048205C1272003669AA /* yourShopController.swift */; };
 		35ACB04B205C127D003669AA /* reportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04A205C127D003669AA /* reportController.swift */; };
 		35ACB04D205C1289003669AA /* profileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04C205C1289003669AA /* profileController.swift */; };
@@ -54,6 +55,7 @@
 		357C8C16205C071C001D89FA /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		357C8C18205C0AAD001D89FA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		357C8C1A205C0D03001D89FA /* MasterMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterMenuController.swift; sourceTree = "<group>"; };
+		358DD1E52072A0FC006DF335 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		35ACB048205C1272003669AA /* yourShopController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = yourShopController.swift; sourceTree = "<group>"; };
 		35ACB04A205C127D003669AA /* reportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportController.swift; sourceTree = "<group>"; };
 		35ACB04C205C1289003669AA /* profileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileController.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358DD1E62072A0FC006DF335 /* UserNotifications.framework in Frameworks */,
 				C250081A519114F0E279DD1D /* Pods_BossUp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -83,6 +86,7 @@
 		06A4B9BF83A5CDE2F3581222 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				358DD1E52072A0FC006DF335 /* UserNotifications.framework */,
 				A97A180BA496E1B5228C3CD7 /* Pods_BossUp.framework */,
 			);
 			name = Frameworks;

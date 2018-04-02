@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import DropDown
+import UserNotifications
 
 class yourShopController: UIViewController {
     
@@ -16,9 +17,9 @@ class yourShopController: UIViewController {
     @IBOutlet weak var shopButton: UIButton!
     @IBOutlet weak var containerView: UIView!
     
-    let defaultList = ["Create a shop","Find a shop"]
+    let defaultList = ["Create a shop"]
     
-    var shopList = ["Admin's Shop"]
+    var shopList: [String] = []
     
     let dropDown = DropDown()
     
@@ -71,6 +72,12 @@ class yourShopController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setShadow()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NotificationCenter.default.removeObserver(self)
     }
     
     @IBAction func didPressedMenuButton(_ sender: UIButton) {
@@ -129,6 +136,8 @@ class yourShopController: UIViewController {
             if index == 0 {
                 self?.remove(asChildViewController: (self?.noShopVC)!)
                 self?.add(asChildViewController: (self?.createShopVC)!)
+                NotificationCenter.default.addObserver(self!, selector: #selector(self?.shopCreated), name: Notification.Name("shopCreated"), object: nil)
+                NotificationCenter.default.addObserver(self!, selector: #selector(self?.shopCanceled), name: Notification.Name("shopCanceled"), object: nil)
             }
         }
 
@@ -158,6 +167,16 @@ class yourShopController: UIViewController {
         
         // Notify Child View Controller
         viewController.removeFromParentViewController()
+    }
+    
+    @objc fileprivate func shopCreated() {
+        self.remove(asChildViewController: (self.createShopVC))
+        self.add(asChildViewController: (self.noShopVC))
+    }
+    
+    @objc fileprivate func shopCanceled() {
+        self.remove(asChildViewController: (self.createShopVC))
+        self.add(asChildViewController: (self.noShopVC))
     }
 }
 
