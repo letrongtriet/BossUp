@@ -27,16 +27,16 @@ class signInController: UIViewController {
                     if err != nil {
                         ARSLineProgress.hideWithCompletionBlock {
                             let message = err?.localizedDescription ?? "Error to be defined"
-                            self.errorAlert(title: "Error", message: message)
+                            self.showAlert(title: "Error", message: message)
                         }
                     }else {
                         if let user = user {
                             ARSLineProgress.hideWithCompletionBlock {
                                 CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                                NavigationManager.shared.masterMenu()
+                                NavigationManager.shared.yourShop()
                             }
                         } else {
-                            self.errorAlert(title: "Error", message: "Cannot find user")
+                            self.showAlert(title: "Error", message: "Cannot find user")
                         }
                     }
                 }
@@ -47,12 +47,6 @@ class signInController: UIViewController {
     
     @IBAction func signUpButton(_ sender: UIButton) {
         NavigationManager.shared.signUp()
-    }
-    
-    func errorAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
 }
 

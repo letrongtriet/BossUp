@@ -30,12 +30,12 @@ class signUpController: UIViewController {
                 if completed {
                     ARSLineProgress.hideWithCompletionBlock {
                         print("Yes")
-                        NavigationManager.shared.masterMenu()
+                        NavigationManager.shared.yourShop()
                     }
                 }else {
                     ARSLineProgress.hideWithCompletionBlock {
                         print("No")
-                        self.errorAlert(title: "Error", message: self.errorMessage)
+                        self.showAlert(title: "Error", message: self.errorMessage)
                     }
                 }
             }
@@ -64,11 +64,5 @@ class signUpController: UIViewController {
                 }
             }
         }
-    }
-    
-    func errorAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.default,handler: nil))
-        self.present(alertController, animated: true, completion: nil)
     }
 }
