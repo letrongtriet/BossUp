@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import DropDown
 import UserNotifications
+import ARSLineProgress
 
 class yourShopController: UIViewController {
     
@@ -80,6 +81,7 @@ class yourShopController: UIViewController {
         
         self.setupView()
         
+        ARSLineProgress.show()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -130,11 +132,18 @@ class yourShopController: UIViewController {
                     self.dropDown.dataSource = self.defaultList
                     self.shopButton.setTitle("Create a Shop", for: .normal)
                     self.add(asChildViewController: self.noShopVC)
+                    ARSLineProgress.hide()
                 }else {
+                    
+                    for item in user.shop! {
+                        self.shopList.append(item.shopName)
+                    }
+                    
                     print("Found a list")
-                    self.shopButton.setTitle("Admin's Shop", for: .normal)
+                    self.shopButton.setTitle(user.currentShop, for: .normal)
                     self.dropDown.dataSource = self.shopList
                     self.add(asChildViewController: self.haveShopVC)
+                    ARSLineProgress.hide()
                 }
                 
             }) { (error) in
@@ -155,7 +164,9 @@ class yourShopController: UIViewController {
         }
 
     }
-    
+}
+
+extension yourShopController {
     fileprivate func add(asChildViewController viewController: UIViewController) {
         // Add Child View Controller
         addChildViewController(viewController)
