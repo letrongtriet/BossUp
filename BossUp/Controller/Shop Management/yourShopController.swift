@@ -62,6 +62,19 @@ class yourShopController: UIViewController {
         return viewController
     }()
     
+    private lazy var addProductVC: addProductVC = {
+        // Load Storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        // Instantiate View Controller
+        var viewController = storyboard.instantiateViewController(withIdentifier: "addProductVC") as! addProductVC
+        
+        // Add View Controller as Child View Controller
+        self.add(asChildViewController: viewController)
+        
+        return viewController
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -139,7 +139,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="bYr-d4-ZBJ" userLabel="Your Shop">
                                                 <rect key="frame" x="0.0" y="0.0" width="146.5" height="20"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="shop" translatesAutoresizingMaskIntoConstraints="NO" id="lZA-Jl-H6E">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_shop" translatesAutoresizingMaskIntoConstraints="NO" id="lZA-Jl-H6E">
                                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="20" id="H96-KQ-sJz"/>
@@ -149,7 +149,7 @@
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YOUR SHOP" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tG3-1K-SJb">
                                                         <rect key="frame" x="35" y="0.0" width="111.5" height="20"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                                        <nil key="textColor"/>
+                                                        <color key="textColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                 </subviews>
@@ -224,8 +224,12 @@
                     </view>
                     <connections>
                         <outlet property="profile" destination="jWz-G9-gyW" id="oRF-31-19J"/>
+                        <outlet property="profileLabel" destination="PzT-AO-ti0" id="k2S-5E-wch"/>
                         <outlet property="report" destination="Sy1-KW-kln" id="RBY-y0-qMX"/>
+                        <outlet property="reportLabel" destination="mha-4i-eOx" id="cOh-XN-ogE"/>
                         <outlet property="settings" destination="p2p-Kl-B5G" id="PYW-f4-xIS"/>
+                        <outlet property="settingsLabel" destination="yEM-Vm-zwZ" id="Jur-GI-bwC"/>
+                        <outlet property="shopLabel" destination="tG3-1K-SJb" id="sRn-Ix-Ajd"/>
                         <outlet property="yourShop" destination="bYr-d4-ZBJ" id="He0-lf-gnf"/>
                     </connections>
                 </viewController>
@@ -708,6 +712,22 @@
             </objects>
             <point key="canvasLocation" x="2129" y="242"/>
         </scene>
+        <!--Add ProductVC-->
+        <scene sceneID="WHh-F3-dli">
+            <objects>
+                <viewController restorationIdentifier="addProductVC" storyboardIdentifier="addProductVC" id="57D-Ed-HvT" customClass="addProductVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Z5R-nc-IOx">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="j6F-kV-yyx"/>
+                    </view>
+                    <size key="freeformSize" width="375" height="597"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FZP-2s-1Lw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2900" y="242"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arrow_top" width="155" height="605"/>
@@ -716,6 +736,7 @@
         <image name="ic_menu_black" width="66" height="66"/>
         <image name="ic_profile" width="75" height="75"/>
         <image name="ic_settings" width="75" height="75"/>
+        <image name="ic_shop" width="72" height="72"/>
         <image name="shop" width="512" height="512"/>
         <image name="triangle" width="1200" height="1067"/>
     </resources>
