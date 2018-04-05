@@ -54,6 +54,7 @@ public class NavigationManager {
         UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
             window!.rootViewController = vc
         }, completion: nil)
+        masterMenuState = "shop"
     }
     
     func report() {
@@ -64,6 +65,7 @@ public class NavigationManager {
         UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
             window!.rootViewController = vc
         }, completion: nil)
+        masterMenuState = "report"
     }
     
     func profile() {
@@ -74,6 +76,7 @@ public class NavigationManager {
         UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
             window!.rootViewController = vc
         }, completion: nil)
+        masterMenuState = "profile"
     }
     
     func settings() {
@@ -84,6 +87,7 @@ public class NavigationManager {
         UIView.transition(with: window!, duration: 0.5, options: .transitionCrossDissolve, animations: {
             window!.rootViewController = vc
         }, completion: nil)
+        masterMenuState = "settings"
     }
     
 }

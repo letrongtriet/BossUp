@@ -12,6 +12,7 @@
 		3565490B20613D5400FF0414 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490A20613D5400FF0414 /* Transaction.swift */; };
 		3565490D2061415B00FF0414 /* UserShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490C2061415B00FF0414 /* UserShop.swift */; };
 		3565490F206141E000FF0414 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490E206141E000FF0414 /* Category.swift */; };
+		356D1E05206B95530005C4BE /* createShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D1E04206B95530005C4BE /* createShopVC.swift */; };
 		35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35734006205E885E003FA4E5 /* BackendDataPath.swift */; };
 		357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C02205BFDA6001D89FA /* AppDelegate.swift */; };
 		357C8C05205BFDA6001D89FA /* signInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C04205BFDA6001D89FA /* signInController.swift */; };
@@ -22,10 +23,15 @@
 		357C8C17205C071C001D89FA /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C16205C071C001D89FA /* NavigationManager.swift */; };
 		357C8C19205C0AAD001D89FA /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C18205C0AAD001D89FA /* Helper.swift */; };
 		357C8C1B205C0D03001D89FA /* MasterMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C1A205C0D03001D89FA /* MasterMenuController.swift */; };
+		358DD1E62072A0FC006DF335 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 358DD1E52072A0FC006DF335 /* UserNotifications.framework */; };
 		35ACB049205C1272003669AA /* yourShopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB048205C1272003669AA /* yourShopController.swift */; };
 		35ACB04B205C127D003669AA /* reportController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04A205C127D003669AA /* reportController.swift */; };
 		35ACB04D205C1289003669AA /* profileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04C205C1289003669AA /* profileController.swift */; };
 		35ACB04F205C1295003669AA /* settingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04E205C1295003669AA /* settingsController.swift */; };
+		35C6ACFC2075F38E00E618E6 /* addProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6ACFB2075F38E00E618E6 /* addProductVC.swift */; };
+		35E517022076383A001D841A /* chartsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E517012076383A001D841A /* chartsVC.swift */; };
+		35F3F855206B88B600D99EDD /* noShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F854206B88B600D99EDD /* noShopVC.swift */; };
+		35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F856206B893500D99EDD /* haveShopVC.swift */; };
 		35FE9C08205DA534009E803B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C07205DA534009E803B /* User.swift */; };
 		35FE9C0A205DA53D009E803B /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C09205DA53D009E803B /* Shop.swift */; };
 		35FE9C0C205DA5A7009E803B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */; };
@@ -38,6 +44,7 @@
 		3565490A20613D5400FF0414 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		3565490C2061415B00FF0414 /* UserShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShop.swift; sourceTree = "<group>"; };
 		3565490E206141E000FF0414 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		356D1E04206B95530005C4BE /* createShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createShopVC.swift; sourceTree = "<group>"; };
 		35734006205E885E003FA4E5 /* BackendDataPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendDataPath.swift; sourceTree = "<group>"; };
 		357C8BFF205BFDA6001D89FA /* BossUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BossUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		357C8C02205BFDA6001D89FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,10 +57,15 @@
 		357C8C16205C071C001D89FA /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		357C8C18205C0AAD001D89FA /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		357C8C1A205C0D03001D89FA /* MasterMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterMenuController.swift; sourceTree = "<group>"; };
+		358DD1E52072A0FC006DF335 /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
 		35ACB048205C1272003669AA /* yourShopController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = yourShopController.swift; sourceTree = "<group>"; };
 		35ACB04A205C127D003669AA /* reportController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reportController.swift; sourceTree = "<group>"; };
 		35ACB04C205C1289003669AA /* profileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileController.swift; sourceTree = "<group>"; };
 		35ACB04E205C1295003669AA /* settingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsController.swift; sourceTree = "<group>"; };
+		35C6ACFB2075F38E00E618E6 /* addProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addProductVC.swift; sourceTree = "<group>"; };
+		35E517012076383A001D841A /* chartsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chartsVC.swift; sourceTree = "<group>"; };
+		35F3F854206B88B600D99EDD /* noShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noShopVC.swift; sourceTree = "<group>"; };
+		35F3F856206B893500D99EDD /* haveShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haveShopVC.swift; sourceTree = "<group>"; };
 		35FE9C07205DA534009E803B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35FE9C09205DA53D009E803B /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
 		35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -67,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				358DD1E62072A0FC006DF335 /* UserNotifications.framework in Frameworks */,
 				C250081A519114F0E279DD1D /* Pods_BossUp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +90,7 @@
 		06A4B9BF83A5CDE2F3581222 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				358DD1E52072A0FC006DF335 /* UserNotifications.framework */,
 				A97A180BA496E1B5228C3CD7 /* Pods_BossUp.framework */,
 			);
 			name = Frameworks;
@@ -140,12 +154,11 @@
 			isa = PBXGroup;
 			children = (
 				357C8C1A205C0D03001D89FA /* MasterMenuController.swift */,
-				357C8C04205BFDA6001D89FA /* signInController.swift */,
-				357C8C14205C056B001D89FA /* signUpController.swift */,
-				35ACB048205C1272003669AA /* yourShopController.swift */,
-				35ACB04A205C127D003669AA /* reportController.swift */,
 				35ACB04C205C1289003669AA /* profileController.swift */,
 				35ACB04E205C1295003669AA /* settingsController.swift */,
+				35B417D5206BA5F400E0BC48 /* Authentication */,
+				35B417D6206BA60B00E0BC48 /* Shop Management */,
+				35B417D7206BA6AD00E0BC48 /* Report Management */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +170,36 @@
 				35155EF82061704100BF092F /* CacheManager.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		35B417D5206BA5F400E0BC48 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				357C8C04205BFDA6001D89FA /* signInController.swift */,
+				357C8C14205C056B001D89FA /* signUpController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		35B417D6206BA60B00E0BC48 /* Shop Management */ = {
+			isa = PBXGroup;
+			children = (
+				35ACB048205C1272003669AA /* yourShopController.swift */,
+				35F3F854206B88B600D99EDD /* noShopVC.swift */,
+				35F3F856206B893500D99EDD /* haveShopVC.swift */,
+				356D1E04206B95530005C4BE /* createShopVC.swift */,
+				35C6ACFB2075F38E00E618E6 /* addProductVC.swift */,
+			);
+			path = "Shop Management";
+			sourceTree = "<group>";
+		};
+		35B417D7206BA6AD00E0BC48 /* Report Management */ = {
+			isa = PBXGroup;
+			children = (
+				35ACB04A205C127D003669AA /* reportController.swift */,
+				35E517012076383A001D841A /* chartsVC.swift */,
+			);
+			path = "Report Management";
 			sourceTree = "<group>";
 		};
 		35FE9C05205DA506009E803B /* Manager */ = {
@@ -191,7 +234,6 @@
 				357C8BFC205BFDA6001D89FA /* Frameworks */,
 				357C8BFD205BFDA6001D89FA /* Resources */,
 				F3A57FB7BA5AC17DA46D52F5 /* [CP] Embed Pods Frameworks */,
-				454D4D62444464093255B0A8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -209,7 +251,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Trong Triet Le";
 				TargetAttributes = {
 					357C8BFE205BFDA6001D89FA = {
@@ -269,21 +311,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		454D4D62444464093255B0A8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BossUp/Pods-BossUp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F3A57FB7BA5AC17DA46D52F5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -291,17 +318,23 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BossUp/Pods-BossUp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ARSLineProgress/ARSLineProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/Charts/Charts.framework",
+				"${BUILT_PRODUCTS_DIR}/DropDown/DropDown.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ARSLineProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Charts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DropDown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -326,13 +359,18 @@
 				35ACB049205C1272003669AA /* yourShopController.swift in Sources */,
 				35ACB04F205C1295003669AA /* settingsController.swift in Sources */,
 				357C8C05205BFDA6001D89FA /* signInController.swift in Sources */,
+				35F3F855206B88B600D99EDD /* noShopVC.swift in Sources */,
 				357C8C17205C071C001D89FA /* NavigationManager.swift in Sources */,
 				35155EF92061704100BF092F /* CacheManager.swift in Sources */,
 				35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */,
 				3565490F206141E000FF0414 /* Category.swift in Sources */,
+				35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */,
 				357C8C19205C0AAD001D89FA /* Helper.swift in Sources */,
+				35E517022076383A001D841A /* chartsVC.swift in Sources */,
+				35C6ACFC2075F38E00E618E6 /* addProductVC.swift in Sources */,
 				357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */,
 				357C8C15205C056B001D89FA /* signUpController.swift in Sources */,
+				356D1E05206B95530005C4BE /* createShopVC.swift in Sources */,
 				35FE9C08205DA534009E803B /* User.swift in Sources */,
 				3565490B20613D5400FF0414 /* Transaction.swift in Sources */,
 			);
@@ -374,6 +412,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -381,6 +420,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -431,6 +471,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -438,6 +479,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -473,7 +515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = E82Z46N6KL;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BossUp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -490,7 +532,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = E82Z46N6KL;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = BossUp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

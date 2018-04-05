@@ -11,4 +11,5 @@ import Foundation
 struct DataPath {
     static let Users = "user"
     static let Shops = "shop"
+    static let image = "producImage"
 }

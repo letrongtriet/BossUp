@@ -20,6 +20,10 @@ struct UserShop: Codable {
     
     func toDict() -> [String:Any]? {
         var parameters: [String:Any] = [:]
+        
+        parameters["shopName"] = shopName
+        parameters["type"] = type
+        
         return parameters
     }
 }

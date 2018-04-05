@@ -8,12 +8,15 @@
 
 import UIKit
 import Firebase
+import ARSLineProgress
 
 class signUpController: UIViewController {
     
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var passwordRepeat: UITextField!
+    
+    fileprivate var errorMessage = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,15 +24,24 @@ class signUpController: UIViewController {
     }
     
     @IBAction func signUpButton(_ sender: UIButton) {
-        //NavigationManager.shared.masterMenu()
-        self.signUpUser {completed in
-            if completed {
-                print("Yes")
-                NavigationManager.shared.masterMenu()
-            }else {
-                print("No")
+        
+        ARSLineProgress.showWithPresentCompetionBlock {
+            self.signUpUser {completed in
+                if completed {
+                    ARSLineProgress.hideWithCompletionBlock {
+                        print("Yes")
+                        NavigationManager.shared.yourShop()
+                    }
+                }else {
+                    ARSLineProgress.hideWithCompletionBlock {
+                        print("No")
+                        self.showAlert(title: "Error", message: self.errorMessage)
+                    }
+                }
             }
         }
+        
+        
     }
     
     fileprivate func signUpUser(completed: @escaping (_ success:Bool) -> Void) {
@@ -37,16 +49,16 @@ class signUpController: UIViewController {
         if let email = self.email.text, let password = self.password.text {
             Auth.auth().createUser(withEmail: email, password: password) { (user, err) in
                 if err != nil {
-                    print(err?.localizedDescription ?? "Cannot define error")
+                    self.errorMessage = err?.localizedDescription ?? "Cannot define error"
                     completed(false)
                 } else {
                     if let user = user {
-                        let addUser = User(currentShop: nil, email: user.email!, shop: nil)
+                        let addUser = User(currentShop: "", email: user.email!, shop: nil)
                         CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
                         BackendManager.shared.createUser(user: addUser, userID: user.uid)
                         completed(true)
                     } else {
-                        print("Cannot find user")
+                        self.errorMessage = "Cannot find user"
                         completed(false)
                     }
                 }
