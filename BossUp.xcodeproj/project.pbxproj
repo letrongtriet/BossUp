@@ -29,6 +29,7 @@
 		35ACB04D205C1289003669AA /* profileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04C205C1289003669AA /* profileController.swift */; };
 		35ACB04F205C1295003669AA /* settingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35ACB04E205C1295003669AA /* settingsController.swift */; };
 		35C6ACFC2075F38E00E618E6 /* addProductVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C6ACFB2075F38E00E618E6 /* addProductVC.swift */; };
+		35E517022076383A001D841A /* chartsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E517012076383A001D841A /* chartsVC.swift */; };
 		35F3F855206B88B600D99EDD /* noShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F854206B88B600D99EDD /* noShopVC.swift */; };
 		35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F3F856206B893500D99EDD /* haveShopVC.swift */; };
 		35FE9C08205DA534009E803B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C07205DA534009E803B /* User.swift */; };
@@ -62,6 +63,7 @@
 		35ACB04C205C1289003669AA /* profileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileController.swift; sourceTree = "<group>"; };
 		35ACB04E205C1295003669AA /* settingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settingsController.swift; sourceTree = "<group>"; };
 		35C6ACFB2075F38E00E618E6 /* addProductVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addProductVC.swift; sourceTree = "<group>"; };
+		35E517012076383A001D841A /* chartsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chartsVC.swift; sourceTree = "<group>"; };
 		35F3F854206B88B600D99EDD /* noShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noShopVC.swift; sourceTree = "<group>"; };
 		35F3F856206B893500D99EDD /* haveShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = haveShopVC.swift; sourceTree = "<group>"; };
 		35FE9C07205DA534009E803B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 			isa = PBXGroup;
 			children = (
 				35ACB04A205C127D003669AA /* reportController.swift */,
+				35E517012076383A001D841A /* chartsVC.swift */,
 			);
 			path = "Report Management";
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				3565490F206141E000FF0414 /* Category.swift in Sources */,
 				35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */,
 				357C8C19205C0AAD001D89FA /* Helper.swift in Sources */,
+				35E517022076383A001D841A /* chartsVC.swift in Sources */,
 				35C6ACFC2075F38E00E618E6 /* addProductVC.swift in Sources */,
 				357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */,
 				357C8C15205C056B001D89FA /* signUpController.swift in Sources */,

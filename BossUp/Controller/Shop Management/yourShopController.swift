@@ -84,8 +84,8 @@ class yourShopController: UIViewController {
         ARSLineProgress.show()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.setShadow()
     }
     
@@ -168,28 +168,16 @@ class yourShopController: UIViewController {
 
 extension yourShopController {
     fileprivate func add(asChildViewController viewController: UIViewController) {
-        // Add Child View Controller
         addChildViewController(viewController)
-        
-        // Add Child View as Subview
         containerView.addSubview(viewController.view)
-        
-        // Configure Child View
         viewController.view.frame = view.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        
-        // Notify Child View Controller
         viewController.didMove(toParentViewController: self)
     }
     
     fileprivate func remove(asChildViewController viewController: UIViewController) {
-        // Notify Child View Controller
         viewController.willMove(toParentViewController: nil)
-        
-        // Remove Child View From Superview
         viewController.view.removeFromSuperview()
-        
-        // Notify Child View Controller
         viewController.removeFromParentViewController()
     }
     

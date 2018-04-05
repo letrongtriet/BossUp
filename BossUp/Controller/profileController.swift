@@ -19,8 +19,8 @@ class profileController: UIViewController {
         self.updateProfile()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.setShadow()
     }
     
@@ -35,6 +35,7 @@ class profileController: UIViewController {
             NavigationManager.shared.signIn()
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
+            self.showAlert(title: "Error", message: signOutError.localizedDescription)
         }
     }
     
