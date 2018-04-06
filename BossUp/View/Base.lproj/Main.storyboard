@@ -670,10 +670,45 @@
                     <view key="view" contentMode="scaleToFill" id="wWP-yz-gda">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5FC-bh-zTq">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l6q-kN-d6L">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="028-6o-wVl">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="kEk-C9-qdF" id="6Jz-US-PAJ"/>
+                                    <outlet property="delegate" destination="kEk-C9-qdF" id="EhF-aB-h57"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="oNc-G2-G5G" firstAttribute="bottom" secondItem="5FC-bh-zTq" secondAttribute="bottom" id="1gW-U4-cQb"/>
+                            <constraint firstItem="5FC-bh-zTq" firstAttribute="top" secondItem="wWP-yz-gda" secondAttribute="top" id="NX5-Os-BLu"/>
+                            <constraint firstItem="5FC-bh-zTq" firstAttribute="leading" secondItem="oNc-G2-G5G" secondAttribute="leading" id="asr-N5-uqG"/>
+                            <constraint firstItem="oNc-G2-G5G" firstAttribute="trailing" secondItem="5FC-bh-zTq" secondAttribute="trailing" id="ym8-pj-OZY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="oNc-G2-G5G"/>
                     </view>
                     <size key="freeformSize" width="375" height="597"/>
+                    <connections>
+                        <outlet property="collectionView" destination="5FC-bh-zTq" id="uKY-2e-1ol"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kc2-0u-0NR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -747,6 +782,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="597"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="7fB-ZW-pEW"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Ok-FF-qWN" userLabel="First Responder" sceneMemberID="firstResponder"/>
