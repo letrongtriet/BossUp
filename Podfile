@@ -15,6 +15,7 @@ target 'BossUp' do
   pod 'IQKeyboardManagerSwift'
   pod 'ARSLineProgress', '~> 2.0'
   pod 'SwiftyJSON'
+  pod 'DeviceKit', '~> 1.6.0'
   
   # Pods for BossUp
 

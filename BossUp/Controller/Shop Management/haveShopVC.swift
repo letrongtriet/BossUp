@@ -43,42 +43,21 @@ class haveShopVC: UIViewController {
     
     fileprivate func updateList() {
         ARSLineProgress.showWithPresentCompetionBlock {
-            if let user = Auth.auth().currentUser {
-                let id = user.uid
-                self.userManager.child(id).observeSingleEvent(of: .value, with: { (snapshot) in
-                    
+            if SharedInstance.currentShopID != "" {
+                self.shopManager.child(SharedInstance.currentShopID).child("product").observeSingleEvent(of: .value, with: { (snapshot) in
                     guard let value = snapshot.value else {return}
                     
-                    guard let data = try? JSONSerialization.data(withJSONObject: value, options: []) else {return}
-                    guard let user = try? JSONDecoder().decode(User.self, from: data) else {return}
-                    print(user)
+                    let json = JSON(value)
                     
-                    if let currentShopID = user.currentShop {
-                        self.shopManager.child(currentShopID).child("product").observeSingleEvent(of: .value, with: { (snapshot) in
-                            guard let value = snapshot.value else {return}
-                            
-                            let json = JSON(value)
-                            
-                            for (key,subJson):(String, JSON) in json {
-                                print(key,subJson)
-                            }
-                            
-                        }, withCancel: { (error) in
-                            ARSLineProgress.hide()
-                            print(error.localizedDescription)
-                            self.showAlert(title: "Error", message: error.localizedDescription)
-                        })
+                    for (key,subJson):(String, JSON) in json {
+                        print(key,subJson)
                     }
                     
-                }) { (error) in
+                }, withCancel: { (error) in
                     ARSLineProgress.hide()
                     print(error.localizedDescription)
                     self.showAlert(title: "Error", message: error.localizedDescription)
-                }
-                
-            }else {
-                ARSLineProgress.hide()
-                self.showAlert(title: "Error", message: "Cannot find user")
+                })
             }
         }
     }

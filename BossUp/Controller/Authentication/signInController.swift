@@ -32,6 +32,7 @@ class signInController: UIViewController {
                     }else {
                         if let user = user {
                             ARSLineProgress.hideWithCompletionBlock {
+                                SharedInstance.userID = user.uid
                                 CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
                                 NavigationManager.shared.yourShop()
                             }

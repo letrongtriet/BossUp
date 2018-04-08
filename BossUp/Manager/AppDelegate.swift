@@ -60,6 +60,8 @@ extension AppDelegate {
             if CacheManager.shared.object(forKey: "userID") != nil {
                 let userID = String(describing: CacheManager.shared.object(forKey: "userID")!)
                 if userID == user.uid {
+                    SharedInstance.userID = user.uid
+                    SharedInstance.userEmail = user.email!
                     NavigationManager.shared.yourShop()
                 }
             }
