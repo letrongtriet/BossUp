@@ -21,13 +21,16 @@ class yourShopController: UIViewController {
     @IBOutlet weak var addMemberButton: UIButton!
     @IBOutlet weak var fillerButton: UIButton!
     @IBOutlet weak var addProductButton: UIButton!
+    @IBOutlet weak var addMemberField: UITextField!
+    
+    @IBOutlet var addMemberView: UIView!
     
     let defaultList = ["+ Create a shop"]
     
     var shopList = ["+ Create a shop"]
     
-    var currentState = ""
-        
+    var memberEmail:String = ""
+    
     let dropDown = DropDown()
     
     private lazy var haveShopVC: haveShopVC = {
@@ -73,6 +76,7 @@ class yourShopController: UIViewController {
         self.addProductButton.isHidden = true
         
         self.setupView()
+        self.addGesture()
         
         ARSLineProgress.show()
     }
@@ -80,6 +84,7 @@ class yourShopController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.setShadow()
+        self.addMemberView.tag = 1
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -97,12 +102,19 @@ class yourShopController: UIViewController {
     }
     
     @IBAction func didPressAddProductButton(_ sender: UIButton) {
-        switch currentState {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.productCreated), name: Notification.Name("productCreated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.productCanceled), name: Notification.Name("productCanceled"), object: nil)
+        
+        switch SharedInstance.currentState {
         case "haveShopVC":
             self.remove(asChildViewController: haveShopVC)
             self.add(asChildViewController: addProductVC)
         case "noProductVC":
             self.remove(asChildViewController: noProductVC)
+            self.add(asChildViewController: addProductVC)
+        case "noShopVC":
+            self.remove(asChildViewController: noShopVC)
             self.add(asChildViewController: addProductVC)
         default:
             self.remove(asChildViewController: haveShopVC)
@@ -110,6 +122,53 @@ class yourShopController: UIViewController {
         }
     }
     
+    @IBAction func didPressAddMemberButton(_ sender: UIButton) {
+        
+        var darkBlur:UIBlurEffect = UIBlurEffect()
+        
+        if #available(iOS 10.0, *) { //iOS 10.0 and above
+            darkBlur = UIBlurEffect(style: UIBlurEffectStyle.prominent)//prominent,regular,extraLight, light, dark
+        } else { //iOS 8.0 and above
+            darkBlur = UIBlurEffect(style: UIBlurEffectStyle.dark) //extraLight, light, dark
+        }
+        let blurView = UIVisualEffectView(effect: darkBlur)
+        blurView.frame = self.view.frame //your view that have any objects
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.tag = 2
+        view.addSubview(blurView)
+        
+        addMemberView.center = self.view.center
+        addMemberView.layer.shadowColor = UIColor.gray.cgColor
+        addMemberView.layer.shadowOpacity = 1
+        addMemberView.layer.shadowOffset = CGSize.zero
+        addMemberView.layer.shadowRadius = 2
+        self.view.addSubview(addMemberView)
+    }
+    
+    
+    @IBAction func addNewMember(_ sender: UIButton) {
+        
+        if self.addMemberField.text?.isEmpty == false {
+            self.memberEmail = self.addMemberField.text!
+            
+            self.checkMember { (res) in
+                switch res {
+                case true:
+                    print("Key: \(SharedInstance.addMember)")
+                    BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("member").updateChildValues([SharedInstance.addMember:["member":self.memberEmail]])
+                    
+                    BackendManager.shared.userReference.child(SharedInstance.addMember).child("shop").updateChildValues([SharedInstance.shopToLoad:["shopName":SharedInstance.currentShopID,"type":"member"]])
+                    self.showAlert(title: "SUCCESS", message: "Member added")
+                    self.removeView()
+                default:
+                    self.removeView()
+                    self.showAlert(title: "Error", message: "Cannot find that user")
+                }
+            }
+        }
+        
+        
+    }
     
     fileprivate func setShadow() {
         menuBar.layer.shadowColor = UIColor.gray.cgColor
@@ -135,6 +194,7 @@ class yourShopController: UIViewController {
                 if currentShopID == "" {
                     self.dropDown.dataSource = self.defaultList
                     self.shopButton.setTitle("Create a Shop", for: .normal)
+                    SharedInstance.currentState = "noShopVC"
                     self.add(asChildViewController: self.noShopVC)
                     ARSLineProgress.hide()
                 }else {
@@ -152,6 +212,8 @@ class yourShopController: UIViewController {
                         }
                     }
                     
+                    print("Shop To Load: \(SharedInstance.shopToLoad)")
+                    
                     self.shopButton.setTitle(currentShopID, for: .normal)
                     self.dropDown.dataSource = self.shopList
                     
@@ -162,11 +224,11 @@ class yourShopController: UIViewController {
                         print("Getting product")
                         print(object)
                         if object["product"].null != nil {
-                            self.currentState = "noProductVC"
+                            SharedInstance.currentState = "noProductVC"
                             self.add(asChildViewController: self.noProductVC)
                             ARSLineProgress.hide()
                         }else {
-                            self.currentState = "haveShopVC"
+                            SharedInstance.currentState = "haveShopVC"
                             self.add(asChildViewController: self.haveShopVC)
                             ARSLineProgress.hide()
                         }
@@ -181,7 +243,6 @@ class yourShopController: UIViewController {
         
         // Action triggered on selection
         dropDown.selectionAction = { [weak self] (index, item) in
-            self?.shopButton.setTitle(item, for: .normal)
             
             if item == "+ Create a shop" {
                 self?.remove(asChildViewController: (self?.noShopVC)!)
@@ -219,16 +280,37 @@ extension yourShopController {
     }
     
     @objc fileprivate func shopCanceled() {
-        switch currentState {
+        switch SharedInstance.currentState {
         case "haveShopVC":
             self.remove(asChildViewController: createShopVC)
             self.add(asChildViewController: haveShopVC)
         case "noProductVC":
             self.remove(asChildViewController: createShopVC)
             self.add(asChildViewController: noProductVC)
+        case "noShopVC":
+            self.remove(asChildViewController: createShopVC)
+            self.add(asChildViewController: noShopVC)
         default:
             self.remove(asChildViewController: createShopVC)
             self.add(asChildViewController: haveShopVC)
+        }
+    }
+    
+    @objc fileprivate func productCreated() {}
+    @objc fileprivate func productCanceled() {}
+    
+    fileprivate func checkMember(completed: @escaping (_ success:Bool) -> Void) {
+        BackendManager.shared.userReference.observeSingleEvent(of: .value) { (res) in
+            guard let value = res.value else {return}
+            
+            let json = JSON(value)
+            for (key,subJson):(String, JSON) in json {
+                if subJson["email"].stringValue == self.memberEmail {
+                    print("MATCHED")
+                    SharedInstance.addMember = key
+                    completed(true)
+                }
+            }
         }
     }
 }
@@ -253,6 +335,26 @@ extension yourShopController {
         }) { (error) in
             print(error.localizedDescription)
         }
+    }
+    
+    fileprivate func removeView() {
+        if let viewWithTag = self.view.viewWithTag(1) {
+            viewWithTag.removeFromSuperview()
+        }
+        if let viewWithTag = self.view.viewWithTag(2) {
+            viewWithTag.removeFromSuperview()
+        }
+    }
+    
+    fileprivate func addGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
+        self.view.addGestureRecognizer(tap)
+        self.view.isUserInteractionEnabled = true
+    }
+    
+    @objc fileprivate func handleTap() {
+        print("Add member dismissed")
+        self.removeView()
     }
 }
 

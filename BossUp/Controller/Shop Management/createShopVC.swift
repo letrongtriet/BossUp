@@ -30,6 +30,9 @@ class createShopVC: UIViewController {
         
         BackendManager.shared.userReference.child(SharedInstance.userID).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
         
+        SharedInstance.shopToLoad = currentShopKey
+        SharedInstance.currentShopID = nameOfShop!
+        
         NotificationCenter.default.post(name: Notification.Name("shopCreated"), object: nil)
     }
     

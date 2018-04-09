@@ -14,4 +14,6 @@ public struct SharedInstance {
     static var currentShopID: String = ""
     static var shopToLoad: String = ""
     static var currentCurrencyCode: String = "USD"
+    static var currentState = ""
+    static var addMember = ""
 }
