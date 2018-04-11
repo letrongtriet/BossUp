@@ -160,7 +160,7 @@ class yourShopController: UIViewController {
                     BackendManager.shared.userReference.child(SharedInstance.addMember).child("shop").updateChildValues([SharedInstance.shopToLoad:["shopName":SharedInstance.currentShopID,"type":"member"]])
                     self.showAlert(title: "SUCCESS", message: "Member added")
                     self.removeView()
-                default:
+                case false:
                     self.removeView()
                     self.showAlert(title: "Error", message: "Cannot find that user")
                 }
@@ -311,12 +311,19 @@ extension yourShopController {
                     completed(true)
                 }
             }
+            print("Continue????")
+            completed(false)
         }
     }
 }
 
 extension yourShopController {
     fileprivate func resetUI() {
+        
+        self.fillerButton.isHidden = false
+        self.addMemberButton.isHidden = false
+        self.addProductButton.isHidden = false
+        
         BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let value = snapshot.value else {return}
             let json = JSON(value)
