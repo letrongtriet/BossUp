@@ -533,6 +533,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 895158EDB1896F5EFC2D09A0 /* Pods-BossUp.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
@@ -550,6 +551,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C4FD89BD10467B82AA16F0D3 /* Pods-BossUp.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
