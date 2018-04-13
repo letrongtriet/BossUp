@@ -13,18 +13,16 @@ class noProductVC: UIViewController {
     @IBOutlet weak var upperArrow: UIImageView!
     @IBOutlet weak var downArrow: UIImageView!
     
+    @IBOutlet weak var bottomLayout: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("No Product VC")
         
         print(Device().description)
         
-        if Device().description.range(of: "iPhone SE") != nil {
-            upperArrow.setWidth(width: 40)
-            upperArrow.setHeight(height: 60)
-            
-            downArrow.setWidth(width: 40)
-            downArrow.setHeight(height: 60)
+        if Device().description.range(of: "iPhone X") != nil {
+            self.bottomLayout.constant = 210
         }
     }
 
