@@ -33,35 +33,28 @@ class yourShopController: UIViewController {
     
     let dropDown = DropDown()
     
-    private lazy var haveShopVC: haveShopVC = {
+    private lazy var haveShop: haveShopVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "haveShopVC") as! haveShopVC
         self.add(asChildViewController: viewController)
         return viewController
     }()
     
-    private lazy var noShopVC: noShopVC = {
+    private lazy var noShop: noShopVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "noShopVC") as! noShopVC
         self.add(asChildViewController: viewController)
         return viewController
     }()
     
-    private lazy var createShopVC: createShopVC = {
+    private lazy var createShop: createShopVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "createShopVC") as! createShopVC
         self.add(asChildViewController: viewController)
         return viewController
     }()
     
-    private lazy var addProductVC: addProductVC = {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        var viewController = storyboard.instantiateViewController(withIdentifier: "addProductVC") as! addProductVC
-        self.add(asChildViewController: viewController)
-        return viewController
-    }()
-    
-    private lazy var noProductVC: noProductVC = {
+    private lazy var noProduct: noProductVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "noProductVC") as! noProductVC
         self.add(asChildViewController: viewController)
@@ -87,10 +80,13 @@ class yourShopController: UIViewController {
         self.addMemberView.tag = 1
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.shopCreated), name: Notification.Name("shopCreated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.shopCanceled), name: Notification.Name("shopCanceled"), object: nil)
         
-        NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.productCreated), name: Notification.Name("productCreated"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.productCanceled), name: Notification.Name("productCanceled"), object: nil)
     }
     
     @IBAction func didPressedMenuButton(_ sender: UIButton) {
@@ -102,24 +98,9 @@ class yourShopController: UIViewController {
     }
     
     @IBAction func didPressAddProductButton(_ sender: UIButton) {
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.productCreated), name: Notification.Name("productCreated"), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.productCanceled), name: Notification.Name("productCanceled"), object: nil)
-        
-        switch SharedInstance.currentState {
-        case "haveShopVC":
-            self.remove(asChildViewController: haveShopVC)
-            self.add(asChildViewController: addProductVC)
-        case "noProductVC":
-            self.remove(asChildViewController: noProductVC)
-            self.add(asChildViewController: addProductVC)
-        case "noShopVC":
-            self.remove(asChildViewController: noShopVC)
-            self.add(asChildViewController: addProductVC)
-        default:
-            self.remove(asChildViewController: haveShopVC)
-            self.add(asChildViewController: addProductVC)
-        }
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "addProductVC") as! addProductVC
+        self.present(viewController, animated: true, completion: nil)
     }
     
     @IBAction func didPressAddMemberButton(_ sender: UIButton) {
@@ -166,138 +147,51 @@ class yourShopController: UIViewController {
                 }
             }
         }
-        
-        
     }
     
-    fileprivate func setShadow() {
-        menuBar.layer.shadowColor = UIColor.gray.cgColor
-        menuBar.layer.shadowOpacity = 1
-        menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
-        menuBar.layer.shadowRadius = 2
-    }
-    
-    fileprivate func setupView() {
-        
-        dropDown.anchorView = self.shopButton
-        dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
-        DropDown.appearance().backgroundColor = .white
-        DropDown.appearance().cornerRadius = 10
-        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
-        
-            BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                guard let value = snapshot.value else {return}
-                let json = JSON(value)
-                let currentShopID = json["currentShop"].stringValue
-                
-                if currentShopID == "" {
-                    self.dropDown.dataSource = self.defaultList
-                    self.shopButton.setTitle("Create a Shop", for: .normal)
-                    SharedInstance.currentState = "noShopVC"
-                    self.add(asChildViewController: self.noShopVC)
-                    ARSLineProgress.hide()
-                }else {
-                    
-                    self.fillerButton.isHidden = false
-                    self.addMemberButton.isHidden = false
-                    self.addProductButton.isHidden = false
-                    
-                    SharedInstance.currentShopID = currentShopID
-                    
-                    for (key,subJson):(String, JSON) in json["shop"] {
-                        self.shopList.insert(subJson["shopName"].stringValue, at: 0)
-                        if subJson["shopName"].stringValue == currentShopID {
-                            SharedInstance.shopToLoad = key
-                        }
-                    }
-                    
-                    print("Shop To Load: \(SharedInstance.shopToLoad)")
-                    
-                    self.shopButton.setTitle(currentShopID, for: .normal)
-                    self.dropDown.dataSource = self.shopList
-                    
-                    BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).observeSingleEvent(of: .value, with: { (snap) in
-                        guard let value = snap.value else {return}
-                        
-                        let object = JSON(value)
-                        print("Getting product")
-                        print(object)
-                        if object["product"].null != nil {
-                            SharedInstance.currentState = "noProductVC"
-                            self.add(asChildViewController: self.noProductVC)
-                            ARSLineProgress.hide()
-                        }else {
-                            SharedInstance.currentState = "haveShopVC"
-                            self.add(asChildViewController: self.haveShopVC)
-                            ARSLineProgress.hide()
-                        }
-                    })
-                    
-                    
-                }
-                
-            }) { (error) in
-                print(error.localizedDescription)
-            }
-        
-        // Action triggered on selection
-        dropDown.selectionAction = { [weak self] (index, item) in
-            
-            if item == "+ Create a shop" {
-                self?.remove(asChildViewController: (self?.noShopVC)!)
-                self?.add(asChildViewController: (self?.createShopVC)!)
-                NotificationCenter.default.addObserver(self!, selector: #selector(self?.shopCreated), name: Notification.Name("shopCreated"), object: nil)
-                NotificationCenter.default.addObserver(self!, selector: #selector(self?.shopCanceled), name: Notification.Name("shopCanceled"), object: nil)
-            }
-        }
-
-    }
 }
 
+
+// MARK: action for call
 extension yourShopController {
-    fileprivate func add(asChildViewController viewController: UIViewController) {
-        addChildViewController(viewController)
-        containerView.addSubview(viewController.view)
-        viewController.view.frame = view.bounds
-        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        viewController.didMove(toParentViewController: self)
-    }
-    
-    fileprivate func remove(asChildViewController viewController: UIViewController) {
-        viewController.willMove(toParentViewController: nil)
-        viewController.view.removeFromSuperview()
-        viewController.removeFromParentViewController()
-    }
     
     @objc fileprivate func shopCreated() {
         ARSLineProgress.showWithPresentCompetionBlock {
             self.shopList = []
-            self.remove(asChildViewController: (self.createShopVC))
-            self.add(asChildViewController: (self.noProductVC))
-            self.resetUI()
+            self.setupView()
         }
     }
     
     @objc fileprivate func shopCanceled() {
-        switch SharedInstance.currentState {
-        case "haveShopVC":
-            self.remove(asChildViewController: createShopVC)
-            self.add(asChildViewController: haveShopVC)
-        case "noProductVC":
-            self.remove(asChildViewController: createShopVC)
-            self.add(asChildViewController: noProductVC)
-        case "noShopVC":
-            self.remove(asChildViewController: createShopVC)
-            self.add(asChildViewController: noShopVC)
-        default:
-            self.remove(asChildViewController: createShopVC)
-            self.add(asChildViewController: haveShopVC)
+        ARSLineProgress.showWithPresentCompetionBlock {
+            self.shopList = []
+            self.setupView()
         }
     }
     
-    @objc fileprivate func productCreated() {}
-    @objc fileprivate func productCanceled() {}
+    @objc fileprivate func productCreated() {
+        dismiss(animated: true) {
+            ARSLineProgress.showWithPresentCompetionBlock {
+                self.shopList = []
+                self.setupView()
+            }
+        }
+    }
+    
+    @objc fileprivate func productCanceled() {
+        dismiss(animated: true) {
+            ARSLineProgress.showWithPresentCompetionBlock {
+                self.shopList = []
+                self.setupView()
+            }
+        }
+    }
+    
+}
+
+
+// MARK: backend related
+extension yourShopController {
     
     fileprivate func checkMember(completed: @escaping (_ success:Bool) -> Void) {
         BackendManager.shared.userReference.observeSingleEvent(of: .value) { (res) in
@@ -315,33 +209,106 @@ extension yourShopController {
             completed(false)
         }
     }
-}
-
-extension yourShopController {
-    fileprivate func resetUI() {
+    
+    fileprivate func setupView() {
         
-        self.fillerButton.isHidden = false
-        self.addMemberButton.isHidden = false
-        self.addProductButton.isHidden = false
+        dropDown.anchorView = self.shopButton
+        dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().cornerRadius = 10
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
         
         BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value, with: { (snapshot) in
+            
             guard let value = snapshot.value else {return}
             let json = JSON(value)
             let currentShopID = json["currentShop"].stringValue
             
-            SharedInstance.currentShopID = currentShopID
-            
-            for (_,subJson):(String, JSON) in json["shop"] {
-                print(subJson)
-                self.shopList.insert(subJson["shopName"].stringValue, at: 0)
+            if currentShopID == "" {
+                self.dropDown.dataSource = self.defaultList
+                self.shopButton.setTitle("Create a Shop", for: .normal)
+                SharedInstance.currentState = "noShopVC"
+                self.add(asChildViewController: self.noShop)
+                ARSLineProgress.hide()
+            }else {
+                
+                self.fillerButton.isHidden = false
+                self.addMemberButton.isHidden = false
+                self.addProductButton.isHidden = false
+                
+                SharedInstance.currentShopID = currentShopID
+                
+                for (key,subJson):(String, JSON) in json["shop"] {
+                    self.shopList.insert(subJson["shopName"].stringValue, at: 0)
+                    if subJson["shopName"].stringValue == currentShopID {
+                        SharedInstance.shopToLoad = key
+                    }
+                }
+                
+                print("Shop To Load: \(SharedInstance.shopToLoad)")
+                
+                self.shopButton.setTitle(currentShopID, for: .normal)
+                self.dropDown.dataSource = self.shopList
+                
+                BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).observeSingleEvent(of: .value, with: { (snap) in
+                    guard let value = snap.value else {return}
+                    
+                    let object = JSON(value)
+                    print("Getting product")
+                    print(object)
+                    if object["product"].null != nil {
+                        SharedInstance.currentState = "noProductVC"
+                        self.add(asChildViewController: self.noProduct)
+                        ARSLineProgress.hide()
+                    }else {
+                        SharedInstance.currentState = "haveShopVC"
+                        self.add(asChildViewController: self.haveShop)
+                        ARSLineProgress.hide()
+                    }
+                })
+                
+                
             }
             
-            self.shopButton.setTitle(currentShopID, for: .normal)
-            self.dropDown.dataSource = self.shopList
-            ARSLineProgress.hide()
         }) { (error) in
             print(error.localizedDescription)
         }
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [weak self] (index, item) in
+            
+            if item == "+ Create a shop" {
+                self?.remove(asChildViewController: (self?.noShop)!)
+                self?.add(asChildViewController: (self?.createShop)!)
+            }
+        }
+        
+    }
+}
+
+
+// MARK: add and remove views
+extension yourShopController {
+    
+    fileprivate func setShadow() {
+        menuBar.layer.shadowColor = UIColor.gray.cgColor
+        menuBar.layer.shadowOpacity = 1
+        menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
+        menuBar.layer.shadowRadius = 2
+    }
+    
+    fileprivate func add(asChildViewController viewController: UIViewController) {
+        addChildViewController(viewController)
+        containerView.addSubview(viewController.view)
+        viewController.view.frame = view.bounds
+        viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        viewController.didMove(toParentViewController: self)
+    }
+    
+    fileprivate func remove(asChildViewController viewController: UIViewController) {
+        viewController.willMove(toParentViewController: nil)
+        viewController.view.removeFromSuperview()
+        viewController.removeFromParentViewController()
     }
     
     fileprivate func removeView() {

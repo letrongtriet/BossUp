@@ -13,9 +13,11 @@ target 'BossUp' do
   pod 'Charts'
   pod 'DropDown'
   pod 'IQKeyboardManagerSwift'
-  pod 'ARSLineProgress', '~> 2.0'
+  pod 'ARSLineProgress'
   pod 'SwiftyJSON'
-  pod 'DeviceKit', '~> 1.6.0'
+  pod 'DeviceKit'
+  pod 'ImagePicker'
+  pod 'Lightbox'
   
   # Pods for BossUp
 

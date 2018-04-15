@@ -939,37 +939,50 @@
             <objects>
                 <viewController restorationIdentifier="addProductVC" storyboardIdentifier="addProductVC" id="57D-Ed-HvT" customClass="addProductVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="Z5R-nc-IOx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cancel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cjX-aD-2Dw">
-                                <rect key="frame" x="20" y="40" width="61" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <color key="textColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PH0-Rz-0J8">
-                                <rect key="frame" x="358.33333333333331" y="40" width="35.666666666666686" height="24"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmk-ku-GjM">
+                                <rect key="frame" x="20" y="20" width="67" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Cancel">
+                                    <color key="titleColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressCancel:" destination="57D-Ed-HvT" eventType="touchUpInside" id="e7f-fv-gdh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4v-ae-zrZ">
+                                <rect key="frame" x="354" y="20" width="40" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <state key="normal" title="Add">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressAdd:" destination="57D-Ed-HvT" eventType="touchUpInside" id="mi2-gM-gvz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="j6F-kV-yyx" firstAttribute="trailing" secondItem="PH0-Rz-0J8" secondAttribute="trailing" constant="20" id="F63-kZ-1O2"/>
-                            <constraint firstItem="PH0-Rz-0J8" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" constant="20" id="Sge-Pm-9vW"/>
-                            <constraint firstItem="cjX-aD-2Dw" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" constant="20" id="WUE-nU-F5W"/>
-                            <constraint firstItem="cjX-aD-2Dw" firstAttribute="leading" secondItem="j6F-kV-yyx" secondAttribute="leading" constant="20" id="lyf-HM-nR5"/>
-                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="cjX-aD-2Dw" secondAttribute="trailing" constant="20" symbolic="YES" id="mA0-qJ-wkY"/>
-                            <constraint firstItem="PH0-Rz-0J8" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5R-nc-IOx" secondAttribute="leading" constant="20" symbolic="YES" id="r8w-Il-yqx"/>
+                            <constraint firstItem="v4v-ae-zrZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Z5R-nc-IOx" secondAttribute="leading" constant="20" symbolic="YES" id="17d-bx-Icf"/>
+                            <constraint firstItem="fmk-ku-GjM" firstAttribute="leading" secondItem="j6F-kV-yyx" secondAttribute="leading" constant="20" id="2RW-K7-Y0q"/>
+                            <constraint firstItem="v4v-ae-zrZ" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" id="9OL-mD-xXk"/>
+                            <constraint firstItem="j6F-kV-yyx" firstAttribute="trailing" secondItem="v4v-ae-zrZ" secondAttribute="trailing" constant="20" id="APy-vR-kBk"/>
+                            <constraint firstItem="fmk-ku-GjM" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" id="no2-sx-eeJ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fmk-ku-GjM" secondAttribute="trailing" constant="20" symbolic="YES" id="tIJ-10-HEH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="j6F-kV-yyx"/>
                     </view>
+                    <size key="freeformSize" width="414" height="1000"/>
+                    <connections>
+                        <outlet property="addButton" destination="v4v-ae-zrZ" id="x8Q-nf-eOe"/>
+                        <outlet property="cancelButton" destination="fmk-ku-GjM" id="2xv-nd-WoM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZP-2s-1Lw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2235" y="144"/>
+            <point key="canvasLocation" x="2234.7826086956525" y="-2.4456521739130435"/>
         </scene>
         <!--ChartsVC-->
         <scene sceneID="eLY-tq-AA8">

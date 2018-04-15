@@ -33,11 +33,15 @@ class createShopVC: UIViewController {
         SharedInstance.shopToLoad = currentShopKey
         SharedInstance.currentShopID = nameOfShop!
         
-        NotificationCenter.default.post(name: Notification.Name("shopCreated"), object: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("shopCreated"), object: nil)
+        }
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
-        NotificationCenter.default.post(name: Notification.Name("shopCanceled"), object: nil)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: Notification.Name("shopCanceled"), object: nil)
+        }
     }
     
 

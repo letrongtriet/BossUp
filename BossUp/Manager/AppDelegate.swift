@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
