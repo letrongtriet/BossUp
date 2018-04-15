@@ -157,14 +157,12 @@ extension yourShopController {
     
     @objc fileprivate func shopCreated() {
         ARSLineProgress.showWithPresentCompetionBlock {
-            self.shopList = []
             self.setupView()
         }
     }
     
     @objc fileprivate func shopCanceled() {
         ARSLineProgress.showWithPresentCompetionBlock {
-            self.shopList = []
             self.setupView()
         }
     }
@@ -172,7 +170,6 @@ extension yourShopController {
     @objc fileprivate func productCreated() {
         dismiss(animated: true) {
             ARSLineProgress.showWithPresentCompetionBlock {
-                self.shopList = []
                 self.setupView()
             }
         }
@@ -181,7 +178,6 @@ extension yourShopController {
     @objc fileprivate func productCanceled() {
         dismiss(animated: true) {
             ARSLineProgress.showWithPresentCompetionBlock {
-                self.shopList = []
                 self.setupView()
             }
         }
@@ -211,7 +207,7 @@ extension yourShopController {
     }
     
     fileprivate func setupView() {
-        
+        self.shopList = ["+ Create a shop"]
         dropDown.anchorView = self.shopButton
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
         DropDown.appearance().backgroundColor = .white
@@ -280,6 +276,11 @@ extension yourShopController {
             if item == "+ Create a shop" {
                 self?.remove(asChildViewController: (self?.noShop)!)
                 self?.add(asChildViewController: (self?.createShop)!)
+            }else {
+                ARSLineProgress.showWithPresentCompetionBlock {
+                    BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)
+                    self?.setupView()
+                }
             }
         }
         

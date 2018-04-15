@@ -939,7 +939,7 @@
             <objects>
                 <viewController restorationIdentifier="addProductVC" storyboardIdentifier="addProductVC" id="57D-Ed-HvT" customClass="addProductVC" customModule="BossUp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clipsSubviews="YES" contentMode="scaleToFill" id="Z5R-nc-IOx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="1000"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fmk-ku-GjM">
@@ -962,6 +962,23 @@
                                     <action selector="didPressAdd:" destination="57D-Ed-HvT" eventType="touchUpInside" id="mi2-gM-gvz"/>
                                 </connections>
                             </button>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TH4-E3-yM3">
+                                <rect key="frame" x="0.0" y="59" width="414" height="677"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bs6-n7-Uiz">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="677"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="bs6-n7-Uiz" firstAttribute="top" secondItem="TH4-E3-yM3" secondAttribute="top" id="9Rl-L9-VMZ"/>
+                                    <constraint firstItem="bs6-n7-Uiz" firstAttribute="leading" secondItem="TH4-E3-yM3" secondAttribute="leading" id="DHB-52-lKD"/>
+                                    <constraint firstAttribute="trailing" secondItem="bs6-n7-Uiz" secondAttribute="trailing" id="NJx-7S-L7M"/>
+                                    <constraint firstItem="bs6-n7-Uiz" firstAttribute="height" secondItem="TH4-E3-yM3" secondAttribute="height" priority="250" id="VZY-oi-W7E"/>
+                                    <constraint firstItem="bs6-n7-Uiz" firstAttribute="width" secondItem="TH4-E3-yM3" secondAttribute="width" id="hUt-Ei-FzU"/>
+                                    <constraint firstAttribute="bottom" secondItem="bs6-n7-Uiz" secondAttribute="bottom" id="ujr-XX-sN4"/>
+                                </constraints>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -969,12 +986,15 @@
                             <constraint firstItem="fmk-ku-GjM" firstAttribute="leading" secondItem="j6F-kV-yyx" secondAttribute="leading" constant="20" id="2RW-K7-Y0q"/>
                             <constraint firstItem="v4v-ae-zrZ" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" id="9OL-mD-xXk"/>
                             <constraint firstItem="j6F-kV-yyx" firstAttribute="trailing" secondItem="v4v-ae-zrZ" secondAttribute="trailing" constant="20" id="APy-vR-kBk"/>
+                            <constraint firstItem="TH4-E3-yM3" firstAttribute="top" secondItem="fmk-ku-GjM" secondAttribute="bottom" id="Bh9-vi-cFQ"/>
+                            <constraint firstItem="j6F-kV-yyx" firstAttribute="trailing" secondItem="TH4-E3-yM3" secondAttribute="trailing" id="Idw-J1-wOi"/>
+                            <constraint firstItem="TH4-E3-yM3" firstAttribute="leading" secondItem="j6F-kV-yyx" secondAttribute="leading" id="Wmx-Ad-yHj"/>
+                            <constraint firstItem="j6F-kV-yyx" firstAttribute="bottom" secondItem="TH4-E3-yM3" secondAttribute="bottom" id="m3Z-FS-Kzr"/>
                             <constraint firstItem="fmk-ku-GjM" firstAttribute="top" secondItem="j6F-kV-yyx" secondAttribute="top" id="no2-sx-eeJ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="fmk-ku-GjM" secondAttribute="trailing" constant="20" symbolic="YES" id="tIJ-10-HEH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="j6F-kV-yyx"/>
                     </view>
-                    <size key="freeformSize" width="414" height="1000"/>
                     <connections>
                         <outlet property="addButton" destination="v4v-ae-zrZ" id="x8Q-nf-eOe"/>
                         <outlet property="cancelButton" destination="fmk-ku-GjM" id="2xv-nd-WoM"/>
@@ -982,7 +1002,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZP-2s-1Lw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2234.7826086956525" y="-2.4456521739130435"/>
+            <point key="canvasLocation" x="2213" y="144"/>
         </scene>
         <!--ChartsVC-->
         <scene sceneID="eLY-tq-AA8">
