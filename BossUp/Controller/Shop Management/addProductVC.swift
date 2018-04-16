@@ -18,6 +18,7 @@ class addProductVC: UIViewController {
     @IBOutlet weak var price: UITextField!
     @IBOutlet weak var capital: UITextField!
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    @IBOutlet weak var productImage: UIImageView!
     
     let imagePickerController = ImagePickerController()
     let gallery = GalleryController()
@@ -26,15 +27,16 @@ class addProductVC: UIViewController {
     var galleryList = [Image]()
     
     override func viewDidLoad(){
+        self.automaticallyAdjustsScrollViewInsets = false
+        self.price.placeholder = SharedInstance.currentCurrencyCode
+        self.capital.placeholder = SharedInstance.currentCurrencyCode
         
+        self.gestureForImage()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("addProductVC")
-        self.actionSheet()
-        self.price.placeholder = SharedInstance.currentCurrencyCode
-        self.capital.placeholder = SharedInstance.currentCurrencyCode
     }
     
     @IBAction func didPressCancel(_ sender: UIButton) {
@@ -68,7 +70,7 @@ class addProductVC: UIViewController {
 
 extension addProductVC {
     
-    fileprivate func actionSheet() {
+    @objc fileprivate func actionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let creditCardsAction = UIAlertAction(title: "Camera", style: .default, handler: {
@@ -95,6 +97,12 @@ extension addProductVC {
         self.present(optionMenu, animated: true) {
             print("Option presented")
         }
+    }
+    
+    fileprivate func gestureForImage() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionSheet))
+        self.productImage.isUserInteractionEnabled = true
+        self.productImage.addGestureRecognizer(tap)
     }
     
     fileprivate func openCamera() {
@@ -134,6 +142,7 @@ extension addProductVC: ImagePickerDelegate {
         if self.imageList.count > 1 {
             imagePickerController.showAlert(title: "Warning", message: "Please choose only 1 image")
         }else {
+            self.productImage.image = imageList.first
             imagePickerController.dismiss(animated: true, completion: nil)
 
         }
@@ -157,8 +166,10 @@ extension addProductVC: GalleryControllerDelegate {
         if self.galleryList.count > 1 {
             gallery.showAlert(title: "Warning", message: "Please choose only 1 image")
         }else {
-            gallery.dismiss(animated: true, completion: nil)
-            
+            Image.resolve(images: self.galleryList) { (temp) in
+                self.productImage.image = temp.first as? UIImage
+                self.gallery.dismiss(animated: true, completion: nil)
+            }
         }
     }
     

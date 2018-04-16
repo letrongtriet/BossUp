@@ -1148,6 +1148,7 @@
                         <outlet property="cancelButton" destination="fmk-ku-GjM" id="2xv-nd-WoM"/>
                         <outlet property="capital" destination="3hz-3x-beV" id="1Dm-m8-sFs"/>
                         <outlet property="price" destination="HHw-Ky-g57" id="eOi-p8-vht"/>
+                        <outlet property="productImage" destination="e23-rg-C3T" id="zGl-37-erM"/>
                         <outlet property="segmentControl" destination="7aA-1X-amV" id="cQ0-Uq-7A1"/>
                     </connections>
                 </viewController>
