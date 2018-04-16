@@ -17,6 +17,7 @@ target 'BossUp' do
   pod 'SwiftyJSON'
   pod 'DeviceKit'
   pod 'ImagePicker'
+  pod 'Gallery'
   pod 'Lightbox'
   
   # Pods for BossUp

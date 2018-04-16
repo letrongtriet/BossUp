@@ -9,15 +9,21 @@
 import UIKit
 import ImagePicker
 import Lightbox
+import Gallery
 
 class addProductVC: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var price: UITextField!
+    @IBOutlet weak var capital: UITextField!
+    @IBOutlet weak var segmentControl: UISegmentedControl!
     
     let imagePickerController = ImagePickerController()
+    let gallery = GalleryController()
     
     var imageList = [UIImage]()
+    var galleryList = [Image]()
     
     override func viewDidLoad(){
         
@@ -27,6 +33,8 @@ class addProductVC: UIViewController {
         super.viewDidAppear(animated)
         print("addProductVC")
         self.actionSheet()
+        self.price.placeholder = SharedInstance.currentCurrencyCode
+        self.capital.placeholder = SharedInstance.currentCurrencyCode
     }
     
     @IBAction func didPressCancel(_ sender: UIButton) {
@@ -40,6 +48,19 @@ class addProductVC: UIViewController {
         print("Add button pressed")
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
+        }
+    }
+    
+    @IBAction func quantityType(_ sender: UISegmentedControl) {
+        switch self.segmentControl.selectedSegmentIndex {
+        case 0:
+            print("None")
+        case 1:
+            print("Clothes")
+        case 2:
+            print("Shoes")
+        default:
+            break
         }
     }
     
@@ -59,6 +80,7 @@ extension addProductVC {
         let otherAction = UIAlertAction(title: "Gallary", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Gallary")
+            self.openGallary()
         })
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
@@ -81,7 +103,9 @@ extension addProductVC {
     }
     
     fileprivate func openGallary() {
-        
+        Config.tabsToShow = [.imageTab]
+        gallery.delegate = self
+        present(gallery, animated: true, completion: nil)
     }
 }
 
@@ -107,10 +131,44 @@ extension addProductVC: ImagePickerDelegate {
         
         print(self.imageList.count)
         
-        imagePickerController.dismiss(animated: true, completion: nil)
+        if self.imageList.count > 1 {
+            imagePickerController.showAlert(title: "Warning", message: "Please choose only 1 image")
+        }else {
+            imagePickerController.dismiss(animated: true, completion: nil)
+
+        }
     }
     
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
         imagePickerController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension addProductVC: GalleryControllerDelegate {
+    func galleryController(_ controller: GalleryController, didSelectImages images: [Image]) {
+        guard images.count > 0 else { return }
+        
+        self.galleryList = images.map {
+            return $0
+        }
+        
+        print(self.galleryList.count)
+        
+        if self.galleryList.count > 1 {
+            gallery.showAlert(title: "Warning", message: "Please choose only 1 image")
+        }else {
+            gallery.dismiss(animated: true, completion: nil)
+            
+        }
+    }
+    
+    func galleryController(_ controller: GalleryController, didSelectVideo video: Video) {
+    }
+    
+    func galleryController(_ controller: GalleryController, requestLightbox images: [Image]) {
+    }
+    
+    func galleryControllerDidCancel(_ controller: GalleryController) {
+        gallery.dismiss(animated: true, completion: nil)
     }
 }
