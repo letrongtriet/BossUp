@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		35155EF92061704100BF092F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155EF82061704100BF092F /* CacheManager.swift */; };
 		3524F7CB205E86ED00259721 /* BackendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3524F7CA205E86ED00259721 /* BackendManager.swift */; };
+		35380DAA2085E904004BF41D /* Common-Currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 35380DA92085E904004BF41D /* Common-Currency.json */; };
 		3565490B20613D5400FF0414 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490A20613D5400FF0414 /* Transaction.swift */; };
 		3565490D2061415B00FF0414 /* UserShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490C2061415B00FF0414 /* UserShop.swift */; };
 		3565490F206141E000FF0414 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490E206141E000FF0414 /* Category.swift */; };
@@ -45,6 +46,8 @@
 /* Begin PBXFileReference section */
 		35155EF82061704100BF092F /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		3524F7CA205E86ED00259721 /* BackendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendManager.swift; sourceTree = "<group>"; };
+		35380DA92085E904004BF41D /* Common-Currency.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Common-Currency.json"; sourceTree = "<group>"; };
+		35641D2F2085D65000E008D7 /* BossUp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BossUp-Bridging-Header.h"; sourceTree = "<group>"; };
 		3565490A20613D5400FF0414 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		3565490C2061415B00FF0414 /* UserShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShop.swift; sourceTree = "<group>"; };
 		3565490E206141E000FF0414 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
@@ -126,6 +129,7 @@
 		357C8C01205BFDA6001D89FA /* BossUp */ = {
 			isa = PBXGroup;
 			children = (
+				35380DA92085E904004BF41D /* Common-Currency.json */,
 				35FE9C05205DA506009E803B /* Manager */,
 				35ACB051205C1D10003669AA /* Model */,
 				35ACB050205C1CFE003669AA /* View */,
@@ -133,6 +137,7 @@
 				35ACB053205C1D3F003669AA /* Helper */,
 				357C8C09205BFDA6001D89FA /* Assets.xcassets */,
 				357C8C0E205BFDA6001D89FA /* Info.plist */,
+				35641D2F2085D65000E008D7 /* BossUp-Bridging-Header.h */,
 			);
 			path = BossUp;
 			sourceTree = "<group>";
@@ -298,6 +303,7 @@
 				357C8C0D205BFDA6001D89FA /* LaunchScreen.storyboard in Resources */,
 				35FE9C0C205DA5A7009E803B /* GoogleService-Info.plist in Resources */,
 				357C8C0A205BFDA6001D89FA /* Assets.xcassets in Resources */,
+				35380DAA2085E904004BF41D /* Common-Currency.json in Resources */,
 				357C8C08205BFDA6001D89FA /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -480,11 +486,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = "$(inherited)";
 			};
@@ -534,9 +541,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = "$(inherited)";
 				VALIDATE_PRODUCT = YES;
