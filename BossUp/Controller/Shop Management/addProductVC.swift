@@ -19,6 +19,10 @@ class addProductVC: UIViewController {
     @IBOutlet weak var capital: UITextField!
     @IBOutlet weak var segmentControl: UISegmentedControl!
     @IBOutlet weak var productImage: UIImageView!
+    @IBOutlet weak var quantityView: UIView!
+    @IBOutlet weak var clotheView: UIView!
+    @IBOutlet weak var shoeView: UIView!
+    @IBOutlet weak var noneView: UIView!
     
     let imagePickerController = ImagePickerController()
     let gallery = GalleryController()
@@ -28,8 +32,13 @@ class addProductVC: UIViewController {
     
     override func viewDidLoad(){
         self.automaticallyAdjustsScrollViewInsets = false
+        
         self.price.placeholder = SharedInstance.currentCurrencyCode
         self.capital.placeholder = SharedInstance.currentCurrencyCode
+        
+        self.clotheView.tag = 222
+        self.noneView.tag = 111
+        self.shoeView.tag = 333
         
         self.gestureForImage()
     }
@@ -57,12 +66,20 @@ class addProductVC: UIViewController {
         switch self.segmentControl.selectedSegmentIndex {
         case 0:
             print("None")
+            self.removeView()
+            self.addSubView(view: self.noneView)
         case 1:
             print("Clothes")
+            self.removeView()
+            self.addSubView(view: self.clotheView)
         case 2:
             print("Shoes")
+            self.removeView()
+            self.addSubView(view: self.shoeView)
         default:
-            break
+            print("Default")
+            self.removeView()
+            self.addSubView(view: self.clotheView)
         }
     }
     
@@ -114,6 +131,30 @@ extension addProductVC {
         Config.tabsToShow = [.imageTab]
         gallery.delegate = self
         present(gallery, animated: true, completion: nil)
+    }
+    
+    fileprivate func addSubView(view: UIView) {
+        view.center = self.quantityView.center
+        view.frame = self.quantityView.bounds
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.quantityView.addSubview(view)
+    }
+    
+    fileprivate func removeView() {
+        if let viewWithTag = self.quantityView.viewWithTag(111) {
+            viewWithTag.removeFromSuperview()
+            print("Remove none")
+        }
+        
+        if let viewWithTag = self.quantityView.viewWithTag(222) {
+            viewWithTag.removeFromSuperview()
+            print("Remove clothes")
+        }
+        
+        if let viewWithTag = self.quantityView.viewWithTag(333) {
+            viewWithTag.removeFromSuperview()
+            print("Remove shoes")
+        }
     }
 }
 
