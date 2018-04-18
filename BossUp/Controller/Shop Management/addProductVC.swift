@@ -10,6 +10,7 @@ import UIKit
 import ImagePicker
 import Lightbox
 import Gallery
+import FirebaseStorage
 
 class addProductVC: UIViewController {
     
@@ -29,6 +30,8 @@ class addProductVC: UIViewController {
     
     var imageList = [UIImage]()
     var galleryList = [Image]()
+    
+    var key = String()
     
     override func viewDidLoad(){
         self.automaticallyAdjustsScrollViewInsets = false
@@ -57,9 +60,16 @@ class addProductVC: UIViewController {
     
     @IBAction func didPressAdd(_ sender: UIButton) {
         print("Add button pressed")
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
-        }
+        
+        self.key = BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").childByAutoId().key
+        
+        //self.addProductToBackend(name: "Test Nam", price: "100", capital: "90", category: "Shoes", sizeType: "shoes")
+        
+        self.uploadImage()
+        
+//        DispatchQueue.main.async {
+//            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
+//        }
     }
     
     @IBAction func quantityType(_ sender: UISegmentedControl) {
@@ -156,6 +166,35 @@ extension addProductVC {
             print("Remove shoes")
         }
     }
+}
+
+extension addProductVC {
+    
+    fileprivate func addProductToBackend(name:String, price:String, capital:String, category:String, sizeType:String) {
+        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("name").setValue(name)
+        
+        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("price").setValue(price)
+        
+        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("capital").setValue(capital)
+        
+        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("category").setValue(category)
+        
+        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("sizeType").setValue(sizeType)
+    }
+    
+    fileprivate func uploadImage() {
+        if let uploadData = UIImageJPEGRepresentation(self.productImage.image!, 0.5) {
+            print("Image is ok for uploading")
+            
+            let newMetadata = StorageMetadata()
+            newMetadata.contentType = "image/jpeg"
+            
+            BackendManager.shared.imageReference.child(self.key).putData(uploadData, metadata: newMetadata)
+        }else {
+            print("Image is NOT ok for uploading")
+        }
+    }
+    
 }
 
 extension addProductVC: ImagePickerDelegate {
