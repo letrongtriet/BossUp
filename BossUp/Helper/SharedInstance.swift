@@ -10,10 +10,16 @@ import Foundation
 
 public struct SharedInstance {
     static var userID: String = ""
+    
     static var userEmail: String = ""
+    
     static var currentShopID: String = ""
+    
     static var shopToLoad: String = ""
+    
     static var currentCurrencyCode: String = "USD"
-    static var currentState = ""
+    
     static var addMember = ""
+    
+    static var productList:[String] = []
 }

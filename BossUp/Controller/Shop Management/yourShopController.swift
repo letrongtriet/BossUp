@@ -223,7 +223,6 @@ extension yourShopController {
             if currentShopID == "" {
                 self.dropDown.dataSource = self.defaultList
                 self.shopButton.setTitle("Create a Shop", for: .normal)
-                SharedInstance.currentState = "noShopVC"
                 self.add(asChildViewController: self.noShop)
                 ARSLineProgress.hide()
             }else {
@@ -253,11 +252,13 @@ extension yourShopController {
                     print("Getting product")
                     print(object)
                     if object["product"].null != nil {
-                        SharedInstance.currentState = "noProductVC"
                         self.add(asChildViewController: self.noProduct)
                         ARSLineProgress.hide()
                     }else {
-                        SharedInstance.currentState = "haveShopVC"
+                        for (key,_):(String, JSON) in object["product"] {
+                            SharedInstance.productList.append(key)
+                        }
+                        print(SharedInstance.productList)
                         self.add(asChildViewController: self.haveShop)
                         ARSLineProgress.hide()
                     }

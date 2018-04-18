@@ -33,6 +33,8 @@ class addProductVC: UIViewController {
     
     var key = String()
     
+    let defaultImage = #imageLiteral(resourceName: "photo_default")
+    
     override func viewDidLoad(){
         self.automaticallyAdjustsScrollViewInsets = false
         
@@ -63,7 +65,7 @@ class addProductVC: UIViewController {
         
         self.key = BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").childByAutoId().key
         
-        //self.addProductToBackend(name: "Test Nam", price: "100", capital: "90", category: "Shoes", sizeType: "shoes")
+        self.addProductToBackend(name: "Test Nam", price: "100", capital: "90", category: "Shoes", sizeType: "shoes")
         
         self.uploadImage()
         
@@ -183,15 +185,19 @@ extension addProductVC {
     }
     
     fileprivate func uploadImage() {
-        if let uploadData = UIImageJPEGRepresentation(self.productImage.image!, 0.5) {
-            print("Image is ok for uploading")
-            
-            let newMetadata = StorageMetadata()
-            newMetadata.contentType = "image/jpeg"
-            
-            BackendManager.shared.imageReference.child(self.key).putData(uploadData, metadata: newMetadata)
+        if self.productImage.image == self.defaultImage {
+            self.showAlert(title: "Warning", message: "Please choose an image")
         }else {
-            print("Image is NOT ok for uploading")
+            if let uploadData = UIImageJPEGRepresentation(self.productImage.image!, 0.3) {
+                print("Image is ok for uploading")
+                
+                let newMetadata = StorageMetadata()
+                newMetadata.contentType = "image/jpeg"
+                
+                BackendManager.shared.imageReference.child(self.key).putData(uploadData, metadata: newMetadata)
+            }else {
+                print("Image is NOT ok for uploading")
+            }
         }
     }
     
