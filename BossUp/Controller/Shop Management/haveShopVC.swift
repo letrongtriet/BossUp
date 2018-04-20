@@ -17,20 +17,16 @@ class haveShopVC: UIViewController {
     
     var refresher:UIRefreshControl!
     
-    var productList: [String]?
+    var imageList = [UIImage]()
+    var priceList = [String]()
     
     let userManager = BackendManager.shared.userReference
     let shopManager = BackendManager.shared.shopReference
     let imageManager = BackendManager.shared.imageReference
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         addRefresher()
-        
-        print("haveShopVC")
-        
-        self.updateList()
         ARSLineProgress.showWithPresentCompetionBlock {
             self.updateList()
         }
@@ -42,23 +38,33 @@ class haveShopVC: UIViewController {
     }
     
     fileprivate func updateList() {
-        ARSLineProgress.showWithPresentCompetionBlock {
-            if SharedInstance.currentShopID != "" {
-                self.shopManager.child(SharedInstance.currentShopID).child("product").observeSingleEvent(of: .value, with: { (snapshot) in
-                    guard let value = snapshot.value else {return}
-                    
-                    let json = JSON(value)
-                    
-                    for (key,subJson):(String, JSON) in json {
-                        print(key,subJson)
-                    }
-                    
-                }, withCancel: { (error) in
-                    ARSLineProgress.hide()
-                    print(error.localizedDescription)
-                    self.showAlert(title: "Error", message: error.localizedDescription)
-                })
+        
+        self.shopManager.child(SharedInstance.shopToLoad).child("product").observeSingleEvent(of: .value) { (snap) in
+            guard let value = snap.value else {return}
+            let json = JSON(value)
+            
+            for (key,subJSON):(String, JSON) in json {
+                SharedInstance.productList.append(key)
+                self.priceList.append(subJSON["price"].stringValue)
             }
+            print(SharedInstance.productList)
+            print(self.priceList)
+        }
+        
+        for product in SharedInstance.productList {
+            self.imageManager.child(product).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
+                if let err = err {
+                    self.showAlert(title: "Error", message: err.localizedDescription)
+                } else {
+                    let image = UIImage(data: data!)
+                    self.imageList.append(image!)
+                }
+            }
+        }
+        
+        ARSLineProgress.hideWithCompletionBlock {
+            self.collectionView.delegate = self
+            self.collectionView.dataSource = self
         }
     }
     
@@ -75,14 +81,19 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return SharedInstance.productList.count
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 }

@@ -11,19 +11,47 @@ import ImagePicker
 import Lightbox
 import Gallery
 import FirebaseStorage
+import ARSLineProgress
 
 class addProductVC: UIViewController {
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var category: UIButton!
+    
     @IBOutlet weak var price: UITextField!
     @IBOutlet weak var capital: UITextField!
+    @IBOutlet weak var name: UITextField!
+    
     @IBOutlet weak var segmentControl: UISegmentedControl!
+    
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var quantityView: UIView!
     @IBOutlet weak var clotheView: UIView!
     @IBOutlet weak var shoeView: UIView!
     @IBOutlet weak var noneView: UIView!
+    
+    @IBOutlet weak var xxs: UITextField!
+    @IBOutlet weak var xs: UITextField!
+    @IBOutlet weak var s: UITextField!
+    @IBOutlet weak var m: UITextField!
+    @IBOutlet weak var l: UITextField!
+    @IBOutlet weak var xl: UITextField!
+    @IBOutlet weak var xxl: UITextField!
+    @IBOutlet weak var xxxl: UITextField!
+    
+    @IBOutlet weak var shoe35: UITextField!
+    @IBOutlet weak var shoe36: UITextField!
+    @IBOutlet weak var shoe37: UITextField!
+    @IBOutlet weak var shoe38: UITextField!
+    @IBOutlet weak var shoe39: UITextField!
+    @IBOutlet weak var shoe40: UITextField!
+    @IBOutlet weak var shoe41: UITextField!
+    @IBOutlet weak var shoe42: UITextField!
+    @IBOutlet weak var shoe43: UITextField!
+    @IBOutlet weak var shoe44: UITextField!
+    
+    @IBOutlet weak var none: UITextField!
     
     let imagePickerController = ImagePickerController()
     let gallery = GalleryController()
@@ -31,7 +59,18 @@ class addProductVC: UIViewController {
     var imageList = [UIImage]()
     var galleryList = [Image]()
     
+    var clotheList = [UITextField]()
+    let clotheNames = ["2XS","XS","S","M","L","XL","2XL","3XL"]
+    
+    var shoeList = [UITextField]()
+    let shoeNames = ["35","36","37","38","39","40","41","42","43","44"]
+    
+    var noneList = [UITextField]()
+    let noneNames = ["None"]
+    
     var key = String()
+    
+    var sizeType = String()
     
     let defaultImage = #imageLiteral(resourceName: "photo_default")
     
@@ -44,6 +83,12 @@ class addProductVC: UIViewController {
         self.clotheView.tag = 222
         self.noneView.tag = 111
         self.shoeView.tag = 333
+        
+        self.clotheList = [xxs,xs,s,m,l,xl,xxl,xxl]
+        self.shoeList = [shoe35,shoe36,shoe37,shoe38,shoe39,shoe40,shoe41,shoe42,shoe43,shoe44]
+        self.noneList = [none]
+        
+        self.addSubView(view: self.clotheView)
         
         self.gestureForImage()
     }
@@ -65,13 +110,9 @@ class addProductVC: UIViewController {
         
         self.key = BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").childByAutoId().key
         
-        self.addProductToBackend(name: "Test Nam", price: "100", capital: "90", category: "Shoes", sizeType: "shoes")
-        
-        self.uploadImage()
-        
-//        DispatchQueue.main.async {
-//            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
-//        }
+        ARSLineProgress.showWithPresentCompetionBlock {
+            self.uploadProduct()
+        }
     }
     
     @IBAction func quantityType(_ sender: UISegmentedControl) {
@@ -80,19 +121,27 @@ class addProductVC: UIViewController {
             print("None")
             self.removeView()
             self.addSubView(view: self.noneView)
+            self.sizeType = "none"
         case 1:
             print("Clothes")
             self.removeView()
             self.addSubView(view: self.clotheView)
+            self.sizeType = "clothes"
         case 2:
             print("Shoes")
             self.removeView()
             self.addSubView(view: self.shoeView)
+            self.sizeType = "shoes"
         default:
             print("Default")
             self.removeView()
             self.addSubView(view: self.clotheView)
+            self.sizeType = "clothes"
         }
+    }
+    
+    @IBAction func categoryButton(_ sender: UIButton) {
+        
     }
     
 }
@@ -184,9 +233,14 @@ extension addProductVC {
         BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("sizeType").setValue(sizeType)
     }
     
-    fileprivate func uploadImage() {
-        if self.productImage.image == self.defaultImage {
-            self.showAlert(title: "Warning", message: "Please choose an image")
+    fileprivate func uploadProduct() {
+        
+        if self.productImage.image == self.defaultImage || self.name.text?.isEmpty == true || self.price.text?.isEmpty == true || self.category.currentTitle == "Click to choose" {
+            
+            ARSLineProgress.hideWithCompletionBlock {
+                self.showAlert(title: "Warning", message: "Please fill in all required field and image")
+            }
+            
         }else {
             if let uploadData = UIImageJPEGRepresentation(self.productImage.image!, 0.3) {
                 print("Image is ok for uploading")
@@ -195,10 +249,67 @@ extension addProductVC {
                 newMetadata.contentType = "image/jpeg"
                 
                 BackendManager.shared.imageReference.child(self.key).putData(uploadData, metadata: newMetadata)
+                
+                if self.capital.text?.isEmpty == false {
+                    self.addProductToBackend(name: self.name.text!, price: self.price.text!, capital: self.capital.text!, category: self.category.currentTitle!, sizeType: self.sizeType)
+                }else {
+                    self.addProductToBackend(name: self.name.text!, price: self.price.text!, capital: "0", category: self.category.currentTitle!, sizeType: self.sizeType)
+                }
+                
+                self.addQuantity()
+                
             }else {
-                print("Image is NOT ok for uploading")
+                ARSLineProgress.hideWithCompletionBlock {
+                    self.showAlert(title: "Error", message: "Image cannot be uploaded. Please try again later")
+                }
             }
         }
+    }
+    
+    fileprivate func addQuantity() {
+        
+        var currentList = [UITextField]()
+        var currentName = [String]()
+        
+        switch self.segmentControl.selectedSegmentIndex {
+        case 0:
+            print("None")
+            currentList = self.noneList
+            currentName = self.noneNames
+        case 1:
+            print("Clothes")
+            currentList = self.clotheList
+            currentName = self.clotheNames
+        case 2:
+            print("Shoes")
+            currentList = self.shoeList
+            currentName = self.shoeNames
+        default:
+            print("Default")
+            currentList = self.clotheList
+            currentName = self.clotheNames
+        }
+        
+        for i in 0...currentList.count-1 {
+            if currentList[i].text?.isEmpty == false {
+                BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
+                
+                ARSLineProgress.hideWithCompletionBlock {
+                    //        DispatchQueue.main.async {
+                    //            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
+                    //        }
+                }
+            }else {
+                BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
+                
+                ARSLineProgress.hideWithCompletionBlock {
+                    //        DispatchQueue.main.async {
+                    //            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
+                    //        }
+                }
+            }
+        }
+        
     }
     
 }
