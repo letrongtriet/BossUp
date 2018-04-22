@@ -57,7 +57,7 @@ PODS:
   - ImagePicker (3.0.0)
   - Imaginary (3.0.3):
     - Cache (~> 4.0)
-  - IQKeyboardManagerSwift (6.0.1)
+  - IQKeyboardManagerSwift (6.0.2)
   - leveldb-library (1.20)
   - Lightbox (2.1.2):
     - Hue (~> 3.0)
@@ -129,7 +129,7 @@ SPEC CHECKSUMS:
   Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
   ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   Imaginary: 9b45836a5af881f452a86e0a1215772ae4712d00
-  IQKeyboardManagerSwift: 748d06e0f8134fc28934031e6377da3cf3d4f38c
+  IQKeyboardManagerSwift: 59d4b0e140bc546c3c76ae5bb35b3dafd10b8172
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: 2dc267df8be2285bc7724cb11cbbf4aaaf59dced
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3

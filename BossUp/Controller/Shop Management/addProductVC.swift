@@ -22,6 +22,7 @@ class addProductVC: UIViewController {
     @IBOutlet weak var price: UITextField!
     @IBOutlet weak var capital: UITextField!
     @IBOutlet weak var name: UITextField!
+    @IBOutlet weak var nameOfCategory: UITextField!
     
     @IBOutlet weak var segmentControl: UISegmentedControl!
     
@@ -30,6 +31,8 @@ class addProductVC: UIViewController {
     @IBOutlet weak var clotheView: UIView!
     @IBOutlet weak var shoeView: UIView!
     @IBOutlet weak var noneView: UIView!
+    @IBOutlet weak var chooseCategoryView: UIView!
+    @IBOutlet weak var newCategoryView: UIView!
     
     @IBOutlet weak var xxs: UITextField!
     @IBOutlet weak var xs: UITextField!
@@ -83,12 +86,14 @@ class addProductVC: UIViewController {
         self.clotheView.tag = 222
         self.noneView.tag = 111
         self.shoeView.tag = 333
+        self.chooseCategoryView.tag = 444
+        self.newCategoryView.tag = 555
         
         self.clotheList = [xxs,xs,s,m,l,xl,xxl,xxl]
         self.shoeList = [shoe35,shoe36,shoe37,shoe38,shoe39,shoe40,shoe41,shoe42,shoe43,shoe44]
         self.noneList = [none]
         
-        self.addSubView(view: self.clotheView)
+        self.addSubView(view: self.quantityView, subView: self.clotheView)
         
         self.gestureForImage()
     }
@@ -101,14 +106,14 @@ class addProductVC: UIViewController {
     @IBAction func didPressCancel(_ sender: UIButton) {
         print("Cancel button pressed")
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("productCanceled"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
         }
     }
     
     @IBAction func didPressAdd(_ sender: UIButton) {
         print("Add button pressed")
         
-        self.key = BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").childByAutoId().key
+        self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
         
         ARSLineProgress.showWithPresentCompetionBlock {
             self.uploadProduct()
@@ -120,28 +125,103 @@ class addProductVC: UIViewController {
         case 0:
             print("None")
             self.removeView()
-            self.addSubView(view: self.noneView)
+            self.addSubView(view: self.quantityView, subView: self.noneView)
             self.sizeType = "none"
         case 1:
             print("Clothes")
             self.removeView()
-            self.addSubView(view: self.clotheView)
+            self.addSubView(view: self.quantityView, subView: self.clotheView)
             self.sizeType = "clothes"
         case 2:
             print("Shoes")
             self.removeView()
-            self.addSubView(view: self.shoeView)
+            self.addSubView(view: self.quantityView, subView: self.shoeView)
             self.sizeType = "shoes"
         default:
             print("Default")
             self.removeView()
-            self.addSubView(view: self.clotheView)
+            self.addSubView(view: self.quantityView, subView: self.clotheView)
             self.sizeType = "clothes"
         }
     }
     
     @IBAction func categoryButton(_ sender: UIButton) {
+        self.addSubView(view: self.view, subView: self.chooseCategoryView)
+    }
+    
+    @IBAction func shoeButton(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+            self.category.setTitle("Shoes", for: .normal)
+        }
+    }
+    
+    @IBAction func tshirtButton(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+            self.category.setTitle("T-Shirt", for: .normal)
+        }
+    }
+    
+    @IBAction func shirtButton(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+            self.category.setTitle("Shirt", for: .normal)
+        }
+    }
+    
+    @IBAction func pantButton(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+            self.category.setTitle("Pants", for: .normal)
+        }
+    }
+    
+    @IBAction func bagButton(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+            self.category.setTitle("Bag", for: .normal)
+        }
+    }
+    
+    @IBAction func addCategoryButton(_ sender: UIButton) {
+        self.gestureForNewCategoryView()
+        var darkBlur:UIBlurEffect = UIBlurEffect()
+        darkBlur = UIBlurEffect(style: UIBlurEffectStyle.prominent)
+        let blurView = UIVisualEffectView(effect: darkBlur)
+        blurView.frame = self.chooseCategoryView.frame
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurView.tag = 666
+        self.chooseCategoryView.addSubview(blurView)
         
+        self.newCategoryView.center = self.chooseCategoryView.center
+        self.chooseCategoryView.addSubview(self.newCategoryView)
+    }
+    
+    @IBAction func addNewCategory(_ sender: UIButton) {
+        if self.nameOfCategory.text?.isEmpty == false {
+            if let viewWithTag = self.chooseCategoryView.viewWithTag(555) {
+                
+                viewWithTag.removeFromSuperview()
+                
+                if let viewWithTag3 = self.chooseCategoryView.viewWithTag(666) {
+                    viewWithTag3.removeFromSuperview()
+                }
+                
+                if let viewWithTag2 = self.view.viewWithTag(444) {
+                    viewWithTag2.removeFromSuperview()
+                    self.category.setTitle(self.nameOfCategory.text!, for: .normal)
+                }
+            }
+        }else {
+            self.showAlert(title: "Warning", message: "Please enter the name of new category")
+        }
+    }
+    
+    @IBAction func cancelButtonChooseCategory(_ sender: UIButton) {
+        if let viewWithTag = self.view.viewWithTag(444) {
+            viewWithTag.removeFromSuperview()
+        }
     }
     
 }
@@ -177,10 +257,29 @@ extension addProductVC {
         }
     }
     
+    @objc fileprivate func removeNewCategoryView() {
+        print("Add New Category View dimissed")
+        if let viewWithTag = self.chooseCategoryView.viewWithTag(555) {
+            
+            viewWithTag.removeFromSuperview()
+            
+            if let viewWithTag3 = self.chooseCategoryView.viewWithTag(666) {
+                viewWithTag3.removeFromSuperview()
+            }
+        }
+        self.view.gestureRecognizers?.forEach(self.view.removeGestureRecognizer)
+    }
+    
     fileprivate func gestureForImage() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.actionSheet))
         self.productImage.isUserInteractionEnabled = true
         self.productImage.addGestureRecognizer(tap)
+    }
+    
+    fileprivate func gestureForNewCategoryView() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.removeNewCategoryView))
+        self.view.addGestureRecognizer(tap)
+        self.view.isUserInteractionEnabled = true
     }
     
     fileprivate func openCamera() {
@@ -194,11 +293,11 @@ extension addProductVC {
         present(gallery, animated: true, completion: nil)
     }
     
-    fileprivate func addSubView(view: UIView) {
-        view.center = self.quantityView.center
-        view.frame = self.quantityView.bounds
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.quantityView.addSubview(view)
+    fileprivate func addSubView(view: UIView,subView: UIView) {
+        subView.center = view.center
+        subView.frame = view.bounds
+        subView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(subView)
     }
     
     fileprivate func removeView() {
@@ -222,15 +321,15 @@ extension addProductVC {
 extension addProductVC {
     
     fileprivate func addProductToBackend(name:String, price:String, capital:String, category:String, sizeType:String) {
-        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("name").setValue(name)
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("name").setValue(name)
         
-        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("price").setValue(price)
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("price").setValue(price)
         
-        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("capital").setValue(capital)
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("capital").setValue(capital)
         
-        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("category").setValue(category)
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("category").setValue(category)
         
-        BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("sizeType").setValue(sizeType)
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("sizeType").setValue(sizeType)
     }
     
     fileprivate func uploadProduct() {
@@ -257,7 +356,6 @@ extension addProductVC {
                 }
                 
                 self.addQuantity()
-                
             }else {
                 ARSLineProgress.hideWithCompletionBlock {
                     self.showAlert(title: "Error", message: "Image cannot be uploaded. Please try again later")
@@ -292,20 +390,20 @@ extension addProductVC {
         
         for i in 0...currentList.count-1 {
             if currentList[i].text?.isEmpty == false {
-                BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
+                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
                 
                 ARSLineProgress.hideWithCompletionBlock {
-                    //        DispatchQueue.main.async {
-                    //            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
-                    //        }
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
+                    }
                 }
             }else {
-                BackendManager.shared.shopReference.child(SharedInstance.shopToLoad).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
+                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
                 
                 ARSLineProgress.hideWithCompletionBlock {
-                    //        DispatchQueue.main.async {
-                    //            NotificationCenter.default.post(name: Notification.Name("productCreated"), object: nil)
-                    //        }
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
+                    }
                 }
             }
         }
@@ -341,7 +439,7 @@ extension addProductVC: ImagePickerDelegate {
         }else {
             self.productImage.image = imageList.first
             imagePickerController.dismiss(animated: true, completion: nil)
-
+            
         }
     }
     

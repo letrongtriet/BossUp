@@ -39,7 +39,7 @@ class settingsController: UIViewController {
     
     
     fileprivate func setShadow() {
-        menuBar.layer.shadowColor = UIColor.gray.cgColor
+        menuBar.layer.shadowColor = UIColor.lightGray.cgColor
         menuBar.layer.shadowOpacity = 1
         menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
         menuBar.layer.shadowRadius = 2

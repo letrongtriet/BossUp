@@ -13,13 +13,18 @@ public struct SharedInstance {
     
     static var userEmail: String = ""
     
-    static var currentShopID: String = ""
+    static var currentShopName: String = ""
     
-    static var shopToLoad: String = ""
+    static var shopID: String = ""
     
     static var currentCurrencyCode: String = "USD"
     
     static var addMember = ""
     
     static var productList:[String] = []
+    
+    static var priceList = [String]()
+    static var nameList = [String]()
+    
+    static var chosenProduct = ""
 }

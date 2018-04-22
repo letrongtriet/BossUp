@@ -19,28 +19,32 @@ class createShopVC: UIViewController {
     
     @IBAction func didPressCreateButton(_ sender: UIButton) {
         
-        let nameOfShop = self.shopName.text
-        
-        BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(nameOfShop)
-        
-        let currentShopKey = BackendManager.shared.shopReference.childByAutoId().key
-        let category = Category().toDict()
-        
-        BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[SharedInstance.userID:["owner":SharedInstance.userEmail]]])
-        
-        BackendManager.shared.userReference.child(SharedInstance.userID).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
-        
-        SharedInstance.shopToLoad = currentShopKey
-        SharedInstance.currentShopID = nameOfShop!
-        
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("shopCreated"), object: nil)
+        if self.shopName.text?.isEmpty == false {
+            let nameOfShop = self.shopName.text
+            
+            BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(nameOfShop)
+            
+            let currentShopKey = BackendManager.shared.shopReference.childByAutoId().key
+            let category = Category().toDict()
+            
+            BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[SharedInstance.userID:["owner":SharedInstance.userEmail]]])
+            
+            BackendManager.shared.userReference.child(SharedInstance.userID).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
+            
+            SharedInstance.shopID = currentShopKey
+            SharedInstance.currentShopName = nameOfShop!
+            
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("addShop"), object: nil)
+            }
+        }else {
+            self.showAlert(title: "Error", message: "Please enter name of your new shop")
         }
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("shopCanceled"), object: nil)
+            NotificationCenter.default.post(name: Notification.Name("addShop"), object: nil)
         }
     }
     
