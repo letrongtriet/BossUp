@@ -27,4 +27,6 @@ public struct SharedInstance {
     static var nameList = [String]()
     
     static var chosenProduct = ""
+    static var chosenProductName = ""
+    static var chosenProductPrice = ""
 }
