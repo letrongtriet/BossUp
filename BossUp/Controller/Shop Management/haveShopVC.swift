@@ -95,7 +95,6 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         SharedInstance.chosenProduct = SharedInstance.productList[indexPath.row]
-        
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: Notification.Name("presentChosenProduct"), object: nil)
         }

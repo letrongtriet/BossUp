@@ -6,7 +6,7 @@
 //  Copyright © 2018 Trong Triet Le. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct SharedInstance {
     static var userID: String = ""
@@ -29,4 +29,5 @@ public struct SharedInstance {
     static var chosenProduct = ""
     static var chosenProductName = ""
     static var chosenProductPrice = ""
+    static var chosenProductImage = UIImage()
 }

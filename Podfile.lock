@@ -5,7 +5,7 @@ PODS:
     - Charts/Core (= 3.1.1)
   - Charts/Core (3.1.1)
   - DeviceKit (1.7.0)
-  - DropDown (2.3.1)
+  - DropDown (2.3.2)
   - Firebase (4.13.0):
     - Firebase/Core (= 4.13.0)
   - Firebase/Auth (4.13.0):
@@ -115,7 +115,7 @@ SPEC CHECKSUMS:
   Cache: f28f8dd64b632155aabf9b3906b036a659048251
   Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
   DeviceKit: 6a5bdeb103c03757bb94aef1ccb01e08bc8ef4ee
-  DropDown: 20499c7b2731b0d21609af924e47c7677a2be50d
+  DropDown: 7f87abecc28f9b4edad810fe1211c5c018c257e5
   Firebase: 5ec5e863d269d82d66b4bf56856726f8fb8f0fb3
   FirebaseAnalytics: 7ef69e76a5142f643aeb47c780e1cdce4e23632e
   FirebaseAuth: bf22cacf22c60ab454bf2636f556d8892b10b53f
