@@ -13,6 +13,7 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var sizeLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!
     @IBOutlet weak var sellButton: UIButton!
+    @IBOutlet weak var reducedQuantityLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,9 +22,4 @@ class TableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
-    @IBAction func didPressSellButton(_ sender: UIButton) {
-        print("Sell button pressed in another class")
-    }
-    
 }

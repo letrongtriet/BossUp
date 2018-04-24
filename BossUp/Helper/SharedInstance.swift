@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 public struct SharedInstance {
     static var userID: String = ""
@@ -17,7 +18,7 @@ public struct SharedInstance {
     
     static var shopID: String = ""
     
-    static var currentCurrencyCode: String = "USD"
+    static var currentCurrencyCode = ""
     
     static var addMember = ""
     

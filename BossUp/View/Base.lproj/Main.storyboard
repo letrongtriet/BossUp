@@ -368,16 +368,29 @@
                                     <constraint firstItem="wIw-G9-B6x" firstAttribute="centerY" secondItem="DnZ-N5-gQJ" secondAttribute="centerY" id="wd3-7a-gJp"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jyi-OA-831">
+                                <rect key="frame" x="171.33333333333334" y="105" width="72" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="25"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPressCurrencyButton:" destination="ncn-7u-dtD" eventType="touchUpInside" id="ZBx-fn-5s8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="DnZ-N5-gQJ" firstAttribute="leading" secondItem="zOw-SA-2dr" secondAttribute="leading" id="0hH-i8-OJh"/>
+                            <constraint firstItem="Jyi-OA-831" firstAttribute="centerX" secondItem="zOw-SA-2dr" secondAttribute="centerX" id="3IA-Y0-15F"/>
                             <constraint firstItem="DnZ-N5-gQJ" firstAttribute="top" secondItem="ebF-xk-2b6" secondAttribute="top" id="Dv2-Ix-4UE"/>
                             <constraint firstItem="ebF-xk-2b6" firstAttribute="trailing" secondItem="DnZ-N5-gQJ" secondAttribute="trailing" id="UUt-m1-aNE"/>
+                            <constraint firstItem="Jyi-OA-831" firstAttribute="top" secondItem="DnZ-N5-gQJ" secondAttribute="bottom" constant="35" id="rGY-d0-Mp1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ebF-xk-2b6"/>
                     </view>
                     <connections>
+                        <outlet property="currencyButton" destination="Jyi-OA-831" id="5fu-nH-YVa"/>
                         <outlet property="menuBar" destination="DnZ-N5-gQJ" id="iRF-z2-XdV"/>
                     </connections>
                 </viewController>
@@ -916,22 +929,28 @@
                                                     <rect key="frame" x="302" y="4.6666666666666679" width="32" height="36"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                                     <state key="normal" title="Sell"/>
-                                                    <connections>
-                                                        <action selector="didPressSellButton:" destination="pVE-EQ-09D" eventType="touchUpInside" id="uwH-Fp-AUj"/>
-                                                    </connections>
                                                 </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wc5-zF-gjX">
+                                                    <rect key="frame" x="201" y="10" width="48" height="24"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="4eU-mo-Srg" firstAttribute="centerX" secondItem="thd-Hc-ZeV" secondAttribute="centerX" id="8hq-oD-ggB"/>
                                                 <constraint firstItem="uEQ-cq-BNq" firstAttribute="centerY" secondItem="thd-Hc-ZeV" secondAttribute="centerY" id="GBr-th-4zv"/>
+                                                <constraint firstItem="Wc5-zF-gjX" firstAttribute="centerY" secondItem="thd-Hc-ZeV" secondAttribute="centerY" id="Wc5-U8-TwP"/>
                                                 <constraint firstAttribute="trailing" secondItem="uEQ-cq-BNq" secondAttribute="trailing" id="aU7-8k-R8P"/>
                                                 <constraint firstItem="fbX-8n-YuI" firstAttribute="centerY" secondItem="thd-Hc-ZeV" secondAttribute="centerY" id="izI-cg-Mr8"/>
                                                 <constraint firstItem="fbX-8n-YuI" firstAttribute="leading" secondItem="thd-Hc-ZeV" secondAttribute="leading" id="n3M-gY-2PK"/>
                                                 <constraint firstItem="4eU-mo-Srg" firstAttribute="centerY" secondItem="thd-Hc-ZeV" secondAttribute="centerY" id="rTe-mO-Udy"/>
+                                                <constraint firstItem="Wc5-zF-gjX" firstAttribute="leading" secondItem="4eU-mo-Srg" secondAttribute="trailing" constant="10" id="uFf-UJ-1WK"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="quantityLabel" destination="4eU-mo-Srg" id="5pu-I9-5dX"/>
+                                            <outlet property="reducedQuantityLabel" destination="Wc5-zF-gjX" id="odR-Mo-2D7"/>
                                             <outlet property="sellButton" destination="uEQ-cq-BNq" id="gDH-yO-qbt"/>
                                             <outlet property="sizeLabel" destination="fbX-8n-YuI" id="oYC-8H-9Ep"/>
                                         </connections>

@@ -222,7 +222,6 @@ extension yourShopController {
                 self.add(asChildViewController: self.noShop)
                 ARSLineProgress.hide()
             }else {
-                
                 self.fillerButton.isHidden = false
                 self.addMemberButton.isHidden = false
                 self.addProductButton.isHidden = false
@@ -259,7 +258,11 @@ extension yourShopController {
                     }
                 })
                 
-                
+                BackendManager.shared.shopReference.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
+                    guard let data = snap.value else {return}
+                    let json = JSON(data)
+                    SharedInstance.currentCurrencyCode = json["currentCurrencyCode"].stringValue
+                })
             }
             
         }) { (error) in
