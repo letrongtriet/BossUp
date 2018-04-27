@@ -68,9 +68,9 @@ class yourShopController: UIViewController {
         self.addMemberButton.isHidden = true
         self.addProductButton.isHidden = true
         
-        self.setupView()
-        
-        ARSLineProgress.show()
+        ARSLineProgress.showWithPresentCompetionBlock {
+            self.setupView()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -219,8 +219,9 @@ extension yourShopController {
             if currentShopName == "" {
                 self.dropDown.dataSource = self.defaultList
                 self.shopButton.setTitle("Create a Shop", for: .normal)
-                self.add(asChildViewController: self.noShop)
-                ARSLineProgress.hide()
+                ARSLineProgress.hideWithCompletionBlock {
+                    self.add(asChildViewController: self.noShop)
+                }
             }else {
                 self.fillerButton.isHidden = false
                 self.addMemberButton.isHidden = false
@@ -245,16 +246,18 @@ extension yourShopController {
                     let object = JSON(value)
                     
                     if object["product"].null != nil {
-                        self.add(asChildViewController: self.noProduct)
-                        ARSLineProgress.hide()
+                        ARSLineProgress.hideWithCompletionBlock {
+                            self.add(asChildViewController: self.noProduct)
+                        }
                     }else {
                         for (key,_):(String, JSON) in object["product"] {
                             if SharedInstance.productList.contains(key) == false {
                                 SharedInstance.productList.append(key)
                             }
                         }
-                        self.add(asChildViewController: self.haveShop)
-                        ARSLineProgress.hide()
+                        ARSLineProgress.hideWithCompletionBlock {
+                            self.add(asChildViewController: self.haveShop)
+                        }
                     }
                 })
                 

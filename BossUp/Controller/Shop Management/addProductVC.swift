@@ -12,6 +12,7 @@ import Lightbox
 import Gallery
 import FirebaseStorage
 import ARSLineProgress
+import SwiftyJSON
 
 class addProductVC: UIViewController {
     
@@ -98,22 +99,47 @@ class addProductVC: UIViewController {
         self.gestureForImage()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if SharedInstance.chosenProductEdit != "" {
+            print("It is edit product")
+            self.fillInformation()
+        }else {
+            print("It is not edit product! It is add new product")
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("addProductVC")
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        SharedInstance.chosenProductEdit = ""
+    }
+    
     @IBAction func didPressCancel(_ sender: UIButton) {
         print("Cancel button pressed")
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
+        if SharedInstance.chosenProductEdit != "" {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("dismissAddProductFromChosen"), object: nil)
+            }
+        }else {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
+            }
         }
     }
     
     @IBAction func didPressAdd(_ sender: UIButton) {
         print("Add button pressed")
         
-        self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
+        if SharedInstance.chosenProductEdit != "" {
+            self.key = SharedInstance.chosenProductEdit
+        }else {
+            self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
+        }
         
         ARSLineProgress.showWithPresentCompetionBlock {
             self.uploadProduct()
@@ -392,24 +418,41 @@ extension addProductVC {
             if currentList[i].text?.isEmpty == false {
                 BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
                 
-                ARSLineProgress.hideWithCompletionBlock {
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
-                    }
-                }
+                _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
             }else {
                 BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
                 
-                ARSLineProgress.hideWithCompletionBlock {
-                    DispatchQueue.main.async {
-                        NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
-                    }
-                }
+                _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
             }
         }
         
     }
     
+    @objc fileprivate func addProducDone() {
+        ARSLineProgress.hideWithCompletionBlock {
+            if SharedInstance.chosenProductEdit != "" {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("dismissAddProductFromChosen"), object: nil)
+                }
+            }else {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
+                }
+            }
+        }
+    }
+    
+    fileprivate func fillInformation() {
+       self.productImage.image = SharedInstance.chosenProductImage
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProductEdit).observeSingleEvent(of: .value) { (snapShot) in
+            guard let value = snapShot.value else {return}
+            let json = JSON(value)
+            self.name.text = json["name"].stringValue
+            self.price.text = json["price"].stringValue
+            self.capital.text = json["capital"].stringValue
+            self.category.setTitle(json["category"].stringValue, for: .normal)
+        }
+    }
 }
 
 extension addProductVC: ImagePickerDelegate {

@@ -31,4 +31,5 @@ public struct SharedInstance {
     static var chosenProductName = ""
     static var chosenProductPrice = ""
     static var chosenProductImage = UIImage()
+    static var chosenProductEdit = ""
 }

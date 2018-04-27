@@ -8,7 +8,6 @@
 
 import UIKit
 import Firebase
-import ARSLineProgress
 import SwiftyJSON
 
 class haveShopVC: UIViewController {
@@ -29,11 +28,9 @@ class haveShopVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.getData()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.getData), name: Notification.Name("choseProduct"), object: nil)
     }
     
-    @objc fileprivate func getData() {
-        ARSLineProgress.show()
+    fileprivate func getData() {
         self.shopManager.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
             guard let value = snap.value else {return}
             let object = JSON(value)
@@ -42,11 +39,9 @@ class haveShopVC: UIViewController {
                     SharedInstance.productList.append(key)
                 }
             }
-            
             self.collectionView.delegate = self
             self.collectionView.dataSource = self
             self.collectionView.reloadData()
-            ARSLineProgress.hide()
         })
     }
 }

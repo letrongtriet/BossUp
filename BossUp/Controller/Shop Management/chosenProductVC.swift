@@ -21,13 +21,13 @@ class chosenProductVC: UIViewController {
     fileprivate var sizeList = [String]()
     fileprivate var sizeQuantity = [String]()
     
-    fileprivate var editedQuantityID = [String]()
-    fileprivate var editedQuantity = [String]()
+    fileprivate var quantityDictionary = [String:String]()
     
     fileprivate var reducedQuantity = [Int]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.rowHeight = 50
         ARSLineProgress.showWithPresentCompetionBlock {
             self.getData()
         }
@@ -39,8 +39,50 @@ class chosenProductVC: UIViewController {
         }
     }
     
+    @IBAction func didPressConfirmButton(_ sender: UIButton) {
+        if self.quantityDictionary.isEmpty == false {
+            for item in self.quantityDictionary {
+                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).child("quantity").child(item.key).updateChildValues(["quantity":item.value])
+                
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
+                }
+            }
+        }else {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
+            }
+        }
+    }
+    
+    @IBAction func didPressDeleteButton(_ sender: UIButton) {
+        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).removeValue()
+        
+        BackendManager.shared.imageReference.child(SharedInstance.chosenProduct).delete { (err) in
+            if let err = err {
+                print(err)
+                self.showAlert(title: "", message: err.localizedDescription)
+            }else {
+                let newList = SharedInstance.productList.filter { $0 != SharedInstance.chosenProduct }
+                SharedInstance.productList = newList
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
+                }
+            }
+        }
+    }
+    
+    @IBAction func didPressEditButton(_ sender: UIButton) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.dismissAddProduct), name: Notification.Name("dismissAddProductFromChosen"), object: nil)
+        
+        SharedInstance.chosenProductEdit = SharedInstance.chosenProduct
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "addProductVC") as! addProductVC
+        self.present(viewController, animated: true, completion: nil)
+    }
     
     fileprivate func getData() {
+        self.quantityList = []
         BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)
@@ -66,12 +108,20 @@ class chosenProductVC: UIViewController {
             } else {
                 let image = UIImage(data: data!)
                 self.productImage.image = image!
+                SharedInstance.chosenProductImage = image!
             }
         }
         ARSLineProgress.hideWithCompletionBlock {
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.reloadData()
+        }
+    }
+    
+    @objc fileprivate func dismissAddProduct() {
+        ARSLineProgress.showWithPresentCompetionBlock {
+            self.getData()
+            self.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -85,7 +135,7 @@ extension chosenProductVC: UITableViewDelegate, UITableViewDataSource {
         }else {
             let noDataLabel: UILabel     = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
             noDataLabel.text          = "Out of stock"
-            noDataLabel.textColor     = UIColor.lightGray
+            noDataLabel.textColor     = UIColor.gray
             noDataLabel.textAlignment = .center
             tableView.backgroundView  = noDataLabel
             tableView.separatorStyle  = .none
@@ -130,20 +180,9 @@ extension chosenProductVC: UITableViewDelegate, UITableViewDataSource {
         if tempQuantity > 0 && tempReducedQuantity < tempQuantity {
             self.reducedQuantity[index] = self.reducedQuantity[index] - 1
             
-            if self.editedQuantityID.contains(self.quantityList[index]) == false {
-                self.editedQuantityID.append(self.quantityList[index])
-            }
-            
-            if self.editedQuantity.count < index+1{
-                self.editedQuantity.append(String(describing: self.reducedQuantity[index] + tempQuantity))
-            }else {
-                if self.editedQuantity[index] != String(describing: self.reducedQuantity[index] + tempQuantity) {
-                    self.editedQuantity[index] = String(describing: self.reducedQuantity[index] + tempQuantity)
-                }
-            }
+            self.quantityDictionary.updateValue(String(describing: self.reducedQuantity[index] + tempQuantity), forKey: self.quantityList[index])
         }
-        print(editedQuantityID)
-        print(editedQuantity)
+        print(self.quantityDictionary)
         self.tableView.reloadData()
     }
 }
