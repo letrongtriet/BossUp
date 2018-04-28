@@ -22,6 +22,11 @@ class MasterMenuController: UIViewController {
     @IBOutlet weak var profileLabel: UILabel!
     @IBOutlet weak var settingsLabel: UILabel!
     
+    @IBOutlet weak var shopImage: UIImageView!
+    @IBOutlet weak var reportImage: UIImageView!
+    @IBOutlet weak var profileImage: UIImageView!
+    @IBOutlet weak var settingImage: UIImageView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setUpTappedUI()
@@ -66,14 +71,19 @@ class MasterMenuController: UIViewController {
         switch masterMenuState {
         case "shop":
             self.shopLabel.textColor = .black
+            self.shopImage.image = #imageLiteral(resourceName: "ic_shop_active_black")
         case "report":
             self.reportLabel.textColor = .black
+            self.reportImage.image = #imageLiteral(resourceName: "ic_activity_active_black")
         case "profile":
             self.profileLabel.textColor = .black
+            self.profileImage.image = #imageLiteral(resourceName: "ic_profile_active_black")
         case "settings":
             self.settingsLabel.textColor = .black
+            self.settingImage.image = #imageLiteral(resourceName: "ic_settings_active_black")
         default:
             self.shopLabel.textColor = .black
+            self.shopImage.image = #imageLiteral(resourceName: "ic_shop_active_black")
         }
     }
 }

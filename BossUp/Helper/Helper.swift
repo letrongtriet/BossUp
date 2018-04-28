@@ -65,6 +65,23 @@ public class Helper {
         
         return ret
     }// internet
+    
+    func getTodayString() -> String{
+        let date = Date()
+        let calender = Calendar.current
+        let components = calender.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        
+        let year = components.year
+        let month = components.month
+        let day = components.day
+        let hour = components.hour
+        let minute = components.minute
+        let second = components.second
+        
+        let today_string = String(year!) + "/" + String(month!) + "/" + String(day!) + " " + String(hour!)  + ":" + String(minute!) + ":" +  String(second!)
+        
+        return today_string
+    }
 }
 
 extension UIViewController {
@@ -73,5 +90,63 @@ extension UIViewController {
             message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         self.present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension UIView {
+    /**
+     Set x Position
+     
+     :param: x CGFloat
+     */
+    func setX(x:CGFloat) {
+        var frame:CGRect = self.frame
+        frame.origin.x = x
+        self.frame = frame
+    }
+    /**
+     Set y Position
+     
+     :param: y CGFloat
+     */
+    func setY(y:CGFloat) {
+        var frame:CGRect = self.frame
+        frame.origin.y = y
+        self.frame = frame
+    }
+    /**
+     Set Width
+     
+     :param: width CGFloat
+     */
+    func setWidth(width:CGFloat) {
+        var frame:CGRect = self.frame
+        frame.size.width = width
+        self.frame = frame
+    }
+    /**
+     Set Height
+     
+     :param: height CGFloat
+     */
+    func setHeight(height:CGFloat) {
+        var frame:CGRect = self.frame
+        frame.size.height = height
+        self.frame = frame
+    }
+}
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
+
+extension UIColor {
+    static func random() -> UIColor {
+        return UIColor(red:   .random(),
+                       green: .random(),
+                       blue:  .random(),
+                       alpha: 1.0)
     }
 }

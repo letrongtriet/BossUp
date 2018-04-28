@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         DropDown.startListeningToKeyboard()
-        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.shared.enable = true
         
         self.checkUser()
         
@@ -37,6 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
+        NotificationCenter.default.removeObserver(self)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -60,6 +61,8 @@ extension AppDelegate {
             if CacheManager.shared.object(forKey: "userID") != nil {
                 let userID = String(describing: CacheManager.shared.object(forKey: "userID")!)
                 if userID == user.uid {
+                    SharedInstance.userID = user.uid
+                    SharedInstance.userEmail = user.email!
                     NavigationManager.shared.yourShop()
                 }
             }

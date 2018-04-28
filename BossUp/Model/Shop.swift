@@ -14,13 +14,15 @@ struct Shop: Codable {
     let currentCurrencyCode: String
     let member: [String]
     let name: String
+    let product: [Product]?
     let transaction: [Transaction]?
     
-    init(category: Category, currentCurrencyCode: String, member: [String], name: String, transaction: [Transaction]?) {
+    init(category: Category, currentCurrencyCode: String, member: [String], name: String, product: [Product]?, transaction: [Transaction]?) {
         self.category = category
         self.currentCurrencyCode = currentCurrencyCode
         self.member = member
         self.name = name
+        self.product = product
         self.transaction = transaction
     }
     
