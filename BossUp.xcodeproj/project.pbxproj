@@ -10,9 +10,12 @@
 		35155EF92061704100BF092F /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35155EF82061704100BF092F /* CacheManager.swift */; };
 		3524F7CB205E86ED00259721 /* BackendManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3524F7CA205E86ED00259721 /* BackendManager.swift */; };
 		35380DAA2085E904004BF41D /* Common-Currency.json in Resources */ = {isa = PBXBuildFile; fileRef = 35380DA92085E904004BF41D /* Common-Currency.json */; };
+		3563AE0E2094C51800D72B62 /* transactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3563AE0D2094C51800D72B62 /* transactionCell.swift */; };
 		3565490B20613D5400FF0414 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490A20613D5400FF0414 /* Transaction.swift */; };
 		3565490D2061415B00FF0414 /* UserShop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490C2061415B00FF0414 /* UserShop.swift */; };
 		3565490F206141E000FF0414 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3565490E206141E000FF0414 /* Category.swift */; };
+		35674AEA20938C56003872A0 /* transactionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35674AE920938C56003872A0 /* transactionVC.swift */; };
+		35674AEC2093929C003872A0 /* TableViewCellReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35674AEB2093929C003872A0 /* TableViewCellReport.swift */; };
 		356D1E05206B95530005C4BE /* createShopVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356D1E04206B95530005C4BE /* createShopVC.swift */; };
 		35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35734006205E885E003FA4E5 /* BackendDataPath.swift */; };
 		357C8C03205BFDA6001D89FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 357C8C02205BFDA6001D89FA /* AppDelegate.swift */; };
@@ -50,10 +53,13 @@
 		35155EF82061704100BF092F /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		3524F7CA205E86ED00259721 /* BackendManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendManager.swift; sourceTree = "<group>"; };
 		35380DA92085E904004BF41D /* Common-Currency.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "Common-Currency.json"; sourceTree = "<group>"; };
+		3563AE0D2094C51800D72B62 /* transactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = transactionCell.swift; sourceTree = "<group>"; };
 		35641D2F2085D65000E008D7 /* BossUp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BossUp-Bridging-Header.h"; sourceTree = "<group>"; };
 		3565490A20613D5400FF0414 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		3565490C2061415B00FF0414 /* UserShop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShop.swift; sourceTree = "<group>"; };
 		3565490E206141E000FF0414 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		35674AE920938C56003872A0 /* transactionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = transactionVC.swift; sourceTree = "<group>"; };
+		35674AEB2093929C003872A0 /* TableViewCellReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellReport.swift; sourceTree = "<group>"; };
 		356D1E04206B95530005C4BE /* createShopVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createShopVC.swift; sourceTree = "<group>"; };
 		35734006205E885E003FA4E5 /* BackendDataPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendDataPath.swift; sourceTree = "<group>"; };
 		357C8BFF205BFDA6001D89FA /* BossUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BossUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +230,9 @@
 			children = (
 				35ACB04A205C127D003669AA /* reportController.swift */,
 				35E517012076383A001D841A /* chartsVC.swift */,
+				35674AE920938C56003872A0 /* transactionVC.swift */,
+				35674AEB2093929C003872A0 /* TableViewCellReport.swift */,
+				3563AE0D2094C51800D72B62 /* transactionCell.swift */,
 			);
 			path = "Report Management";
 			sourceTree = "<group>";
@@ -398,6 +407,7 @@
 				3565490D2061415B00FF0414 /* UserShop.swift in Sources */,
 				35ACB04B205C127D003669AA /* reportController.swift in Sources */,
 				3524F7CB205E86ED00259721 /* BackendManager.swift in Sources */,
+				35674AEA20938C56003872A0 /* transactionVC.swift in Sources */,
 				35FE9C0A205DA53D009E803B /* Shop.swift in Sources */,
 				35ACB049205C1272003669AA /* yourShopController.swift in Sources */,
 				35ACB04F205C1295003669AA /* settingsController.swift in Sources */,
@@ -411,9 +421,11 @@
 				35C073EB208DC13700C6652E /* TableViewCell.swift in Sources */,
 				35155EF92061704100BF092F /* CacheManager.swift in Sources */,
 				35734007205E885E003FA4E5 /* BackendDataPath.swift in Sources */,
+				35674AEC2093929C003872A0 /* TableViewCellReport.swift in Sources */,
 				3565490F206141E000FF0414 /* Category.swift in Sources */,
 				35F3F857206B893500D99EDD /* haveShopVC.swift in Sources */,
 				357C8C19205C0AAD001D89FA /* Helper.swift in Sources */,
+				3563AE0E2094C51800D72B62 /* transactionCell.swift in Sources */,
 				35E517022076383A001D841A /* chartsVC.swift in Sources */,
 				35B4024920775FEE002953DB /* Product.swift in Sources */,
 				35C6ACFC2075F38E00E618E6 /* addProductVC.swift in Sources */,

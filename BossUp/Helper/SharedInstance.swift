@@ -30,6 +30,10 @@ public struct SharedInstance {
     static var chosenProduct = ""
     static var chosenProductName = ""
     static var chosenProductPrice = ""
+    static var choseProductCapital = ""
     static var chosenProductImage = UIImage()
     static var chosenProductEdit = ""
+    
+    static var isOwner:Bool = false
+    static var currentShopStaffs = [String:String]()
 }

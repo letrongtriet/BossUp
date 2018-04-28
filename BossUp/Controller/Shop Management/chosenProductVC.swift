@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import Firebase
 import ARSLineProgress
 
 class chosenProductVC: UIViewController {
@@ -41,12 +42,9 @@ class chosenProductVC: UIViewController {
     
     @IBAction func didPressConfirmButton(_ sender: UIButton) {
         if self.quantityDictionary.isEmpty == false {
-            for item in self.quantityDictionary {
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).child("quantity").child(item.key).updateChildValues(["quantity":item.value])
-                
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
-                }
+            self.updateBackend()
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
             }
         }else {
             DispatchQueue.main.async {
@@ -84,8 +82,14 @@ class chosenProductVC: UIViewController {
     fileprivate func getData() {
         self.quantityList = []
         BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).observeSingleEvent(of: .value) { (snapShot) in
+            
             guard let value = snapShot.value else {return}
             let json = JSON(value)
+            
+            SharedInstance.chosenProductName = json["name"].stringValue
+            SharedInstance.chosenProductPrice = json["price"].stringValue
+            SharedInstance.choseProductCapital = json["capital"].stringValue
+            
             let productName = json["name"].stringValue + "-" + json["price"].stringValue + " \(SharedInstance.currentCurrencyCode)"
             self.productLabel.text = productName
             
@@ -122,6 +126,30 @@ class chosenProductVC: UIViewController {
         ARSLineProgress.showWithPresentCompetionBlock {
             self.getData()
             self.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    fileprivate func updateBackend() {
+        for item in self.quantityDictionary {
+            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).child("quantity").child(item.key).updateChildValues(["quantity":item.value])
+            
+            let i = self.quantityList.index(of: item.key)!
+            
+            var parameter = [String:String]()
+            parameter["productId"] = SharedInstance.chosenProduct
+            parameter["productName"] = SharedInstance.chosenProductName
+            parameter["time"] = Helper.shared.getTodayString()
+            parameter["sellerId"] = Auth.auth().currentUser!.uid
+            parameter["sellerEmail"] = Auth.auth().currentUser!.email!
+            parameter["quantity"] = String(describing: -self.reducedQuantity[i])
+            
+            let moneyGet = Int(SharedInstance.chosenProductPrice)! * -(self.reducedQuantity[i])
+            parameter["moneyGet"] = String(describing: moneyGet)
+            
+            let capitalGet = Int(SharedInstance.choseProductCapital)! * -(self.reducedQuantity[i])
+            parameter["capital"] = String(describing: capitalGet)
+            
+            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").childByAutoId().updateChildValues(parameter)
         }
     }
 }

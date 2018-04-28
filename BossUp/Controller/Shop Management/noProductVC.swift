@@ -8,6 +8,7 @@
 
 import UIKit
 import DeviceKit
+import ARSLineProgress
 
 class noProductVC: UIViewController {
     @IBOutlet weak var upperArrow: UIImageView!
@@ -25,5 +26,11 @@ class noProductVC: UIViewController {
             self.bottomLayout.constant = 210
         }
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hide()
+        }
+    }
 }

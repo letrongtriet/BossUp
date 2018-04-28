@@ -107,14 +107,9 @@ class yourShopController: UIViewController {
     @IBAction func didPressAddMemberButton(_ sender: UIButton) {
         self.addGesture()
         var darkBlur:UIBlurEffect = UIBlurEffect()
-        
-        if #available(iOS 10.0, *) { //iOS 10.0 and above
-            darkBlur = UIBlurEffect(style: UIBlurEffectStyle.prominent)//prominent,regular,extraLight, light, dark
-        } else { //iOS 8.0 and above
-            darkBlur = UIBlurEffect(style: UIBlurEffectStyle.dark) //extraLight, light, dark
-        }
+        darkBlur = UIBlurEffect(style: UIBlurEffectStyle.regular)
         let blurView = UIVisualEffectView(effect: darkBlur)
-        blurView.frame = self.view.frame //your view that have any objects
+        blurView.frame = self.view.frame
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         blurView.tag = 2
         view.addSubview(blurView)
@@ -138,8 +133,8 @@ class yourShopController: UIViewController {
                 switch res {
                 case true:                    BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").updateChildValues([SharedInstance.addMember:["member":self.memberEmail]])
                 BackendManager.shared.userReference.child(SharedInstance.addMember).child("shop").updateChildValues([SharedInstance.shopID:["shopName":SharedInstance.currentShopName,"type":"member"]])
-                    self.showAlert(title: "SUCCESS", message: "Member added")
-                    self.removeView()
+                self.showAlert(title: "SUCCESS", message: "Member added")
+                self.removeView()
                 case false:
                     self.removeView()
                     self.showAlert(title: "Error", message: "Cannot find that user")
@@ -155,14 +150,14 @@ class yourShopController: UIViewController {
 extension yourShopController {
     @objc fileprivate func addShopDone() {
         ARSLineProgress.showWithPresentCompetionBlock {
-            self.setupView()
+            self.refreshUI()
         }
     }
     
     @objc fileprivate func addProductDone() {
         dismiss(animated: true) {
             ARSLineProgress.showWithPresentCompetionBlock {
-                self.setupView()
+                self.refreshUI()
             }
         }
     }
@@ -176,7 +171,7 @@ extension yourShopController {
     @objc fileprivate func dismissChosenProduct() {
         dismiss(animated: true) {
             ARSLineProgress.showWithPresentCompetionBlock {
-                self.setupView()
+                self.refreshUI()
             }
         }
     }
@@ -203,6 +198,18 @@ extension yourShopController {
         }
     }
     
+    fileprivate func refreshUI() {
+        if self.childViewControllers.count > 0{
+            let viewControllers:[UIViewController] = self.childViewControllers
+            for viewContoller in viewControllers{
+                viewContoller.willMove(toParentViewController: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParentViewController()
+            }
+        }
+        self.setupView()
+    }
+    
     fileprivate func setupView() {
         dropDown.anchorView = self.shopButton
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
@@ -219,9 +226,7 @@ extension yourShopController {
             if currentShopName == "" {
                 self.dropDown.dataSource = self.defaultList
                 self.shopButton.setTitle("Create a Shop", for: .normal)
-                ARSLineProgress.hideWithCompletionBlock {
-                    self.add(asChildViewController: self.noShop)
-                }
+                self.add(asChildViewController: self.noShop)
             }else {
                 self.fillerButton.isHidden = false
                 self.addMemberButton.isHidden = false
@@ -237,7 +242,7 @@ extension yourShopController {
                         SharedInstance.shopID = key
                     }
                 }
-                                
+                
                 self.shopButton.setTitle(currentShopName, for: .normal)
                 self.dropDown.dataSource = self.shopList
                 
@@ -246,18 +251,14 @@ extension yourShopController {
                     let object = JSON(value)
                     
                     if object["product"].null != nil {
-                        ARSLineProgress.hideWithCompletionBlock {
-                            self.add(asChildViewController: self.noProduct)
-                        }
+                        self.add(asChildViewController: self.noProduct)
                     }else {
                         for (key,_):(String, JSON) in object["product"] {
                             if SharedInstance.productList.contains(key) == false {
                                 SharedInstance.productList.append(key)
                             }
                         }
-                        ARSLineProgress.hideWithCompletionBlock {
-                            self.add(asChildViewController: self.haveShop)
-                        }
+                        self.add(asChildViewController: self.haveShop)
                     }
                 })
                 
@@ -266,6 +267,19 @@ extension yourShopController {
                     let json = JSON(data)
                     SharedInstance.currentCurrencyCode = json["currentCurrencyCode"].stringValue
                 })
+                
+                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").observeSingleEvent(of: .value) { (data) in
+                    guard let value = data.value else {return}
+                    let json = JSON(value)
+                    
+                    for (_,sub):(String,JSON) in json {
+                        if sub["owner"].null == nil {
+                            if sub["owner"].stringValue == SharedInstance.userEmail {
+                                SharedInstance.isOwner = true
+                            }
+                        }
+                    }
+                }
             }
             
         }) { (error) in
@@ -276,12 +290,13 @@ extension yourShopController {
         dropDown.selectionAction = { [weak self] (index, item) in
             
             if item == "+ Create a shop" {
-                self?.remove(asChildViewController: (self?.noShop)!)
                 self?.add(asChildViewController: (self?.createShop)!)
             }else {
+                SharedInstance.productList = []
+                BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)
+                
                 ARSLineProgress.showWithPresentCompetionBlock {
-                    BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)
-                    self?.setupView()
+                    self?.refreshUI()
                 }
             }
         }

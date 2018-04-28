@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ARSLineProgress
 
 class noShopVC: UIViewController {
 
@@ -15,9 +16,10 @@ class noShopVC: UIViewController {
         print("noShopVC")
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        print("noShopVC Will Appear")
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hide()
+        }
     }
-
 }

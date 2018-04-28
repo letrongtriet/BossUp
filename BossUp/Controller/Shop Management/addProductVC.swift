@@ -179,6 +179,7 @@ class addProductVC: UIViewController {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
             self.category.setTitle("Shoes", for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
     
@@ -186,6 +187,7 @@ class addProductVC: UIViewController {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
             self.category.setTitle("T-Shirt", for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
     
@@ -193,6 +195,7 @@ class addProductVC: UIViewController {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
             self.category.setTitle("Shirt", for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
     
@@ -200,6 +203,7 @@ class addProductVC: UIViewController {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
             self.category.setTitle("Pants", for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
     
@@ -207,13 +211,14 @@ class addProductVC: UIViewController {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
             self.category.setTitle("Bag", for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
     
     @IBAction func addCategoryButton(_ sender: UIButton) {
         self.gestureForNewCategoryView()
         var darkBlur:UIBlurEffect = UIBlurEffect()
-        darkBlur = UIBlurEffect(style: UIBlurEffectStyle.prominent)
+        darkBlur = UIBlurEffect(style: UIBlurEffectStyle.regular)
         let blurView = UIVisualEffectView(effect: darkBlur)
         blurView.frame = self.chooseCategoryView.frame
         blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -237,6 +242,7 @@ class addProductVC: UIViewController {
                 if let viewWithTag2 = self.view.viewWithTag(444) {
                     viewWithTag2.removeFromSuperview()
                     self.category.setTitle(self.nameOfCategory.text!, for: .normal)
+                    self.category.setTitleColor(.black, for: .normal)
                 }
             }
         }else {
@@ -451,6 +457,7 @@ extension addProductVC {
             self.price.text = json["price"].stringValue
             self.capital.text = json["capital"].stringValue
             self.category.setTitle(json["category"].stringValue, for: .normal)
+            self.category.setTitleColor(.black, for: .normal)
         }
     }
 }
