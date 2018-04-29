@@ -25,7 +25,12 @@ class transactionVC: UIViewController {
         super.viewDidLoad()
         self.tableView.rowHeight = 200
         self.tableView.tableFooterView = UIView()
-        self.getData()
+        
+        if SharedInstance.shopID == "" {
+            print("Transaction VC cannot be loaded")
+        }else {
+            self.getData()
+        }
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {

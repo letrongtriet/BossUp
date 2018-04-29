@@ -18,7 +18,7 @@ public struct SharedInstance {
     
     static var shopID: String = ""
     
-    static var currentCurrencyCode = ""
+    static var currentCurrencyCode = "USD"
     
     static var addMember = ""
     

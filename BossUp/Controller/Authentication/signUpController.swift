@@ -20,7 +20,6 @@ class signUpController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     @IBAction func signUpButton(_ sender: UIButton) {
@@ -28,10 +27,8 @@ class signUpController: UIViewController {
         ARSLineProgress.showWithPresentCompetionBlock {
             self.signUpUser {completed in
                 if completed {
-                    ARSLineProgress.hideWithCompletionBlock {
-                        print("Yes")
-                        NavigationManager.shared.yourShop()
-                    }
+                    ARSLineProgress.hide()
+                    NavigationManager.shared.masterMenu()
                 }else {
                     ARSLineProgress.hideWithCompletionBlock {
                         print("No")
@@ -40,30 +37,33 @@ class signUpController: UIViewController {
                 }
             }
         }
-        
-        
     }
     
     fileprivate func signUpUser(completed: @escaping (_ success:Bool) -> Void) {
         
-        if let email = self.email.text, let password = self.password.text {
-            Auth.auth().createUser(withEmail: email, password: password) { (user, err) in
-                if err != nil {
-                    self.errorMessage = err?.localizedDescription ?? "Cannot define error"
-                    completed(false)
-                } else {
-                    if let user = user {
-                        SharedInstance.userID = user.uid
-                        let addUser = User(currentShop: "", email: user.email!, shop: nil)
-                        CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                        BackendManager.shared.createUser(user: addUser, userID: user.uid)
-                        completed(true)
-                    } else {
-                        self.errorMessage = "Cannot find user"
+        if let email = self.email.text, let password = self.password.text , let rePassword = self.passwordRepeat.text {
+            if password == rePassword {
+                Auth.auth().createUser(withEmail: email, password: password) { (user, err) in
+                    if err != nil {
+                        self.errorMessage = err?.localizedDescription ?? "Cannot define error"
                         completed(false)
-                    }
-                }
+                    } else {
+                        if let user = user {
+                            SharedInstance.userID = user.uid
+                            let addUser = User(currentShop: "", email: user.email!, shop: nil)
+                            CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                            BackendManager.shared.createUser(user: addUser, userID: user.uid)
+                            completed(true)
+                        } else {
+                            self.errorMessage = "Cannot find user"
+                            completed(false)
+                        }
+                    } // if err != nil
+                } // auth
+            }else {
+                self.errorMessage = "Passwords are not matched"
+                completed(false)
             }
-        }
+        }// if let
     }
 }

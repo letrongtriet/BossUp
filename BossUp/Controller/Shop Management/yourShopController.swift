@@ -68,6 +68,8 @@ class yourShopController: UIViewController {
         self.addMemberButton.isHidden = true
         self.addProductButton.isHidden = true
         
+        self.setUpDropDownButton()
+        
         ARSLineProgress.showWithPresentCompetionBlock {
             self.setupView()
         }
@@ -81,6 +83,7 @@ class yourShopController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.addShopDone), name: Notification.Name("addShop"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.addProductDone), name: Notification.Name("addProduct"), object: nil)
@@ -88,6 +91,7 @@ class yourShopController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.presentChosenProduct), name: Notification.Name("presentChosenProduct"), object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.dismissChosenProduct), name: Notification.Name("dismissChosenProduct"), object: nil)
+        
     }
     
     @IBAction func didPressedMenuButton(_ sender: UIButton) {
@@ -199,26 +203,13 @@ extension yourShopController {
     }
     
     fileprivate func refreshUI() {
-        if self.childViewControllers.count > 0{
-            let viewControllers:[UIViewController] = self.childViewControllers
-            for viewContoller in viewControllers{
-                viewContoller.willMove(toParentViewController: nil)
-                viewContoller.view.removeFromSuperview()
-                viewContoller.removeFromParentViewController()
-            }
-        }
+        self.removeChildView()
         self.setupView()
     }
     
     fileprivate func setupView() {
-        dropDown.anchorView = self.shopButton
-        dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
-        DropDown.appearance().backgroundColor = .white
-        DropDown.appearance().cornerRadius = 10
-        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
         
-        BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value, with: { (snapshot) in
-            
+        BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value) { (snapshot) in
             guard let value = snapshot.value else {return}
             let json = JSON(value)
             let currentShopName = json["currentShop"].stringValue
@@ -281,10 +272,16 @@ extension yourShopController {
                     }
                 }
             }
-            
-        }) { (error) in
-            print(error.localizedDescription)
         }
+    }
+    
+    fileprivate func setUpDropDownButton() {
+        
+        dropDown.anchorView = self.shopButton
+        dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().cornerRadius = 10
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
         
         // Action triggered on selection
         dropDown.selectionAction = { [weak self] (index, item) in
@@ -300,7 +297,6 @@ extension yourShopController {
                 }
             }
         }
-        
     }
 }
 
@@ -313,6 +309,17 @@ extension yourShopController {
         menuBar.layer.shadowOpacity = 1
         menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
         menuBar.layer.shadowRadius = 2
+    }
+    
+    fileprivate func removeChildView() {
+        if self.childViewControllers.count > 0{
+            let viewControllers:[UIViewController] = self.childViewControllers
+            for viewContoller in viewControllers{
+                viewContoller.willMove(toParentViewController: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParentViewController()
+            }
+        }
     }
     
     fileprivate func add(asChildViewController viewController: UIViewController) {

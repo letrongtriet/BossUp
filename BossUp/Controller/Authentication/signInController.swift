@@ -14,7 +14,7 @@ class signInController: UIViewController {
     
     @IBOutlet weak var email: UITextField!
     @IBOutlet weak var password: UITextField!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -31,11 +31,10 @@ class signInController: UIViewController {
                         }
                     }else {
                         if let user = user {
-                            ARSLineProgress.hideWithCompletionBlock {
-                                SharedInstance.userID = user.uid
-                                CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                                NavigationManager.shared.yourShop()
-                            }
+                            ARSLineProgress.hide()
+                            SharedInstance.userID = user.uid
+                            CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                            NavigationManager.shared.masterMenu()
                         } else {
                             self.showAlert(title: "Error", message: "Cannot find user")
                         }
@@ -43,7 +42,6 @@ class signInController: UIViewController {
                 }
             }
         }
-        
     }
     
     @IBAction func signUpButton(_ sender: UIButton) {

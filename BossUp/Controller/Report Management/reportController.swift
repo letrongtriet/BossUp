@@ -25,9 +25,14 @@ class reportController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.tableView.rowHeight = 50
-        print("report")
-        self.getData()
+        
+        if SharedInstance.shopID == "" {
+            print("Report VC cannot be loaded")
+        }else {
+            self.getData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -28,7 +28,11 @@ class chartsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.getReportData()
+        if SharedInstance.shopID == "" {
+            print("Chart VC cannot be loaded")
+        }else {
+            self.getReportData()
+        }
     }
     
     fileprivate func getReportData() {
