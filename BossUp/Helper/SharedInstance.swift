@@ -38,5 +38,5 @@ public struct SharedInstance {
     static var currentShopStaffs = [String:String]()
     
     static var filterOption = ""
-    static var transactionFilter = "30 days"
+    static var transactionFilter:Int = 30
 }

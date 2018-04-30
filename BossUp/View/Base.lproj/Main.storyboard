@@ -408,7 +408,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gek-n5-8jo">
-                                <rect key="frame" x="20" y="35" width="48" height="30"/>
+                                <rect key="frame" x="10" y="35" width="48" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <state key="normal" title="Cancel">
                                     <color key="titleColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -497,7 +497,7 @@
                                 </prototypes>
                             </tableView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction within" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puQ-0h-hAP">
-                                <rect key="frame" x="138" y="39" width="139.33333333333331" height="20.333333333333329"/>
+                                <rect key="frame" x="138" y="39" width="139.33333333333337" height="20.333333333333329"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -508,7 +508,7 @@
                             <constraint firstItem="gek-n5-8jo" firstAttribute="top" secondItem="C3N-Gx-DHv" secondAttribute="top" constant="15" id="1Ah-jM-hfg"/>
                             <constraint firstItem="C3N-Gx-DHv" firstAttribute="trailing" secondItem="Aoa-Ln-gls" secondAttribute="trailing" id="1Lu-SK-Ttf"/>
                             <constraint firstItem="puQ-0h-hAP" firstAttribute="top" secondItem="C3N-Gx-DHv" secondAttribute="top" constant="19" id="DqD-En-vsu"/>
-                            <constraint firstItem="gek-n5-8jo" firstAttribute="leading" secondItem="C3N-Gx-DHv" secondAttribute="leading" constant="20" id="MPd-4D-M0c"/>
+                            <constraint firstItem="gek-n5-8jo" firstAttribute="leading" secondItem="C3N-Gx-DHv" secondAttribute="leading" constant="10" id="MPd-4D-M0c"/>
                             <constraint firstItem="Aoa-Ln-gls" firstAttribute="leading" secondItem="C3N-Gx-DHv" secondAttribute="leading" id="Xa7-aO-CaN"/>
                             <constraint firstItem="C3N-Gx-DHv" firstAttribute="bottom" secondItem="Aoa-Ln-gls" secondAttribute="bottom" id="jec-Ua-vNk"/>
                             <constraint firstItem="Aoa-Ln-gls" firstAttribute="top" secondItem="gek-n5-8jo" secondAttribute="bottom" constant="10" id="o7s-cV-6vP"/>

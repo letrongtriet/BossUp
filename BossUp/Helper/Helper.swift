@@ -82,6 +82,33 @@ public class Helper {
         
         return today_string
     }
+    
+    func compareDate(transactionDate:String) -> Int {
+        
+        let date = Date()
+        let calender = Calendar.current
+        let components = calender.dateComponents([.year,.month,.day,.hour,.minute,.second], from: date)
+        
+        let year = components.year
+        let month = components.month
+        let day = components.day
+        let hour = components.hour
+        let minute = components.minute
+        let second = components.second
+        
+        let today_string = String(year!) + "/" + String(month!) + "/" + String(day!) + " " + String(hour!)  + ":" + String(minute!) + ":" +  String(second!)
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        
+        let current = formatter.date(from: today_string)
+        let toCheck = formatter.date(from: transactionDate)
+        
+        let component = Set<Calendar.Component>([.year,.month,.day,.hour,.minute,.second])
+        let days = Calendar.current.dateComponents(component, from: toCheck!, to: current!).day!
+        
+        return days
+    }
 }
 
 extension UIViewController {

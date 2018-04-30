@@ -32,21 +32,42 @@ class chartsVC: UIViewController {
             print("Chart VC cannot be loaded")
         }else {
             self.getReportData()
+            NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: Notification.Name("reloadChart"), object: nil)
         }
     }
     
-    fileprivate func getReportData() {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    @objc fileprivate func reload() {
+        self.transactionList = []
+        self.entries = []
+        self.chartColors = []
+        self.revenue = 0
+        self.proift = 0
+        self.pieChartView.data = nil
+        self.products = [:]
+        self.getReportData()
+    }
+    
+    @objc fileprivate func getReportData() {
         BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)
             
             for (_,transaction):(String,JSON) in json {
-                self.transactionList.append(transaction["productName"].stringValue)
-                let money = transaction["moneyGet"].intValue
-                let capital = transaction["capital"].intValue
-
-                self.revenue += money
-                self.proift += (money-capital)
+                
+                if Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= SharedInstance.transactionFilter {
+                    self.transactionList.append(transaction["productName"].stringValue)
+                    let money = transaction["moneyGet"].intValue
+                    let capital = transaction["capital"].intValue
+                    
+                    self.revenue += money
+                    self.proift += (money-capital)
+                }
+                
             }
             
             self.updateChartData()

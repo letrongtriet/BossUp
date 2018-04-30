@@ -28,17 +28,22 @@ class reportController: UIViewController {
     fileprivate var currentStaffKey = ""
     
     fileprivate let filterDropDown = DropDown()
+    fileprivate let filterList = ["Today","Yesterday","7 days","30 days","1 year","All"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.rowHeight = 50
         
+        self.updateLabel()
+        
         if SharedInstance.shopID == "" {
             print("Report VC cannot be loaded")
         }else {
             self.getData()
         }
+        
+        self.setUpFilterDropDown()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +62,7 @@ class reportController: UIViewController {
     }
     
     @IBAction func didPressFilterButton(_ sender: UIButton) {
+        self.filterDropDown.show()
     }
     
     
@@ -81,6 +87,64 @@ class reportController: UIViewController {
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func setUpFilterDropDown() {
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().cornerRadius = 10
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
+        
+        filterDropDown.anchorView = self.filterButton
+        filterDropDown.bottomOffset = CGPoint(x: 0, y: filterButton.bounds.height)
+        
+        filterDropDown.dataSource = self.filterList
+        
+        // Action triggered on selection
+        filterDropDown.selectionAction = { [weak self] (index, item) in
+            self?.filterLabel.text = item
+            
+            switch item {
+            case "Today":
+                SharedInstance.transactionFilter = 0
+            case "Yesterday":
+                SharedInstance.transactionFilter = 1
+            case "7 days":
+                SharedInstance.transactionFilter = 7
+            case "30 days":
+                SharedInstance.transactionFilter = 30
+            case "1 year":
+                SharedInstance.transactionFilter = 365
+            case "All":
+                SharedInstance.transactionFilter = Int.max
+            default:
+                SharedInstance.transactionFilter = 30
+            }
+            
+            self?.getData()
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("reloadChart"), object: nil)
+            }
+
+        }
+    }
+    
+    fileprivate func updateLabel() {
+        switch SharedInstance.transactionFilter {
+        case 0:
+            self.filterLabel.text = "Today"
+        case 1:
+            self.filterLabel.text = "Yesterday"
+        case 7:
+            self.filterLabel.text = "7 days"
+        case 30:
+            self.filterLabel.text = "30 days"
+        case 365:
+            self.filterLabel.text = "1 year"
+        case Int.max:
+            self.filterLabel.text = "All"
+        default:
+            self.filterLabel.text = "30 days"
         }
     }
 }

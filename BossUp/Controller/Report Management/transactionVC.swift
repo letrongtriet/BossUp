@@ -36,8 +36,7 @@ class transactionVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let text = self.transactionLabel.text!
-        self.transactionLabel.text = text + " " + SharedInstance.transactionFilter
+        self.updateLabel()
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
@@ -50,7 +49,7 @@ class transactionVC: UIViewController {
             let json = JSON(value)
             
             for (key,transaction):(String,JSON) in json {
-                if self.transactionList.contains(key) == false {
+                if self.transactionList.contains(key) == false && Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= SharedInstance.transactionFilter {
                     self.transactionList.append(key)
                     self.nameList.append(transaction["productName"].stringValue)
                     self.timeList.append(transaction["time"].stringValue)
@@ -61,12 +60,34 @@ class transactionVC: UIViewController {
                     let quantity = Int(transaction["quantity"].stringValue)!
                     let money = Int(transaction["moneyGet"].stringValue)!
                     self.priceList.append(String(describing: money/quantity))
+                    
+                    print(Helper.shared.compareDate(transactionDate: transaction["time"].stringValue))
                 }
             }
             
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.reloadData()
+        }
+    }
+    
+    fileprivate func updateLabel() {
+        let text = self.transactionLabel.text!
+        switch SharedInstance.transactionFilter {
+        case 0:
+            self.transactionLabel.text = text + " today"
+        case 1:
+            self.transactionLabel.text = text + " yesterday"
+        case 7:
+            self.transactionLabel.text = text + " 7 days"
+        case 30:
+            self.transactionLabel.text = text + " 30 days"
+        case 365:
+            self.transactionLabel.text = text + " 1 year"
+        case Int.max:
+            self.transactionLabel.text = text + " all time"
+        default:
+            self.transactionLabel.text = text + " 30 days"
         }
     }
 }

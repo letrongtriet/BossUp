@@ -310,7 +310,7 @@ extension yourShopController {
         
         self.fillerButton.isHidden = false
         filterDropDown.anchorView = self.fillerButton
-        filterDropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
+        filterDropDown.bottomOffset = CGPoint(x: 0, y: fillerButton.bounds.height)
         
         filterDropDown.dataSource = self.filterList
         
