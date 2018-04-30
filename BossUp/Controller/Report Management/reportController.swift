@@ -11,6 +11,7 @@ import Charts
 import ARSLineProgress
 import Firebase
 import SwiftyJSON
+import DropDown
 
 class reportController: UIViewController {
     
@@ -19,9 +20,14 @@ class reportController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var filterButton: UIButton!
+    @IBOutlet weak var filterLabel: UILabel!
+    
     fileprivate var index:Int = -1
     fileprivate var currentStaffName = ""
     fileprivate var currentStaffKey = ""
+    
+    fileprivate let filterDropDown = DropDown()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +55,10 @@ class reportController: UIViewController {
         let viewController = storyboard.instantiateViewController(withIdentifier: "transactionVC") as! transactionVC
         self.present(viewController, animated: true, completion: nil)
     }
+    
+    @IBAction func didPressFilterButton(_ sender: UIButton) {
+    }
+    
     
     fileprivate func setShadow() {
         menuBar.layer.shadowColor = UIColor.lightGray.cgColor

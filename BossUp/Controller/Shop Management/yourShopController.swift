@@ -24,14 +24,18 @@ class yourShopController: UIViewController {
     @IBOutlet weak var addMemberField: UITextField!
     
     @IBOutlet var addMemberView: UIView!
+    @IBOutlet weak var filterLabel: UILabel!
     
     let defaultList = ["+ Create a shop"]
     
     var shopList = ["+ Create a shop"]
     
+    let filterList = ["Clothes","Shoes","Pants","T-shirts","Bags","Clear filter"]
+    
     var memberEmail:String = ""
     
     let dropDown = DropDown()
+    let filterDropDown = DropDown()
     
     private lazy var haveShop: haveShopVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -101,6 +105,11 @@ class yourShopController: UIViewController {
     @IBAction func didPressedShopButton(_ sender: UIButton) {
         self.dropDown.show()
     }
+    
+    @IBAction func didPressFilterButton(_ sender: UIButton) {
+        self.filterDropDown.show()
+    }
+    
     
     @IBAction func didPressAddProductButton(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -219,7 +228,8 @@ extension yourShopController {
                 self.shopButton.setTitle("Create a Shop", for: .normal)
                 self.add(asChildViewController: self.noShop)
             }else {
-                self.fillerButton.isHidden = false
+                self.setUoFilterButton()
+                
                 self.addMemberButton.isHidden = false
                 self.addProductButton.isHidden = false
                 
@@ -279,10 +289,7 @@ extension yourShopController {
         
         dropDown.anchorView = self.shopButton
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
-        DropDown.appearance().backgroundColor = .white
-        DropDown.appearance().cornerRadius = 10
-        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
-        
+
         // Action triggered on selection
         dropDown.selectionAction = { [weak self] (index, item) in
             
@@ -298,6 +305,32 @@ extension yourShopController {
             }
         }
     }
+    
+    fileprivate func setUoFilterButton() {
+        
+        self.fillerButton.isHidden = false
+        filterDropDown.anchorView = self.fillerButton
+        filterDropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
+        
+        filterDropDown.dataSource = self.filterList
+        
+        // Action triggered on selection
+        filterDropDown.selectionAction = { [weak self] (index, item) in
+            
+            if item != "Clear filter" {
+                print("Not clear filter")
+                SharedInstance.filterOption = item
+                self?.filterLabel.text = item
+                self?.refreshUI()
+            }else {
+                print("Clear filter")
+                self?.filterLabel.text = "Filter"
+                SharedInstance.filterOption = ""
+                self?.refreshUI()
+            }
+            
+        }
+    }
 }
 
 
@@ -309,6 +342,10 @@ extension yourShopController {
         menuBar.layer.shadowOpacity = 1
         menuBar.layer.shadowOffset = CGSize(width: 0, height: 3)
         menuBar.layer.shadowRadius = 2
+        
+        DropDown.appearance().backgroundColor = .white
+        DropDown.appearance().cornerRadius = 10
+        DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
     }
     
     fileprivate func removeChildView() {

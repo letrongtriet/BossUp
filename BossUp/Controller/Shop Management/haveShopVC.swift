@@ -28,10 +28,7 @@ class haveShopVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        SharedInstance.productList = []
         self.getData()
     }
     
@@ -40,10 +37,18 @@ class haveShopVC: UIViewController {
             guard let value = snap.value else {return}
             let object = JSON(value)
             
-            for (key,_):(String, JSON) in object["product"] {
-                if SharedInstance.productList.contains(key) == false {
-                    SharedInstance.productList.append(key)
+            for (key,sub):(String, JSON) in object["product"] {
+                
+                if SharedInstance.filterOption == "" {
+                    if SharedInstance.productList.contains(key) == false {
+                        SharedInstance.productList.append(key)
+                    }
+                }else {
+                    if SharedInstance.productList.contains(key) == false && sub["category"].stringValue == SharedInstance.filterOption {
+                        SharedInstance.productList.append(key)
+                    }
                 }
+                
             }
             
             self.collectionView.delegate = self

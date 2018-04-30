@@ -36,4 +36,7 @@ public struct SharedInstance {
     
     static var isOwner:Bool = false
     static var currentShopStaffs = [String:String]()
+    
+    static var filterOption = ""
+    static var transactionFilter = "30 days"
 }

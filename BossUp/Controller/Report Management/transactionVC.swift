@@ -12,6 +12,7 @@ import SwiftyJSON
 class transactionVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var transactionLabel: UILabel!
     
     fileprivate var transactionList = [String]()
     fileprivate var nameList = [String]()
@@ -31,6 +32,12 @@ class transactionVC: UIViewController {
         }else {
             self.getData()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let text = self.transactionLabel.text!
+        self.transactionLabel.text = text + " " + SharedInstance.transactionFilter
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
