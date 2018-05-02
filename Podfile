@@ -19,6 +19,7 @@ target 'BossUp' do
   pod 'ImagePicker'
   pod 'Gallery'
   pod 'Lightbox'
+  pod 'SideMenu'
   
   # Pods for BossUp
 

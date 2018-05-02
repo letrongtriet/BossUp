@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import DropDown
 import IQKeyboardManagerSwift
+import SideMenu
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -27,6 +28,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         DropDown.startListeningToKeyboard()
         IQKeyboardManager.shared.enable = true
+        
+        SideMenuManager.defaultManager.menuPresentMode = .menuSlideIn
         
         self.checkUser()
         

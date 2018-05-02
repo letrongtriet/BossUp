@@ -32,10 +32,6 @@ class settingsController: UIViewController {
         self.setShadow()
     }
     
-    @IBAction func didPressedMenuButton(_ sender: UIButton) {
-        NavigationManager.shared.masterMenu()
-    }
-    
     @IBAction func didPressCurrencyButton(_ sender: UIButton) {
         self.dropDown.show()
     }

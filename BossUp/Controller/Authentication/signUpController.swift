@@ -17,24 +17,19 @@ class signUpController: UIViewController {
     @IBOutlet weak var passwordRepeat: UITextField!
     
     fileprivate var errorMessage = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     @IBAction func signUpButton(_ sender: UIButton) {
-        
-        ARSLineProgress.showWithPresentCompetionBlock {
-            self.signUpUser {completed in
-                if completed {
-                    ARSLineProgress.hide()
-                    NavigationManager.shared.masterMenu()
-                }else {
-                    ARSLineProgress.hideWithCompletionBlock {
-                        print("No")
-                        self.showAlert(title: "Error", message: self.errorMessage)
-                    }
-                }
+        ARSLineProgress.show()
+        self.signUpUser {completed in
+            if completed {
+                NavigationManager.shared.yourShop()
+            }else {
+                print("No")
+                self.showAlert(title: "Error", message: self.errorMessage)
             }
         }
     }

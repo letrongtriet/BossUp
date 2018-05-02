@@ -24,10 +24,6 @@ class profileController: UIViewController {
         self.setShadow()
     }
     
-    @IBAction func didPressMenuButton(_ sender: UIButton) {
-        NavigationManager.shared.masterMenu()
-    }
-    
     @IBAction func didPressSignOutButton(_ sender: UIButton) {
         let firebaseAuth = Auth.auth()
         do {

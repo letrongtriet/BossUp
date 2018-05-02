@@ -87,7 +87,7 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
             
             guard let value = snap.value else {return}
             let json = JSON(value)
-            
+            print(json)
             cell.productName.text = json["name"].stringValue
             cell.productPrice.text = json["price"].stringValue
         }

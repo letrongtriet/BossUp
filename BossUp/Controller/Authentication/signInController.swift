@@ -20,24 +20,19 @@ class signInController: UIViewController {
     }
     
     @IBAction func loginButton(_ sender: UIButton) {
-        
-        ARSLineProgress.showWithPresentCompetionBlock {
-            if let userName = self.email.text, let userPassword = self.password.text {
-                Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
-                    if err != nil {
-                        ARSLineProgress.hideWithCompletionBlock {
-                            let message = err?.localizedDescription ?? "Error to be defined"
-                            self.showAlert(title: "Error", message: message)
-                        }
-                    }else {
-                        if let user = user {
-                            ARSLineProgress.hide()
-                            SharedInstance.userID = user.uid
-                            CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                            NavigationManager.shared.masterMenu()
-                        } else {
-                            self.showAlert(title: "Error", message: "Cannot find user")
-                        }
+        ARSLineProgress.show()
+        if let userName = self.email.text, let userPassword = self.password.text {
+            Auth.auth().signIn(withEmail: userName, password: userPassword) { (user, err) in
+                if err != nil {
+                    let message = err?.localizedDescription ?? "Error to be defined"
+                    self.showAlert(title: "Error", message: message)
+                }else {
+                    if let user = user {
+                        SharedInstance.userID = user.uid
+                        CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
+                        NavigationManager.shared.yourShop()
+                    } else {
+                        self.showAlert(title: "Error", message: "Cannot find user")
                     }
                 }
             }

@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import Firebase
 
 class createShopVC: UIViewController {
     
     @IBOutlet weak var shopName: UITextField!
+    
+    let email = Auth.auth().currentUser!.email!
+    let uid = Auth.auth().currentUser!.uid
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +31,9 @@ class createShopVC: UIViewController {
             let currentShopKey = BackendManager.shared.shopReference.childByAutoId().key
             let category = Category().toDict()
             
-            BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[SharedInstance.userID:["owner":SharedInstance.userEmail]]])
+            BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[uid:["owner":email]]])
             
-            BackendManager.shared.userReference.child(SharedInstance.userID).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
+            BackendManager.shared.userReference.child(uid).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
             
             SharedInstance.shopID = currentShopKey
             SharedInstance.currentShopName = nameOfShop!
@@ -47,6 +51,4 @@ class createShopVC: UIViewController {
             NotificationCenter.default.post(name: Notification.Name("addShop"), object: nil)
         }
     }
-    
-
 }

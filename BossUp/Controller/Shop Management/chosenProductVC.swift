@@ -31,6 +31,7 @@ class chosenProductVC: UIViewController {
         self.tableView.rowHeight = 50
         ARSLineProgress.showWithPresentCompetionBlock {
             self.getData()
+            _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
         }
     }
     
@@ -150,6 +151,12 @@ class chosenProductVC: UIViewController {
             parameter["capital"] = String(describing: capitalGet)
             
             BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").childByAutoId().updateChildValues(parameter)
+        }
+    }
+    
+    @objc fileprivate func timerAction() {
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hide()
         }
     }
 }

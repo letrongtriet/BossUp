@@ -487,7 +487,9 @@ extension addProductVC: ImagePickerDelegate {
         if self.imageList.count > 1 {
             imagePickerController.showAlert(title: "Warning", message: "Please choose only 1 image")
         }else {
-            self.productImage.image = imageList.first
+            let cropImage = imageList.first?.crop(to: CGSize(width: 450, height: 450))
+            
+            self.productImage.image = cropImage
             imagePickerController.dismiss(animated: true, completion: nil)
             
         }
@@ -512,7 +514,9 @@ extension addProductVC: GalleryControllerDelegate {
             gallery.showAlert(title: "Warning", message: "Please choose only 1 image")
         }else {
             Image.resolve(images: self.galleryList) { (temp) in
-                self.productImage.image = temp.first as? UIImage
+                var cropImage = temp.first as? UIImage
+                cropImage = cropImage?.crop(to: CGSize(width: 450, height: 450))
+                self.productImage.image = cropImage
                 self.gallery.dismiss(animated: true, completion: nil)
             }
         }

@@ -51,10 +51,6 @@ class reportController: UIViewController {
         self.setShadow()
     }
     
-    @IBAction func didPressedMenuButton(_ sender: UIButton) {
-        NavigationManager.shared.masterMenu()
-    }
-    
     @IBAction func didPressOpenTransaction(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "transactionVC") as! transactionVC

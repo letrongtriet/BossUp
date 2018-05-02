@@ -52,20 +52,25 @@ class MasterMenuController: UIViewController {
     }
     
     @objc fileprivate func yourShopPressed() {
-        NavigationManager.shared.yourShop()
+        dismiss(animated: false) {
+            NavigationManager.shared.yourShop()
+        }
     }
     
     @objc fileprivate func reportPressed() {
-        NavigationManager.shared.report()
-    }
+        dismiss(animated: false) {
+            NavigationManager.shared.report()
+        }    }
     
     @objc fileprivate func profilePressed() {
-        NavigationManager.shared.profile()
-    }
+        dismiss(animated: false) {
+            NavigationManager.shared.profile()
+        }    }
     
     @objc fileprivate func settingsPressed() {
-        NavigationManager.shared.settings()
-    }
+        dismiss(animated: false) {
+            NavigationManager.shared.settings()
+        }    }
     
     fileprivate func setupUI() {
         switch masterMenuState {

@@ -67,6 +67,7 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SideMenu (3.1.5)
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
@@ -82,6 +83,7 @@ DEPENDENCIES:
   - ImagePicker
   - IQKeyboardManagerSwift
   - Lightbox
+  - SideMenu
   - SwiftyJSON
 
 SPEC REPOS:
@@ -108,6 +110,7 @@ SPEC REPOS:
     - leveldb-library
     - Lightbox
     - nanopb
+    - SideMenu
     - SwiftyJSON
 
 SPEC CHECKSUMS:
@@ -133,8 +136,9 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: 2dc267df8be2285bc7724cb11cbbf4aaaf59dced
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SideMenu: 47dbf9e4d878062d8994aed43f6e4bf6c1fea30b
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 5f5505496bb9d85b07af9b139fc03343d5057d1e
+PODFILE CHECKSUM: 79c0a9f65fc679c45c01a19f69e269d102219f04
 
 COCOAPODS: 1.5.0

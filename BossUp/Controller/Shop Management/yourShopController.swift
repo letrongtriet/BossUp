@@ -74,7 +74,11 @@ class yourShopController: UIViewController {
         
         self.setUpDropDownButton()
         
-        ARSLineProgress.showWithPresentCompetionBlock {
+        if ARSLineProgress.shown == false {
+            ARSLineProgress.showWithPresentCompetionBlock {
+                self.setupView()
+            }
+        }else {
             self.setupView()
         }
     }
@@ -96,10 +100,6 @@ class yourShopController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.dismissChosenProduct), name: Notification.Name("dismissChosenProduct"), object: nil)
         
-    }
-    
-    @IBAction func didPressedMenuButton(_ sender: UIButton) {
-        NavigationManager.shared.masterMenu()
     }
     
     @IBAction func didPressedShopButton(_ sender: UIButton) {
