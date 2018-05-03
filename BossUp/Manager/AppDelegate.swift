@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        application.statusBarView?.backgroundColor = .white
+        
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()
         
@@ -70,6 +72,12 @@ extension AppDelegate {
                 }
             }
         }
+    }
+}
+
+extension UIApplication {
+    var statusBarView: UIView? {
+        return value(forKey: "statusBar") as? UIView
     }
 }
 

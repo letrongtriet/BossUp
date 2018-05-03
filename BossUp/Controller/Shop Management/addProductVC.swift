@@ -262,26 +262,31 @@ extension addProductVC {
     
     @objc fileprivate func actionSheet() {
         let optionMenu = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        optionMenu.view.tintColor = .black
         
-        let creditCardsAction = UIAlertAction(title: "Camera", style: .default, handler: {
+        let cameraAction = UIAlertAction(title: "Camera", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Camera")
             self.openCamera()
         })
+        let cameraImage = UIImage(named: "cameraAction")
+        cameraAction.setValue(cameraImage, forKey: "image")
         
-        let otherAction = UIAlertAction(title: "Gallary", style: .default, handler: {
+        let gallaryAction = UIAlertAction(title: "Gallary", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Gallary")
             self.openGallary()
         })
+        let gallaryImage = UIImage(named: "gallaryAction")
+        gallaryAction.setValue(gallaryImage, forKey: "image")
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
             print("Cancelled")
         })
         
-        optionMenu.addAction(creditCardsAction)
-        optionMenu.addAction(otherAction)
+        optionMenu.addAction(cameraAction)
+        optionMenu.addAction(gallaryAction)
         optionMenu.addAction(cancelAction)
         
         self.present(optionMenu, animated: true) {
