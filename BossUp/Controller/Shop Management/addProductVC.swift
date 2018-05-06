@@ -186,7 +186,7 @@ class addProductVC: UIViewController {
     @IBAction func tshirtButton(_ sender: UIButton) {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
-            self.category.setTitle("T-Shirt", for: .normal)
+            self.category.setTitle("T-Shirts", for: .normal)
             self.category.setTitleColor(.black, for: .normal)
         }
     }
@@ -194,7 +194,7 @@ class addProductVC: UIViewController {
     @IBAction func shirtButton(_ sender: UIButton) {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
-            self.category.setTitle("Shirt", for: .normal)
+            self.category.setTitle("Shirts", for: .normal)
             self.category.setTitleColor(.black, for: .normal)
         }
     }

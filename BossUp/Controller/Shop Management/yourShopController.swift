@@ -30,7 +30,7 @@ class yourShopController: UIViewController {
     
     var shopList = ["+ Create a shop"]
     
-    let filterList = ["Clothes","Shoes","Pants","T-shirts","Bags","Clear filter"]
+    let filterList = ["Shirts","Shoes","Pants","T-shirts","Bags","Clear filter"]
     
     var memberEmail:String = ""
     

@@ -28,8 +28,9 @@ class signUpController: UIViewController {
             if completed {
                 NavigationManager.shared.yourShop()
             }else {
-                print("No")
-                self.showAlert(title: "Error", message: self.errorMessage)
+                ARSLineProgress.hideWithCompletionBlock {
+                    self.showAlert(title: "Error", message: self.errorMessage)
+                }
             }
         }
     }

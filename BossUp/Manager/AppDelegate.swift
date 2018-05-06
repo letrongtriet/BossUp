@@ -29,7 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         DropDown.startListeningToKeyboard()
+        
         IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.keyboardDistanceFromTextField = 50
         
         SideMenuManager.defaultManager.menuPresentMode = .menuSlideIn
         
@@ -57,7 +59,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         return .portrait
     }
-    
 }
 
 extension AppDelegate {

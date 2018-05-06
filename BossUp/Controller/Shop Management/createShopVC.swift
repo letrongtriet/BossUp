@@ -31,7 +31,12 @@ class createShopVC: UIViewController {
             let currentShopKey = BackendManager.shared.shopReference.childByAutoId().key
             let category = Category().toDict()
             
-            BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[uid:["owner":email]]])
+            if SharedInstance.currentCurrencyCode == "" {
+                BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":"USD","member":[uid:["owner":email]]])
+            }else {
+                BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[uid:["owner":email]]])
+            }
+            
             
             BackendManager.shared.userReference.child(uid).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
             

@@ -1048,23 +1048,19 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EjR-jw-VlW">
-                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="200" id="o1X-yA-OEt"/>
-                                                        <constraint firstAttribute="height" constant="200" id="rg1-8K-mXd"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="197"/>
                                                 </imageView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XH5-d8-UfZ">
-                                                    <rect key="frame" x="33.333333333333329" y="200" width="133.66666666666669" height="60"/>
+                                                    <rect key="frame" x="8" y="202" width="184" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dPi-x1-AjK">
-                                                            <rect key="frame" x="37.333333333333329" y="0.0" width="59.333333333333329" height="30"/>
+                                                            <rect key="frame" x="62.333333333333329" y="0.0" width="59.333333333333329" height="30"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="25"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="daR-rR-JiS">
-                                                            <rect key="frame" x="0.0" y="30" width="133.66666666666666" height="30"/>
+                                                            <rect key="frame" x="25.333333333333329" y="30" width="133.66666666666669" height="30"/>
                                                             <subviews>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUY-1u-QS4">
                                                                     <rect key="frame" x="0.0" y="0.0" width="59.333333333333336" height="30"/>
@@ -1079,17 +1075,22 @@
                                                                     <nil key="highlightedColor"/>
                                                                 </label>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="9oh-IA-dVO" firstAttribute="leading" secondItem="kUY-1u-QS4" secondAttribute="trailing" constant="15" id="avC-gL-ldI"/>
+                                                            </constraints>
                                                         </stackView>
                                                     </subviews>
                                                 </stackView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="EjR-jw-VlW" firstAttribute="top" secondItem="028-6o-wVl" secondAttribute="top" id="BAK-wA-K2g"/>
-                                            <constraint firstItem="XH5-d8-UfZ" firstAttribute="top" secondItem="EjR-jw-VlW" secondAttribute="bottom" id="PY1-wM-qNx"/>
-                                            <constraint firstItem="XH5-d8-UfZ" firstAttribute="centerX" secondItem="028-6o-wVl" secondAttribute="centerX" id="WRi-fZ-Klc"/>
-                                            <constraint firstItem="EjR-jw-VlW" firstAttribute="top" secondItem="028-6o-wVl" secondAttribute="top" id="v85-yH-PlV"/>
-                                            <constraint firstItem="EjR-jw-VlW" firstAttribute="centerX" secondItem="028-6o-wVl" secondAttribute="centerX" id="wgC-Xc-EJB"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="XH5-d8-UfZ" secondAttribute="bottom" id="0RU-pK-F1w"/>
+                                            <constraint firstItem="EjR-jw-VlW" firstAttribute="top" secondItem="028-6o-wVl" secondAttribute="top" id="F36-I0-7pX"/>
+                                            <constraint firstAttribute="trailing" secondItem="EjR-jw-VlW" secondAttribute="trailing" id="MeJ-Zn-bKf"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="XH5-d8-UfZ" secondAttribute="trailing" id="jGw-bD-onR"/>
+                                            <constraint firstItem="EjR-jw-VlW" firstAttribute="leading" secondItem="028-6o-wVl" secondAttribute="leading" id="qBA-Kf-BEg"/>
+                                            <constraint firstItem="XH5-d8-UfZ" firstAttribute="top" secondItem="EjR-jw-VlW" secondAttribute="bottom" constant="5" id="vqE-wZ-HCv"/>
+                                            <constraint firstItem="XH5-d8-UfZ" firstAttribute="leading" secondItem="028-6o-wVl" secondAttribute="leadingMargin" id="zqR-lZ-DZY"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="productCurrency" destination="9oh-IA-dVO" id="L44-lr-BCP"/>
@@ -1538,7 +1539,7 @@
                                                 <color key="textColor" red="0.83741801979999997" green="0.83743780850000005" blue="0.83742713930000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="7aA-1X-amV">
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="7aA-1X-amV">
                                                 <rect key="frame" x="170" y="388" width="224" height="29"/>
                                                 <segments>
                                                     <segment title="NONE"/>
