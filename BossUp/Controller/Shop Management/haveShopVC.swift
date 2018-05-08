@@ -83,14 +83,12 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        print(SharedInstance.currentCurrencyCode)
         cell.productCurrency.text = SharedInstance.currentCurrencyCode
         
         self.shopManager.child(SharedInstance.shopID).child("product").child(SharedInstance.productList[indexPath.row]).observeSingleEvent(of: .value) { (snap) in
             
             guard let value = snap.value else {return}
             let json = JSON(value)
-            print(json)
             cell.productName.text = json["name"].stringValue
             cell.productPrice.text = json["price"].stringValue
         }

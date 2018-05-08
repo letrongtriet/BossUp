@@ -114,17 +114,11 @@ class addProductVC: UIViewController {
         print("addProductVC")
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        SharedInstance.chosenProductEdit = ""
-    }
-    
     @IBAction func didPressCancel(_ sender: UIButton) {
         print("Cancel button pressed")
         if SharedInstance.chosenProductEdit != "" {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("dismissAddProductFromChosen"), object: nil)
-            }
+            dismiss(animated: true, completion: nil)
+            SharedInstance.chosenProductEdit = ""
         }else {
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
@@ -425,36 +419,39 @@ extension addProductVC {
             currentName = self.clotheNames
         }
         
+        if SharedInstance.chosenProductEdit != "" {
+            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").removeValue()
+        }
+        
         for i in 0...currentList.count-1 {
             if currentList[i].text?.isEmpty == false {
                 BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
-                
-                _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
             }else {
                 BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
-                
-                _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
             }
         }
+        
+        _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
         
     }
     
     @objc fileprivate func addProducDone() {
-        ARSLineProgress.hideWithCompletionBlock {
-            if SharedInstance.chosenProductEdit != "" {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("dismissAddProductFromChosen"), object: nil)
-                }
-            }else {
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
-                }
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hide()
+        }
+        if SharedInstance.chosenProductEdit != "" {
+            dismiss(animated: true) {
+                NotificationCenter.default.post(name: Notification.Name("updateChosenProduct"), object: nil)
+            }
+        }else {
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
             }
         }
     }
     
     fileprivate func fillInformation() {
-       self.productImage.image = SharedInstance.chosenProductImage
+        self.productImage.image = SharedInstance.chosenProductImage
         BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProductEdit).observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)

@@ -201,12 +201,10 @@ extension yourShopController {
             let json = JSON(value)
             for (key,subJson):(String, JSON) in json {
                 if subJson["email"].stringValue == self.memberEmail {
-                    print("MATCHED")
                     SharedInstance.addMember = key
                     completed(true)
                 }
             }
-            print("Continue????")
             completed(false)
         }
     }
@@ -318,12 +316,10 @@ extension yourShopController {
         filterDropDown.selectionAction = { [weak self] (index, item) in
             
             if item != "Clear filter" {
-                print("Not clear filter")
                 SharedInstance.filterOption = item
                 self?.filterLabel.text = item
                 self?.refreshUI()
             }else {
-                print("Clear filter")
                 self?.filterLabel.text = "Filter"
                 SharedInstance.filterOption = ""
                 self?.refreshUI()
@@ -393,7 +389,6 @@ extension yourShopController {
     }
     
     @objc fileprivate func handleTap() {
-        print("Add member dismissed")
         self.removeGesture()
         self.removeView()
     }

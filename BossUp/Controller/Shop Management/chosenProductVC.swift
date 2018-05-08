@@ -29,10 +29,12 @@ class chosenProductVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 50
-        ARSLineProgress.showWithPresentCompetionBlock {
-            self.getData()
-            _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
-        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.updateUI()
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
@@ -72,7 +74,8 @@ class chosenProductVC: UIViewController {
     }
     
     @IBAction func didPressEditButton(_ sender: UIButton) {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.dismissAddProduct), name: Notification.Name("dismissAddProductFromChosen"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.updateUI), name: Notification.Name("updateChosenProduct"), object: nil)
         
         SharedInstance.chosenProductEdit = SharedInstance.chosenProduct
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
@@ -80,8 +83,21 @@ class chosenProductVC: UIViewController {
         self.present(viewController, animated: true, completion: nil)
     }
     
+    @objc fileprivate func updateUI() {
+        if ARSLineProgress.shown == false {
+            ARSLineProgress.showWithPresentCompetionBlock {
+                self.getData()
+                _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.timerAction), userInfo: nil, repeats: false)
+            }
+        }else {
+            self.getData()
+        }
+    }
+    
     fileprivate func getData() {
         self.quantityList = []
+        self.sizeList = []
+        self.sizeQuantity = []
         BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).observeSingleEvent(of: .value) { (snapShot) in
             
             guard let value = snapShot.value else {return}
@@ -116,18 +132,18 @@ class chosenProductVC: UIViewController {
                 SharedInstance.chosenProductImage = image!
             }
         }
-        ARSLineProgress.hideWithCompletionBlock {
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hideWithCompletionBlock {
+                self.tableView.delegate = self
+                self.tableView.dataSource = self
+                self.tableView.reloadData()
+            }
+        }else {
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.reloadData()
         }
-    }
-    
-    @objc fileprivate func dismissAddProduct() {
-        ARSLineProgress.showWithPresentCompetionBlock {
-            self.getData()
-            self.dismiss(animated: true, completion: nil)
-        }
+        
     }
     
     fileprivate func updateBackend() {
