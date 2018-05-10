@@ -135,8 +135,10 @@ class addProductVC: UIViewController {
             self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
         }
         
-        ARSLineProgress.showWithPresentCompetionBlock {
-            self.uploadProduct()
+        if ARSLineProgress.shown == false {
+            ARSLineProgress.showWithPresentCompetionBlock {
+                self.uploadProduct()
+            }
         }
     }
     

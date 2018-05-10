@@ -71,6 +71,7 @@ class yourShopController: UIViewController {
         self.fillerButton.isHidden = true
         self.addMemberButton.isHidden = true
         self.addProductButton.isHidden = true
+        self.filterLabel.isHidden = true
         
         self.setUpDropDownButton()
         
@@ -307,6 +308,8 @@ extension yourShopController {
     fileprivate func setUoFilterButton() {
         
         self.fillerButton.isHidden = false
+        self.filterLabel.isHidden = false
+        
         filterDropDown.anchorView = self.fillerButton
         filterDropDown.bottomOffset = CGPoint(x: 0, y: fillerButton.bounds.height)
         
@@ -358,7 +361,7 @@ extension yourShopController {
     fileprivate func add(asChildViewController viewController: UIViewController) {
         addChildViewController(viewController)
         containerView.addSubview(viewController.view)
-        viewController.view.frame = view.bounds
+        viewController.view.frame = containerView.bounds
         viewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         viewController.didMove(toParentViewController: self)
     }

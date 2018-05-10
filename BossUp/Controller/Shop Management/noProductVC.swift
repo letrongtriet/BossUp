@@ -19,12 +19,6 @@ class noProductVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("No Product VC")
-        
-        print(Device().description)
-        
-        if Device().description.range(of: "iPhone X") != nil {
-            self.bottomLayout.constant = 210
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

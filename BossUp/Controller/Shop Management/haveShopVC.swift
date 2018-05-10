@@ -66,7 +66,7 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let padding: CGFloat = 15
+        let padding: CGFloat = 5
         let collectionViewSize = collectionView.frame.size.width - padding
         
         let width = collectionViewSize/2
