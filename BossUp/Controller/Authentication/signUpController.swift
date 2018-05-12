@@ -45,10 +45,10 @@ class signUpController: UIViewController {
                         completed(false)
                     } else {
                         if let user = user {
-                            SharedInstance.userID = user.uid
-                            let addUser = User(currentShop: "", email: user.email!, shop: nil)
-                            CacheManager.shared.setDefaults(object: user.uid, forKey: "userID")
-                            BackendManager.shared.createUser(user: addUser, userID: user.uid)
+                            SharedInstance.userID = user.user.uid
+                            let addUser = User(currentShop: "", email: user.user.email!, shop: nil)
+                            CacheManager.shared.setDefaults(object: user.user.uid, forKey: "userID")
+                            BackendManager.shared.createUser(user: addUser, userID: user.user.uid)
                             completed(true)
                         } else {
                             self.errorMessage = "Cannot find user"
