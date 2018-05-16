@@ -11,8 +11,8 @@ import ImagePicker
 import Lightbox
 import Gallery
 import FirebaseStorage
-import ARSLineProgress
 import SwiftyJSON
+import ARSLineProgress
 
 class addProductVC: UIViewController {
     
@@ -57,6 +57,8 @@ class addProductVC: UIViewController {
     
     @IBOutlet weak var none: UITextField!
     
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    
     let imagePickerController = ImagePickerController()
     let gallery = GalleryController()
     
@@ -76,7 +78,7 @@ class addProductVC: UIViewController {
     
     var sizeType = String()
     
-    let defaultImage = #imageLiteral(resourceName: "photo_default")
+    let defaultImage = #imageLiteral(resourceName: "placeholder-image")
     
     override func viewDidLoad(){
         self.automaticallyAdjustsScrollViewInsets = false
@@ -120,26 +122,18 @@ class addProductVC: UIViewController {
             dismiss(animated: true, completion: nil)
             SharedInstance.chosenProductEdit = ""
         }else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
-            }
+            dismiss(animated: true, completion: nil)
         }
     }
     
     @IBAction func didPressAdd(_ sender: UIButton) {
         print("Add button pressed")
-        
         if SharedInstance.chosenProductEdit != "" {
             self.key = SharedInstance.chosenProductEdit
         }else {
             self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
         }
-        
-        if ARSLineProgress.shown == false {
-            ARSLineProgress.showWithPresentCompetionBlock {
-                self.uploadProduct()
-            }
-        }
+        self.uploadProduct()
     }
     
     @IBAction func quantityType(_ sender: UISegmentedControl) {
@@ -182,7 +176,7 @@ class addProductVC: UIViewController {
     @IBAction func tshirtButton(_ sender: UIButton) {
         if let viewWithTag = self.view.viewWithTag(444) {
             viewWithTag.removeFromSuperview()
-            self.category.setTitle("T-Shirts", for: .normal)
+            self.category.setTitle("T-shirts", for: .normal)
             self.category.setTitleColor(.black, for: .normal)
         }
     }
@@ -353,26 +347,10 @@ extension addProductVC {
 
 extension addProductVC {
     
-    fileprivate func addProductToBackend(name:String, price:String, capital:String, category:String, sizeType:String) {
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("name").setValue(name)
-        
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("price").setValue(price)
-        
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("capital").setValue(capital)
-        
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("category").setValue(category)
-        
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("sizeType").setValue(sizeType)
-    }
-    
     fileprivate func uploadProduct() {
         
         if self.productImage.image == self.defaultImage || self.name.text?.isEmpty == true || self.price.text?.isEmpty == true || self.category.currentTitle == "Click to choose" {
-            
-            ARSLineProgress.hideWithCompletionBlock {
-                self.showAlert(title: "Warning", message: "Please fill in all required field and image")
-            }
-            
+            self.showAlert(title: "Warning", message: "Please fill in all required field and image")
         }else {
             if let uploadData = UIImageJPEGRepresentation(self.productImage.image!, 0.3) {
                 print("Image is ok for uploading")
@@ -390,11 +368,16 @@ extension addProductVC {
                 
                 self.addQuantity()
             }else {
-                ARSLineProgress.hideWithCompletionBlock {
-                    self.showAlert(title: "Error", message: "Image cannot be uploaded. Please try again later")
-                }
+                self.showAlert(title: "Error", message: "Image cannot be uploaded. Please try again later")
             }
         }
+    }
+    
+    fileprivate func addProductToBackend(name:String, price:String, capital:String, category:String, sizeType:String) {
+        
+        let parameter = ["name":name,"price":price,"capital":capital,"category":category,"sizeType":sizeType]
+        
+        self.shopRef.child(SharedInstance.shopID).child("product").child(self.key).setValue(parameter)
     }
     
     fileprivate func addQuantity() {
@@ -433,22 +416,22 @@ extension addProductVC {
             }
         }
         
-        _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
-        
+        ARSLineProgress.showWithPresentCompetionBlock {
+            _ = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
+        }
     }
     
     @objc fileprivate func addProducDone() {
         if ARSLineProgress.shown == true {
             ARSLineProgress.hide()
         }
+        
         if SharedInstance.chosenProductEdit != "" {
             dismiss(animated: true) {
                 NotificationCenter.default.post(name: Notification.Name("updateChosenProduct"), object: nil)
             }
         }else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("addProduct"), object: nil)
-            }
+            dismiss(animated: true, completion: nil)
         }
     }
     

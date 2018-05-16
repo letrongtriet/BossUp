@@ -33,26 +33,19 @@ class chosenProductVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         self.updateUI()
     }
     
     @IBAction func didPressCancelButton(_ sender: UIButton) {
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
-        }
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func didPressConfirmButton(_ sender: UIButton) {
         if self.quantityDictionary.isEmpty == false {
             self.updateBackend()
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
-            }
+            self.dismiss(animated: true, completion: nil)
         }else {
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
-            }
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -64,11 +57,7 @@ class chosenProductVC: UIViewController {
                 print(err)
                 self.showAlert(title: "", message: err.localizedDescription)
             }else {
-                let newList = SharedInstance.productList.filter { $0 != SharedInstance.chosenProduct }
-                SharedInstance.productList = newList
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name("dismissChosenProduct"), object: nil)
-                }
+                self.dismiss(animated: true, completion: nil)
             }
         }
     }

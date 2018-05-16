@@ -21,9 +21,7 @@ public struct SharedInstance {
     static var currentCurrencyCode = "USD"
     
     static var addMember = ""
-    
-    static var productList:[String] = []
-    
+        
     static var priceList = [String]()
     static var nameList = [String]()
     

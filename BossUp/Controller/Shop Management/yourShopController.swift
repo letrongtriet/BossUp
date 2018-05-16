@@ -58,13 +58,6 @@ class yourShopController: UIViewController {
         return viewController
     }()
     
-    private lazy var noProduct: noProductVC = {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        var viewController = storyboard.instantiateViewController(withIdentifier: "noProductVC") as! noProductVC
-        self.add(asChildViewController: viewController)
-        return viewController
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -94,13 +87,6 @@ class yourShopController: UIViewController {
         super.viewDidAppear(animated)
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.addShopDone), name: Notification.Name("addShop"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.addProductDone), name: Notification.Name("addProduct"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.presentChosenProduct), name: Notification.Name("presentChosenProduct"), object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.dismissChosenProduct), name: Notification.Name("dismissChosenProduct"), object: nil)
-        
     }
     
     @IBAction func didPressedShopButton(_ sender: UIButton) {
@@ -167,28 +153,6 @@ extension yourShopController {
             self.refreshUI()
         }
     }
-    
-    @objc fileprivate func addProductDone() {
-        dismiss(animated: true) {
-            ARSLineProgress.showWithPresentCompetionBlock {
-                self.refreshUI()
-            }
-        }
-    }
-    
-    @objc fileprivate func presentChosenProduct() {
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        let viewController = storyboard.instantiateViewController(withIdentifier: "chosenProductVC") as! chosenProductVC
-        self.present(viewController, animated: true, completion: nil)
-    }
-    
-    @objc fileprivate func dismissChosenProduct() {
-        dismiss(animated: true) {
-            ARSLineProgress.showWithPresentCompetionBlock {
-                self.refreshUI()
-            }
-        }
-    }
 }
 
 
@@ -227,7 +191,7 @@ extension yourShopController {
                 self.shopButton.setTitle("Create a Shop", for: .normal)
                 self.add(asChildViewController: self.noShop)
             }else {
-                self.setUoFilterButton()
+                self.setUpFilterButton()
                 
                 self.addMemberButton.isHidden = false
                 self.addProductButton.isHidden = false
@@ -245,41 +209,21 @@ extension yourShopController {
                 
                 self.shopButton.setTitle(currentShopName, for: .normal)
                 self.dropDown.dataSource = self.shopList
-                
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
-                    guard let value = snap.value else {return}
-                    let object = JSON(value)
-                    
-                    if object["product"].null != nil {
-                        self.add(asChildViewController: self.noProduct)
-                    }else {
-                        for (key,_):(String, JSON) in object["product"] {
-                            if SharedInstance.productList.contains(key) == false {
-                                SharedInstance.productList.append(key)
-                            }
-                        }
-                        self.add(asChildViewController: self.haveShop)
-                    }
-                })
+                self.add(asChildViewController: self.haveShop)
                 
                 BackendManager.shared.shopReference.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
                     guard let data = snap.value else {return}
                     let json = JSON(data)
                     SharedInstance.currentCurrencyCode = json["currentCurrencyCode"].stringValue
-                })
-                
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").observeSingleEvent(of: .value) { (data) in
-                    guard let value = data.value else {return}
-                    let json = JSON(value)
                     
-                    for (_,sub):(String,JSON) in json {
+                    for (_,sub):(String,JSON) in json["member"] {
                         if sub["owner"].null == nil {
                             if sub["owner"].stringValue == SharedInstance.userEmail {
                                 SharedInstance.isOwner = true
                             }
                         }
                     }
-                }
+                })
             }
         }
     }
@@ -295,9 +239,7 @@ extension yourShopController {
             if item == "+ Create a shop" {
                 self?.add(asChildViewController: (self?.createShop)!)
             }else {
-                SharedInstance.productList = []
-                BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)
-                
+                BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)               
                 ARSLineProgress.showWithPresentCompetionBlock {
                     self?.refreshUI()
                 }
@@ -305,7 +247,7 @@ extension yourShopController {
         }
     }
     
-    fileprivate func setUoFilterButton() {
+    fileprivate func setUpFilterButton() {
         
         self.fillerButton.isHidden = false
         self.filterLabel.isHidden = false
@@ -321,11 +263,11 @@ extension yourShopController {
             if item != "Clear filter" {
                 SharedInstance.filterOption = item
                 self?.filterLabel.text = item
-                self?.refreshUI()
+                NotificationCenter.default.post(name: Notification.Name("haveShopReload"), object: nil)
             }else {
                 self?.filterLabel.text = "Filter"
                 SharedInstance.filterOption = ""
-                self?.refreshUI()
+                NotificationCenter.default.post(name: Notification.Name("haveShopReload"), object: nil)
             }
             
         }

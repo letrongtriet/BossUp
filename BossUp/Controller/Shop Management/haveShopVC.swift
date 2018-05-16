@@ -14,6 +14,7 @@ import ARSLineProgress
 class haveShopVC: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet var noProductView: UIView!
     
     var refresher:UIRefreshControl!
     
@@ -21,48 +22,88 @@ class haveShopVC: UIViewController {
     let shopManager = BackendManager.shared.shopReference
     let imageManager = BackendManager.shared.imageReference
     
+    fileprivate var names = [String]()
+    fileprivate var prices = [String]()
+    fileprivate var imageKeys = [String]()
+    
+    fileprivate let currency = SharedInstance.currentCurrencyCode
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addRefresher()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        SharedInstance.productList = []
         self.getData()
     }
     
-    fileprivate func getData() {
-        self.shopManager.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.getData), name: Notification.Name("haveShopReload"), object: nil)
+    }
+}
+
+extension haveShopVC {
+    @objc fileprivate func getData() {
+        print("Getting data")
+        
+        self.shopManager.child(SharedInstance.shopID).child("product").observe(.value) { (snap) in
             guard let value = snap.value else {return}
             let object = JSON(value)
             
-            for (key,sub):(String, JSON) in object["product"] {
+            var tempNames = [String]()
+            var tempPrices = [String]()
+            var tempImages = [String]()
+            
+            for (key,sub):(String, JSON) in object {
                 
                 if SharedInstance.filterOption == "" {
-                    if SharedInstance.productList.contains(key) == false {
-                        SharedInstance.productList.append(key)
-                    }
+                    tempNames.append(sub["name"].stringValue)
+                    tempPrices.append(sub["price"].stringValue)
+                    tempImages.append(key)
                 }else {
-                    if SharedInstance.productList.contains(key) == false && sub["category"].stringValue == SharedInstance.filterOption {
-                        SharedInstance.productList.append(key)
+                    if sub["category"].stringValue == SharedInstance.filterOption {
+                        tempNames.append(sub["name"].stringValue)
+                        tempPrices.append(sub["price"].stringValue)
+                        tempImages.append(key)
                     }
                 }
+            }
+            
+            if self.imageKeys.count < tempImages.count {
+                let newKeys = tempImages.filter{ !self.imageKeys.contains($0) }
+                let newNames = tempNames.filter{ !self.names.contains($0) }
+                let newPrices = tempPrices.filter{ !self.prices.contains($0) }
                 
+                self.names.append(contentsOf: newNames)
+                self.imageKeys.append(contentsOf: newKeys)
+                self.prices.append(contentsOf: newPrices)
+            }else if self.imageKeys.count > tempImages.count {
+                self.names = self.names.filter {tempNames.contains($0)}
+                self.prices = self.prices.filter {tempPrices.contains($0)}
+                self.imageKeys = self.imageKeys.filter {tempImages.contains($0)}
             }
             
             self.collectionView.delegate = self
             self.collectionView.dataSource = self
             self.collectionView.reloadData()
-            
-            if ARSLineProgress.shown == true {
-                ARSLineProgress.hide()
-            }
-        })
+        }
+        
+        if ARSLineProgress.shown == true {
+            ARSLineProgress.hide()
+        }
     }
 }
 
 extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        var numOfSections: Int = 0
+        if self.names.isEmpty == false {
+            numOfSections = 1
+            collectionView.backgroundView = nil
+        }else {
+            collectionView.backgroundView  = self.noProductView
+        }
+        return numOfSections
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -76,29 +117,22 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return SharedInstance.productList.count
+        return self.names.count
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
-        cell.productCurrency.text = SharedInstance.currentCurrencyCode
         
-        self.shopManager.child(SharedInstance.shopID).child("product").child(SharedInstance.productList[indexPath.row]).observeSingleEvent(of: .value) { (snap) in
-            
-            guard let value = snap.value else {return}
-            let json = JSON(value)
-            cell.productName.text = json["name"].stringValue
-            cell.productPrice.text = json["price"].stringValue
-        }
+        cell.productCurrency.text = currency
+        cell.productName.text = self.names[indexPath.row]
+        cell.productPrice.text = self.prices[indexPath.row]
         
-        self.imageManager.child(SharedInstance.productList[indexPath.row]).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
+        self.imageManager.child(self.imageKeys[indexPath.row]).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
             if let err = err {
                 self.showAlert(title: "Error", message: err.localizedDescription)
             } else {
-                let image = UIImage(data: data!)
-                cell.productImage.image = image
+                let tempImage = UIImage(data: data!)
+                cell.productImage.image = tempImage
             }
         }
         
@@ -106,10 +140,10 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        SharedInstance.chosenProduct = SharedInstance.productList[indexPath.row]
-        DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("presentChosenProduct"), object: nil)
-        }
+        SharedInstance.chosenProduct = self.imageKeys[indexPath.row]
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let viewController = storyboard.instantiateViewController(withIdentifier: "chosenProductVC") as! chosenProductVC
+        self.present(viewController, animated: true, completion: nil)
     }
     
 }
