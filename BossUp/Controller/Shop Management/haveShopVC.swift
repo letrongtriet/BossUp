@@ -67,23 +67,35 @@ extension haveShopVC {
                 }
             }
             
-            if self.imageKeys.count < tempImages.count {
-                let newKeys = tempImages.filter{ !self.imageKeys.contains($0) }
-                let newNames = tempNames.filter{ !self.names.contains($0) }
-                let newPrices = tempPrices.filter{ !self.prices.contains($0) }
+            if self.imageKeys.isEmpty == true {
+                self.imageKeys = tempImages
+                self.names = tempNames
+                self.prices = tempPrices
                 
-                self.names.append(contentsOf: newNames)
-                self.imageKeys.append(contentsOf: newKeys)
-                self.prices.append(contentsOf: newPrices)
-            }else if self.imageKeys.count > tempImages.count {
-                self.names = self.names.filter {tempNames.contains($0)}
-                self.prices = self.prices.filter {tempPrices.contains($0)}
-                self.imageKeys = self.imageKeys.filter {tempImages.contains($0)}
+                self.collectionView.delegate = self
+                self.collectionView.dataSource = self
+                self.collectionView.reloadData()
+            }else {
+                if self.imageKeys.count < tempImages.count {
+                    let newKeys = tempImages.filter{ !self.imageKeys.contains($0) }
+                    let newNames = tempNames.filter{ !self.names.contains($0) }
+                    let newPrices = tempPrices.filter{ !self.prices.contains($0) }
+                    
+                    self.names.append(contentsOf: newNames)
+                    self.imageKeys.append(contentsOf: newKeys)
+                    self.prices.append(contentsOf: newPrices)
+                    
+                    self.collectionView.reloadData()
+                }else if self.imageKeys.count > tempImages.count {
+                    self.names = self.names.filter {tempNames.contains($0)}
+                    self.prices = self.prices.filter {tempPrices.contains($0)}
+                    self.imageKeys = self.imageKeys.filter {tempImages.contains($0)}
+                    
+                    self.collectionView.reloadData()
+                }else {
+                    print("Data is the same")
+                }
             }
-            
-            self.collectionView.delegate = self
-            self.collectionView.dataSource = self
-            self.collectionView.reloadData()
         }
         
         if ARSLineProgress.shown == true {
