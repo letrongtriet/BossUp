@@ -123,7 +123,7 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         let collectionViewSize = collectionView.frame.size.width - padding
         
         let width = collectionViewSize/2
-        let height = width + 50
+        let height = width + 60
         
         return CGSize(width: width, height: height)
     }
