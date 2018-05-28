@@ -15,6 +15,7 @@ class settingsController: UIViewController {
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var currencyButton: UIButton!
     
+    @IBOutlet weak var menuButton: MyButton!
     let dropDown = DropDown()
     
     fileprivate var currencyList = ["Current currency: \(SharedInstance.currentCurrencyCode)"]
@@ -25,6 +26,7 @@ class settingsController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.currencyPicker()
+        self.menuButton.addedTouchArea = 60
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -417,7 +417,7 @@ extension addProductVC {
         }
         
         ARSLineProgress.showWithPresentCompetionBlock {
-            _ = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
+            _ = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.addProducDone), userInfo: nil, repeats: false)
         }
     }
     

@@ -44,7 +44,7 @@
 		35FBE01B2079118C00D4CA28 /* SharedInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FBE01A2079118C00D4CA28 /* SharedInstance.swift */; };
 		35FE9C08205DA534009E803B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C07205DA534009E803B /* User.swift */; };
 		35FE9C0A205DA53D009E803B /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35FE9C09205DA53D009E803B /* Shop.swift */; };
-		35FE9C0C205DA5A7009E803B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */; };
+		8526136C20BC540E0004BC8A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8526136B20BC540E0004BC8A /* GoogleService-Info.plist */; };
 		C250081A519114F0E279DD1D /* Pods_BossUp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A97A180BA496E1B5228C3CD7 /* Pods_BossUp.framework */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +91,7 @@
 		35FBE01A2079118C00D4CA28 /* SharedInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedInstance.swift; sourceTree = "<group>"; };
 		35FE9C07205DA534009E803B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		35FE9C09205DA53D009E803B /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
-		35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8526136B20BC540E0004BC8A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		895158EDB1896F5EFC2D09A0 /* Pods-BossUp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BossUp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BossUp/Pods-BossUp.debug.xcconfig"; sourceTree = "<group>"; };
 		A97A180BA496E1B5228C3CD7 /* Pods_BossUp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BossUp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4FD89BD10467B82AA16F0D3 /* Pods-BossUp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BossUp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BossUp/Pods-BossUp.release.xcconfig"; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				357C8C01205BFDA6001D89FA /* BossUp */,
-				35FE9C0B205DA5A7009E803B /* GoogleService-Info.plist */,
+				8526136B20BC540E0004BC8A /* GoogleService-Info.plist */,
 				35AF2016208BA7CF00E0BA50 /* Assets.xcassets */,
 				357C8C00205BFDA6001D89FA /* Products */,
 				DFCBDFA11052695C9A6B8058 /* Pods */,
@@ -324,10 +324,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				357C8C0D205BFDA6001D89FA /* LaunchScreen.storyboard in Resources */,
-				35FE9C0C205DA5A7009E803B /* GoogleService-Info.plist in Resources */,
 				35380DAA2085E904004BF41D /* Common-Currency.json in Resources */,
 				357C8C08205BFDA6001D89FA /* Main.storyboard in Resources */,
 				35AF2017208BA7CF00E0BA50 /* Assets.xcassets in Resources */,
+				8526136C20BC540E0004BC8A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

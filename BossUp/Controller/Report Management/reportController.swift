@@ -15,6 +15,7 @@ import DropDown
 
 class reportController: UIViewController {
     
+    @IBOutlet weak var menuButton: MyButton!
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var containerView: UIView!
     
@@ -34,6 +35,8 @@ class reportController: UIViewController {
         super.viewDidLoad()
         
         self.tableView.rowHeight = 50
+        
+        self.menuButton.addedTouchArea = 60
         
         self.updateLabel()
         

@@ -13,10 +13,12 @@ class profileController: UIViewController {
     
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var profile: UILabel!
+    @IBOutlet weak var menButton: MyButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.updateProfile()
+        self.menButton.addedTouchArea = 60
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -11,7 +11,9 @@ import Firebase
 import SwiftyJSON
 import ARSLineProgress
 
-class haveShopVC: UIViewController {
+class haveShopVC: UIViewController, FilterChangedDelegate {
+    
+    var shopManagement: yourShopController?
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet var noProductView: UIView!
@@ -32,16 +34,20 @@ class haveShopVC: UIViewController {
         super.viewDidLoad()
         self.addRefresher()
         self.getData()
+        self.shopManagement?.delegate = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.getData), name: Notification.Name("haveShopReload"), object: nil)
+    func updateData() {
+        self.names = []
+        self.prices = []
+        self.imageKeys = []
+        
+        self.getData()
     }
 }
 
 extension haveShopVC {
-    @objc fileprivate func getData() {
+    fileprivate func getData() {
         print("Getting data")
         
         self.shopManager.child(SharedInstance.shopID).child("product").observe(.value) { (snap) in

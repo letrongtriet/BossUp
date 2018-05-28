@@ -13,8 +13,15 @@ import UserNotifications
 import ARSLineProgress
 import SwiftyJSON
 
+protocol FilterChangedDelegate: class {
+    func updateData()
+}
+
 class yourShopController: UIViewController {
     
+    weak var delegate: FilterChangedDelegate?
+    
+    @IBOutlet weak var menuButton: MyButton!
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var shopButton: UIButton!
     @IBOutlet weak var containerView: UIView!
@@ -40,6 +47,7 @@ class yourShopController: UIViewController {
     private lazy var haveShop: haveShopVC = {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         var viewController = storyboard.instantiateViewController(withIdentifier: "haveShopVC") as! haveShopVC
+        viewController.shopManagement = self
         self.add(asChildViewController: viewController)
         return viewController
     }()
@@ -65,6 +73,8 @@ class yourShopController: UIViewController {
         self.addMemberButton.isHidden = true
         self.addProductButton.isHidden = true
         self.filterLabel.isHidden = true
+        
+        self.menuButton.addedTouchArea = 60
         
         self.setUpDropDownButton()
         
@@ -263,11 +273,11 @@ extension yourShopController {
             if item != "Clear filter" {
                 SharedInstance.filterOption = item
                 self?.filterLabel.text = item
-                NotificationCenter.default.post(name: Notification.Name("haveShopReload"), object: nil)
+                self?.delegate?.updateData()
             }else {
                 self?.filterLabel.text = "Filter"
                 SharedInstance.filterOption = ""
-                NotificationCenter.default.post(name: Notification.Name("haveShopReload"), object: nil)
+                self?.delegate?.updateData()
             }
             
         }

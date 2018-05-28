@@ -191,15 +191,18 @@ extension chosenProductVC: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tableCell", for: indexPath) as! TableViewCell
         
         cell.sizeLabel.text = self.sizeList[indexPath.row]
-        cell.quantityLabel.text = self.sizeQuantity[indexPath.row]
+        
         cell.sellButton.addTarget(self, action:#selector(sellProductButton(sender:)), for: .touchUpInside)
         cell.sellButton.tag = indexPath.row
         
         if self.reducedQuantity[indexPath.row] != 0 {
             cell.reducedQuantityLabel.isHidden = false
             cell.reducedQuantityLabel.text = String(describing: self.reducedQuantity[indexPath.row])
+            let tempQuality = Int(self.sizeQuantity[indexPath.row])! + self.reducedQuantity[indexPath.row]
+            cell.quantityLabel.text = String(describing: tempQuality)
         }else {
             cell.reducedQuantityLabel.isHidden = true
+            cell.quantityLabel.text = self.sizeQuantity[indexPath.row]
         }
         
         return cell

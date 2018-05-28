@@ -23,12 +23,12 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.302918363998-r7b1j2jqltg6jtp343vda2dvp842l3bu</string>
+				<string>com.googleusercontent.apps.219984621187-4ahm43ta1pfi0r78qvlqvskab7u3u1dk</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>10</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
