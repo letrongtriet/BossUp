@@ -20,37 +20,50 @@ class haveShopVC: UIViewController, FilterChangedDelegate {
     
     var refresher:UIRefreshControl!
     
-    let userManager = BackendManager.shared.userReference
-    let shopManager = BackendManager.shared.shopReference
-    let imageManager = BackendManager.shared.imageReference
+    let userRef = BackendManager.shared.userReference
+    let shopRef = BackendManager.shared.shopReference
+    let imageRef = BackendManager.shared.imageReference
     
     fileprivate var names = [String]()
     fileprivate var prices = [String]()
     fileprivate var imageKeys = [String]()
     
-    fileprivate let currency = SharedInstance.currentCurrencyCode
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addRefresher()
-        self.getData()
         self.shopManagement?.delegate = self
+        print("Viewdidload")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.reloadData()
     }
     
     func updateData() {
-        self.names = []
-        self.prices = []
-        self.imageKeys = []
-        
-        self.getData()
+        self.reloadData()
     }
 }
 
 extension haveShopVC {
+    fileprivate func reloadData() {
+        self.names = []
+        self.prices = []
+        self.imageKeys = []
+        self.getData()
+    }
+    
     fileprivate func getData() {
         print("Getting data")
         
-        self.shopManager.child(SharedInstance.shopID).child("product").observe(.value) { (snap) in
+        self.shopRef.child(Share.shopID).observeSingleEvent(of: .value, with: { (snap) in
+            guard let data = snap.value else {return}
+            let json = JSON(data)
+            Share.currentCurrencyCode = json["currentCurrencyCode"].stringValue
+            print(Share.currentCurrencyCode)
+        })
+        
+        self.shopRef.child(Share.shopID).child("product").observe(.value) { (snap) in
             guard let value = snap.value else {return}
             let object = JSON(value)
             
@@ -59,13 +72,12 @@ extension haveShopVC {
             var tempImages = [String]()
             
             for (key,sub):(String, JSON) in object {
-                
-                if SharedInstance.filterOption == "" {
+                if Share.filterOption == "" {
                     tempNames.append(sub["name"].stringValue)
                     tempPrices.append(sub["price"].stringValue)
                     tempImages.append(key)
                 }else {
-                    if sub["category"].stringValue == SharedInstance.filterOption {
+                    if sub["category"].stringValue == Share.filterOption {
                         tempNames.append(sub["name"].stringValue)
                         tempPrices.append(sub["price"].stringValue)
                         tempImages.append(key)
@@ -141,11 +153,11 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! CollectionViewCell
         
-        cell.productCurrency.text = currency
+        cell.productCurrency.text = Share.currentCurrencyCode
         cell.productName.text = self.names[indexPath.row]
         cell.productPrice.text = self.prices[indexPath.row]
         
-        self.imageManager.child(self.imageKeys[indexPath.row]).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
+        self.imageRef.child(self.imageKeys[indexPath.row]).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
             if let err = err {
                 self.showAlert(title: "Error", message: err.localizedDescription)
             } else {
@@ -158,12 +170,11 @@ extension haveShopVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        SharedInstance.chosenProduct = self.imageKeys[indexPath.row]
+        Share.chosenProduct = self.imageKeys[indexPath.row]
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "chosenProductVC") as! chosenProductVC
         self.present(viewController, animated: true, completion: nil)
     }
-    
 }
 
 // MARK: supporting functions
@@ -177,7 +188,7 @@ extension haveShopVC {
     }
     
     @objc fileprivate func loadData() {
-        self.getData()
+        self.reloadData()
         self.refresher.endRefreshing()
     }
 }

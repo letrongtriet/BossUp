@@ -15,6 +15,9 @@ import DropDown
 
 class reportController: UIViewController {
     
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    
     @IBOutlet weak var menuButton: MyButton!
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -40,7 +43,7 @@ class reportController: UIViewController {
         
         self.updateLabel()
         
-        if SharedInstance.shopID == "" {
+        if Share.shopID == "" {
             print("Report VC cannot be loaded")
         }else {
             self.getData()
@@ -73,16 +76,16 @@ class reportController: UIViewController {
     }
     
     fileprivate func getData() {
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").observeSingleEvent(of: .value) { (snap) in
+        shopRef.child(Share.shopID).child("member").observeSingleEvent(of: .value) { (snap) in
             guard let value = snap.value else {return}
             let json = JSON(value)
             
             for (key,sub):(String,JSON) in json {
                 if sub["member"].null == nil {
-                    SharedInstance.currentShopStaffs.updateValue(sub["member"].stringValue, forKey: key)
+                    Share.currentShopStaffs.updateValue(sub["member"].stringValue, forKey: key)
                 }
             }
-            print(SharedInstance.currentShopStaffs)
+            print(Share.currentShopStaffs)
             self.tableView.delegate = self
             self.tableView.dataSource = self
             self.tableView.reloadData()
@@ -105,19 +108,19 @@ class reportController: UIViewController {
             
             switch item {
             case "Today":
-                SharedInstance.transactionFilter = 0
+                Share.transactionFilter = 0
             case "Yesterday":
-                SharedInstance.transactionFilter = 1
+                Share.transactionFilter = 1
             case "7 days":
-                SharedInstance.transactionFilter = 7
+                Share.transactionFilter = 7
             case "30 days":
-                SharedInstance.transactionFilter = 30
+                Share.transactionFilter = 30
             case "1 year":
-                SharedInstance.transactionFilter = 365
+                Share.transactionFilter = 365
             case "All":
-                SharedInstance.transactionFilter = Int.max
+                Share.transactionFilter = Int.max
             default:
-                SharedInstance.transactionFilter = 30
+                Share.transactionFilter = 30
             }
             
             self?.getData()
@@ -129,7 +132,7 @@ class reportController: UIViewController {
     }
     
     fileprivate func updateLabel() {
-        switch SharedInstance.transactionFilter {
+        switch Share.transactionFilter {
         case 0:
             self.filterLabel.text = "Today"
         case 1:
@@ -153,7 +156,7 @@ extension reportController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int{
         var numOfSections: Int = 0
         
-        if SharedInstance.isOwner == true {
+        if Share.isOwner == true {
             numOfSections            = 1
             tableView.backgroundView = nil
         }else {
@@ -168,13 +171,13 @@ extension reportController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return SharedInstance.currentShopStaffs.count
+        return Share.currentShopStaffs.count
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reportCell", for: indexPath) as! TableViewCellReport
         
-        cell.staffName.text = Array(SharedInstance.currentShopStaffs)[indexPath.row].value
+        cell.staffName.text = Array(Share.currentShopStaffs)[indexPath.row].value
         cell.removeButton.addTarget(self, action:#selector(removeMember(sender:)), for: .touchUpInside)
         cell.removeButton.tag = indexPath.row
         
@@ -187,8 +190,8 @@ extension reportController: UITableViewDelegate, UITableViewDataSource {
     
     @objc fileprivate func removeMember(sender:UIButton) {
         self.index = sender.tag
-        self.currentStaffName = Array(SharedInstance.currentShopStaffs)[self.index].value
-        self.currentStaffKey = Array(SharedInstance.currentShopStaffs)[self.index].key
+        self.currentStaffName = Array(Share.currentShopStaffs)[self.index].value
+        self.currentStaffKey = Array(Share.currentShopStaffs)[self.index].key
         self.alertView()
     }
     
@@ -201,9 +204,9 @@ extension reportController: UITableViewDelegate, UITableViewDataSource {
         
         let yesAction = UIAlertAction(title: "Yes", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
-            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").child(self.currentStaffKey).removeValue()
-            BackendManager.shared.userReference.child(self.currentStaffKey).child("shop").child(SharedInstance.shopID).removeValue()
-            SharedInstance.currentShopStaffs.removeValue(forKey: self.currentStaffKey)
+            self.shopRef.child(Share.shopID).child("member").child(self.currentStaffKey).removeValue()
+            self.userRef.child(self.currentStaffKey).child("shop").child(Share.shopID).removeValue()
+            Share.currentShopStaffs.removeValue(forKey: self.currentStaffKey)
             self.getData()
         })
         

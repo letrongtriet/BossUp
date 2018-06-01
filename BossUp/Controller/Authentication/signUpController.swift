@@ -45,9 +45,9 @@ class signUpController: UIViewController {
                         completed(false)
                     } else {
                         if let user = user {
-                            SharedInstance.userID = user.user.uid
-                            let addUser = User(currentShop: "", email: user.user.email!, shop: nil)
-                            CacheManager.shared.setDefaults(object: user.user.uid, forKey: "userID")
+                            Share.userID = user.user.uid
+                            let addUser = User(currentShop: nil, email: user.user.email!, shop: nil)
+                            Cache.shared.setDefaults(object: user.user.uid, forKey: "userID")
                             BackendManager.shared.createUser(user: addUser, userID: user.user.uid)
                             completed(true)
                         } else {

@@ -16,6 +16,10 @@ import ARSLineProgress
 
 class addProductVC: UIViewController {
     
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    fileprivate let imageRef = BackendManager.shared.imageReference
+    
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var category: UIButton!
@@ -57,8 +61,6 @@ class addProductVC: UIViewController {
     
     @IBOutlet weak var none: UITextField!
     
-    fileprivate let shopRef = BackendManager.shared.shopReference
-    
     let imagePickerController = ImagePickerController()
     let gallery = GalleryController()
     
@@ -83,8 +85,8 @@ class addProductVC: UIViewController {
     override func viewDidLoad(){
         self.automaticallyAdjustsScrollViewInsets = false
         
-        self.price.placeholder = SharedInstance.currentCurrencyCode
-        self.capital.placeholder = SharedInstance.currentCurrencyCode
+        self.price.placeholder = Share.currentCurrencyCode
+        self.capital.placeholder = Share.currentCurrencyCode
         
         self.clotheView.tag = 222
         self.noneView.tag = 111
@@ -103,7 +105,7 @@ class addProductVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if SharedInstance.chosenProductEdit != "" {
+        if Share.chosenProductEdit != "" {
             print("It is edit product")
             self.fillInformation()
         }else {
@@ -118,9 +120,9 @@ class addProductVC: UIViewController {
     
     @IBAction func didPressCancel(_ sender: UIButton) {
         print("Cancel button pressed")
-        if SharedInstance.chosenProductEdit != "" {
+        if Share.chosenProductEdit != "" {
             dismiss(animated: true, completion: nil)
-            SharedInstance.chosenProductEdit = ""
+            Share.chosenProductEdit = ""
         }else {
             dismiss(animated: true, completion: nil)
         }
@@ -128,10 +130,10 @@ class addProductVC: UIViewController {
     
     @IBAction func didPressAdd(_ sender: UIButton) {
         print("Add button pressed")
-        if SharedInstance.chosenProductEdit != "" {
-            self.key = SharedInstance.chosenProductEdit
+        if Share.chosenProductEdit != "" {
+            self.key = Share.chosenProductEdit
         }else {
-            self.key = BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").childByAutoId().key
+            self.key = shopRef.child(Share.shopID).child("product").childByAutoId().key
         }
         self.uploadProduct()
     }
@@ -358,7 +360,7 @@ extension addProductVC {
                 let newMetadata = StorageMetadata()
                 newMetadata.contentType = "image/jpeg"
                 
-                BackendManager.shared.imageReference.child(self.key).putData(uploadData, metadata: newMetadata)
+                imageRef.child(self.key).putData(uploadData, metadata: newMetadata)
                 
                 if self.capital.text?.isEmpty == false {
                     self.addProductToBackend(name: self.name.text!, price: self.price.text!, capital: self.capital.text!, category: self.category.currentTitle!, sizeType: self.sizeType)
@@ -377,7 +379,7 @@ extension addProductVC {
         
         let parameter = ["name":name,"price":price,"capital":capital,"category":category,"sizeType":sizeType]
         
-        self.shopRef.child(SharedInstance.shopID).child("product").child(self.key).setValue(parameter)
+        self.shopRef.child(Share.shopID).child("product").child(self.key).setValue(parameter)
     }
     
     fileprivate func addQuantity() {
@@ -404,15 +406,15 @@ extension addProductVC {
             currentName = self.clotheNames
         }
         
-        if SharedInstance.chosenProductEdit != "" {
-            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").removeValue()
+        if Share.chosenProductEdit != "" {
+            shopRef.child(Share.shopID).child("product").child(self.key).child("quantity").removeValue()
         }
         
         for i in 0...currentList.count-1 {
             if currentList[i].text?.isEmpty == false {
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
+                shopRef.child(Share.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":currentList[i].text!,"size":currentName[i]])
             }else {
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
+                shopRef.child(Share.shopID).child("product").child(self.key).child("quantity").childByAutoId().setValue(["quantity":"0","size":currentName[i]])
             }
         }
         
@@ -426,7 +428,7 @@ extension addProductVC {
             ARSLineProgress.hide()
         }
         
-        if SharedInstance.chosenProductEdit != "" {
+        if Share.chosenProductEdit != "" {
             dismiss(animated: true) {
                 NotificationCenter.default.post(name: Notification.Name("updateChosenProduct"), object: nil)
             }
@@ -436,8 +438,8 @@ extension addProductVC {
     }
     
     fileprivate func fillInformation() {
-        self.productImage.image = SharedInstance.chosenProductImage
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProductEdit).observeSingleEvent(of: .value) { (snapShot) in
+        self.productImage.image = Share.chosenProductImage
+        shopRef.child(Share.shopID).child("product").child(Share.chosenProductEdit).observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)
             self.name.text = json["name"].stringValue

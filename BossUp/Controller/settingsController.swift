@@ -12,13 +12,15 @@ import DropDown
 
 class settingsController: UIViewController {
     
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var currencyButton: UIButton!
     
     @IBOutlet weak var menuButton: MyButton!
     let dropDown = DropDown()
     
-    fileprivate var currencyList = ["Current currency: \(SharedInstance.currentCurrencyCode)"]
+    fileprivate var currencyList = ["Current currency: \(Share.currentCurrencyCode)"]
     fileprivate var currencyCodeList = [String]()
     
     let currencyData = NSData(contentsOfFile: Bundle.main.path(forResource: "Common-Currency", ofType: "json")!)
@@ -70,8 +72,8 @@ class settingsController: UIViewController {
             dropDown.selectionAction = { [weak self] (index, item) in
                 print(item)
                 self?.currencyButton.setTitle(item, for: .normal)
-                SharedInstance.currentCurrencyCode = (self?.currencyCodeList[index-1])!
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).child("currentCurrencyCode").setValue(self?.currencyCodeList[index-1])
+                Share.currentCurrencyCode = (self?.currencyCodeList[index-1])!
+                self?.shopRef.child(Share.shopID).child("currentCurrencyCode").setValue(self?.currencyCodeList[index-1])
             }
         } catch {
             self.showAlert(title: "Error", message: "Cannot find currency.")

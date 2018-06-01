@@ -8,9 +8,9 @@
 
 import Foundation
 
-class CacheManager {
+class Cache {
     
-    static let shared: CacheManager = CacheManager()
+    static let shared: Cache = Cache()
     
     private init() {}
     

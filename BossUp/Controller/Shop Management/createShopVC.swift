@@ -11,6 +11,9 @@ import Firebase
 
 class createShopVC: UIViewController {
     
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    
     @IBOutlet weak var shopName: UITextField!
     
     let email = Auth.auth().currentUser!.email!
@@ -18,31 +21,27 @@ class createShopVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("createShopVC")
     }
     
     @IBAction func didPressCreateButton(_ sender: UIButton) {
         
         if self.shopName.text?.isEmpty == false {
-            let nameOfShop = self.shopName.text
+            let shopNameText = self.shopName.text!
+            let key = shopRef.childByAutoId().key
+
+            let parameter:[String:Any] = ["name":shopNameText,
+                                          "category":Category().toDict()!,
+                                          "currentCurrencyCode":Share.currentCurrencyCode,
+                                          "member":[self.uid:["owner":email]]]
             
-            BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(nameOfShop)
+            userRef.child(self.uid).child("currentShop").setValue(key)
+            shopRef.child(key).updateChildValues(parameter)
             
-            let currentShopKey = BackendManager.shared.shopReference.childByAutoId().key
-            let category = Category().toDict()
+            userRef.child(uid).child("shop").updateChildValues([key:["shopName":shopNameText,"type":"owner"]])
             
-            if SharedInstance.currentCurrencyCode == "" {
-                BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":"USD","member":[uid:["owner":email]]])
-            }else {
-                BackendManager.shared.shopReference.child(currentShopKey).updateChildValues(["name":nameOfShop!,"category":category!,"currentCurrencyCode":SharedInstance.currentCurrencyCode,"member":[uid:["owner":email]]])
-            }
-            
-            
-            BackendManager.shared.userReference.child(uid).child("shop").updateChildValues([currentShopKey:["shopName":nameOfShop,"type":"owner"]])
-            
-            SharedInstance.shopID = currentShopKey
-            SharedInstance.currentShopName = nameOfShop!
-            
+            Share.shopID = key
+            Share.currentShopName = shopNameText
+
             DispatchQueue.main.async {
                 NotificationCenter.default.post(name: Notification.Name("addShop"), object: nil)
             }

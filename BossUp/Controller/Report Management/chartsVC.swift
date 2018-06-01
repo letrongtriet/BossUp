@@ -11,6 +11,8 @@ import Charts
 import SwiftyJSON
 
 class chartsVC: UIViewController {
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
     
     @IBOutlet weak var revenueLabel: UILabel!
     @IBOutlet weak var profitLabel: UILabel!
@@ -28,7 +30,7 @@ class chartsVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if SharedInstance.shopID == "" {
+        if Share.shopID == "" {
             print("Chart VC cannot be loaded")
         }else {
             self.getReportData()
@@ -53,13 +55,13 @@ class chartsVC: UIViewController {
     }
     
     @objc fileprivate func getReportData() {
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").observeSingleEvent(of: .value) { (snapShot) in
+        shopRef.child(Share.shopID).child("transaction").observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)
             
             for (_,transaction):(String,JSON) in json {
                 
-                if Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= SharedInstance.transactionFilter {
+                if Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= Share.transactionFilter {
                     self.transactionList.append(transaction["productName"].stringValue)
                     let money = transaction["moneyGet"].intValue
                     let capital = transaction["capital"].intValue
@@ -101,7 +103,7 @@ class chartsVC: UIViewController {
     }
     
     fileprivate func updateLabel() {
-        if SharedInstance.isOwner == false {
+        if Share.isOwner == false {
             self.revenueLabel.isHidden = true
             self.profitLabel.isHidden = true
         }else {

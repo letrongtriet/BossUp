@@ -13,6 +13,10 @@ import ARSLineProgress
 
 class chosenProductVC: UIViewController {
     
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    fileprivate let imageRef = BackendManager.shared.imageReference
+    
     @IBOutlet weak var productImage: UIImageView!
     @IBOutlet weak var productLabel: UILabel!
     
@@ -50,9 +54,9 @@ class chosenProductVC: UIViewController {
     }
     
     @IBAction func didPressDeleteButton(_ sender: UIButton) {
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).removeValue()
+        shopRef.child(Share.shopID).child("product").child(Share.chosenProduct).removeValue()
         
-        BackendManager.shared.imageReference.child(SharedInstance.chosenProduct).delete { (err) in
+        imageRef.child(Share.chosenProduct).delete { (err) in
             if let err = err {
                 print(err)
                 self.showAlert(title: "", message: err.localizedDescription)
@@ -66,7 +70,7 @@ class chosenProductVC: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateUI), name: Notification.Name("updateChosenProduct"), object: nil)
         
-        SharedInstance.chosenProductEdit = SharedInstance.chosenProduct
+        Share.chosenProductEdit = Share.chosenProduct
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "addProductVC") as! addProductVC
         self.present(viewController, animated: true, completion: nil)
@@ -87,16 +91,16 @@ class chosenProductVC: UIViewController {
         self.quantityList = []
         self.sizeList = []
         self.sizeQuantity = []
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).observeSingleEvent(of: .value) { (snapShot) in
+        shopRef.child(Share.shopID).child("product").child(Share.chosenProduct).observeSingleEvent(of: .value) { (snapShot) in
             
             guard let value = snapShot.value else {return}
             let json = JSON(value)
             
-            SharedInstance.chosenProductName = json["name"].stringValue
-            SharedInstance.chosenProductPrice = json["price"].stringValue
-            SharedInstance.choseProductCapital = json["capital"].stringValue
+            Share.chosenProductName = json["name"].stringValue
+            Share.chosenProductPrice = json["price"].stringValue
+            Share.choseProductCapital = json["capital"].stringValue
             
-            let productName = json["name"].stringValue + "-" + json["price"].stringValue + " \(SharedInstance.currentCurrencyCode)"
+            let productName = json["name"].stringValue + "-" + json["price"].stringValue + " \(Share.currentCurrencyCode)"
             self.productLabel.text = productName
             
             for (key,subJSON):(String, JSON) in json["quantity"] {
@@ -112,13 +116,13 @@ class chosenProductVC: UIViewController {
             }
         }
         
-        BackendManager.shared.imageReference.child(SharedInstance.chosenProduct).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
+        imageRef.child(Share.chosenProduct).getData(maxSize: 1 * 1024 * 1024) { (data, err) in
             if let err = err {
                 self.showAlert(title: "Error", message: err.localizedDescription)
             } else {
                 let image = UIImage(data: data!)
                 self.productImage.image = image!
-                SharedInstance.chosenProductImage = image!
+                Share.chosenProductImage = image!
             }
         }
         if ARSLineProgress.shown == true {
@@ -137,25 +141,25 @@ class chosenProductVC: UIViewController {
     
     fileprivate func updateBackend() {
         for item in self.quantityDictionary {
-            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("product").child(SharedInstance.chosenProduct).child("quantity").child(item.key).updateChildValues(["quantity":item.value])
+            shopRef.child(Share.shopID).child("product").child(Share.chosenProduct).child("quantity").child(item.key).updateChildValues(["quantity":item.value])
             
             let i = self.quantityList.index(of: item.key)!
             
             var parameter = [String:String]()
-            parameter["productId"] = SharedInstance.chosenProduct
-            parameter["productName"] = SharedInstance.chosenProductName
+            parameter["productId"] = Share.chosenProduct
+            parameter["productName"] = Share.chosenProductName
             parameter["time"] = Helper.shared.getTodayString()
             parameter["sellerId"] = Auth.auth().currentUser!.uid
             parameter["sellerEmail"] = Auth.auth().currentUser!.email!
             parameter["quantity"] = String(describing: -self.reducedQuantity[i])
             
-            let moneyGet = Int(SharedInstance.chosenProductPrice)! * -(self.reducedQuantity[i])
+            let moneyGet = Int(Share.chosenProductPrice)! * -(self.reducedQuantity[i])
             parameter["moneyGet"] = String(describing: moneyGet)
             
-            let capitalGet = Int(SharedInstance.choseProductCapital)! * -(self.reducedQuantity[i])
+            let capitalGet = Int(Share.choseProductCapital)! * -(self.reducedQuantity[i])
             parameter["capital"] = String(describing: capitalGet)
             
-            BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").childByAutoId().updateChildValues(parameter)
+            shopRef.child(Share.shopID).child("transaction").childByAutoId().updateChildValues(parameter)
         }
     }
     

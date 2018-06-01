@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-public struct SharedInstance {
+public struct Share {
     static var userID: String = ""
     
     static var userEmail: String = ""

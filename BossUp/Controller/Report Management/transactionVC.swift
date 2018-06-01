@@ -10,6 +10,8 @@ import UIKit
 import SwiftyJSON
 
 class transactionVC: UIViewController {
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var transactionLabel: UILabel!
@@ -27,7 +29,7 @@ class transactionVC: UIViewController {
         self.tableView.rowHeight = 200
         self.tableView.tableFooterView = UIView()
         
-        if SharedInstance.shopID == "" {
+        if Share.shopID == "" {
             print("Transaction VC cannot be loaded")
         }else {
             self.getData()
@@ -44,12 +46,12 @@ class transactionVC: UIViewController {
     }
     
     fileprivate func getData() {
-        BackendManager.shared.shopReference.child(SharedInstance.shopID).child("transaction").observeSingleEvent(of: .value) { (snapShot) in
+        shopRef.child(Share.shopID).child("transaction").observeSingleEvent(of: .value) { (snapShot) in
             guard let value = snapShot.value else {return}
             let json = JSON(value)
             
             for (key,transaction):(String,JSON) in json {
-                if self.transactionList.contains(key) == false && Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= SharedInstance.transactionFilter {
+                if self.transactionList.contains(key) == false && Helper.shared.compareDate(transactionDate: transaction["time"].stringValue) <= Share.transactionFilter {
                     self.transactionList.append(key)
                     self.nameList.append(transaction["productName"].stringValue)
                     self.timeList.append(transaction["time"].stringValue)
@@ -73,7 +75,7 @@ class transactionVC: UIViewController {
     
     fileprivate func updateLabel() {
         let text = self.transactionLabel.text!
-        switch SharedInstance.transactionFilter {
+        switch Share.transactionFilter {
         case 0:
             self.transactionLabel.text = text + " today"
         case 1:
@@ -120,8 +122,8 @@ extension transactionVC: UITableViewDelegate, UITableViewDataSource {
         cell.name.text = self.nameList[indexPath.row]
         cell.time.text = "Time: \(self.timeList[indexPath.row])"
         cell.seller.text = "Seller: \(self.sellerList[indexPath.row])"
-        cell.quantity.text = "Quantity: \(self.quantityList[indexPath.row]) x \(self.priceList[indexPath.row]) \(SharedInstance.currentCurrencyCode)"
-        cell.price.text = "\(self.totalList[indexPath.row]) \(SharedInstance.currentCurrencyCode)"
+        cell.quantity.text = "Quantity: \(self.quantityList[indexPath.row]) x \(self.priceList[indexPath.row]) \(Share.currentCurrencyCode)"
+        cell.price.text = "\(self.totalList[indexPath.row]) \(Share.currentCurrencyCode)"
         
         return cell
     }

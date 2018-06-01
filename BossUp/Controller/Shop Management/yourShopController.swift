@@ -19,6 +19,9 @@ protocol FilterChangedDelegate: class {
 
 class yourShopController: UIViewController {
     
+    fileprivate let userRef = BackendManager.shared.userReference
+    fileprivate let shopRef = BackendManager.shared.shopReference
+    
     weak var delegate: FilterChangedDelegate?
     
     @IBOutlet weak var menuButton: MyButton!
@@ -141,8 +144,8 @@ class yourShopController: UIViewController {
             
             self.checkMember { (res) in
                 switch res {
-                case true:                    BackendManager.shared.shopReference.child(SharedInstance.shopID).child("member").updateChildValues([SharedInstance.addMember:["member":self.memberEmail]])
-                BackendManager.shared.userReference.child(SharedInstance.addMember).child("shop").updateChildValues([SharedInstance.shopID:["shopName":SharedInstance.currentShopName,"type":"member"]])
+                case true:                    self.shopRef.child(Share.shopID).child("member").updateChildValues([Share.addMember:["member":self.memberEmail]])
+                self.userRef.child(Share.addMember).child("shop").updateChildValues([Share.shopID:["shopName":Share.currentShopName,"type":"member"]])
                 self.showAlert(title: "SUCCESS", message: "Member added")
                 self.removeView()
                 case false:
@@ -168,15 +171,14 @@ extension yourShopController {
 
 // MARK: backend related
 extension yourShopController {
-    
     fileprivate func checkMember(completed: @escaping (_ success:Bool) -> Void) {
-        BackendManager.shared.userReference.observeSingleEvent(of: .value) { (res) in
+        self.userRef.observeSingleEvent(of: .value) { (res) in
             guard let value = res.value else {return}
-            
             let json = JSON(value)
+            
             for (key,subJson):(String, JSON) in json {
                 if subJson["email"].stringValue == self.memberEmail {
-                    SharedInstance.addMember = key
+                    Share.addMember = key
                     completed(true)
                 }
             }
@@ -185,101 +187,96 @@ extension yourShopController {
     }
     
     fileprivate func refreshUI() {
-        self.removeChildView()
+        if self.childViewControllers.isEmpty == false{
+            let viewControllers:[UIViewController] = self.childViewControllers
+            for viewContoller in viewControllers{
+                viewContoller.willMove(toParentViewController: nil)
+                viewContoller.view.removeFromSuperview()
+                viewContoller.removeFromParentViewController()
+            }
+        }
         self.setupView()
     }
     
     fileprivate func setupView() {
-        
-        BackendManager.shared.userReference.child(SharedInstance.userID).observeSingleEvent(of: .value) { (snapshot) in
-            guard let value = snapshot.value else {return}
-            let json = JSON(value)
-            let currentShopName = json["currentShop"].stringValue
-            
-            if currentShopName == "" {
-                self.dropDown.dataSource = self.defaultList
-                self.shopButton.setTitle("Create a Shop", for: .normal)
-                self.add(asChildViewController: self.noShop)
-            }else {
+        userRef.child(Auth.auth().currentUser!.uid).observeSingleEvent(of: .value) { (snapShot) in
+            if snapShot.hasChild("currentShop") {
+                guard let value = snapShot.value else {return}
+                let json = JSON(value)
+                let currentShop = json["currentShop"].stringValue
+                
                 self.setUpFilterButton()
                 
                 self.addMemberButton.isHidden = false
                 self.addProductButton.isHidden = false
                 
-                SharedInstance.currentShopName = currentShopName
+                Share.shopID = currentShop
                 
-                for (key,subJson):(String, JSON) in json["shop"] {
-                    if self.shopList.contains(subJson["shopName"].stringValue) == false {
-                        self.shopList.insert(subJson["shopName"].stringValue, at: 0)
+                for (key,subJSON):(String, JSON) in json["shop"] {
+                    if self.shopList.contains(subJSON["shopName"].stringValue) == false {
+                        self.shopList.insert(subJSON["shopName"].stringValue, at: 0)
                     }
-                    if subJson["shopName"].stringValue == currentShopName {
-                        SharedInstance.shopID = key
+                    
+                    if key == currentShop {
+                        Share.currentShopName = subJSON["shopName"].stringValue
+                        if subJSON["type"].stringValue == "owner" {
+                            Share.isOwner = true
+                        }
                     }
                 }
                 
-                self.shopButton.setTitle(currentShopName, for: .normal)
+                self.shopButton.setTitle(Share.currentShopName, for: .normal)
                 self.dropDown.dataSource = self.shopList
                 self.add(asChildViewController: self.haveShop)
                 
-                BackendManager.shared.shopReference.child(SharedInstance.shopID).observeSingleEvent(of: .value, with: { (snap) in
-                    guard let data = snap.value else {return}
-                    let json = JSON(data)
-                    SharedInstance.currentCurrencyCode = json["currentCurrencyCode"].stringValue
-                    
-                    for (_,sub):(String,JSON) in json["member"] {
-                        if sub["owner"].null == nil {
-                            if sub["owner"].stringValue == SharedInstance.userEmail {
-                                SharedInstance.isOwner = true
-                            }
-                        }
-                    }
-                })
+            }else {
+                self.dropDown.dataSource = self.defaultList
+                self.shopButton.setTitle("Create a Shop", for: .normal)
+                self.add(asChildViewController: self.noShop)
             }
         }
     }
     
     fileprivate func setUpDropDownButton() {
-        
         dropDown.anchorView = self.shopButton
         dropDown.bottomOffset = CGPoint(x: 0, y: shopButton.bounds.height)
-
         // Action triggered on selection
         dropDown.selectionAction = { [weak self] (index, item) in
-            
             if item == "+ Create a shop" {
                 self?.add(asChildViewController: (self?.createShop)!)
             }else {
-                BackendManager.shared.userReference.child(SharedInstance.userID).child("currentShop").setValue(item)               
-                ARSLineProgress.showWithPresentCompetionBlock {
-                    self?.refreshUI()
-                }
+                self?.userRef.child(Share.userID).child("shop").observeSingleEvent(of: .value, with: { (snapShot) in
+                    guard let data = snapShot.value else {return}
+                    let json = JSON(data)
+                    for (key,subJSON):(String, JSON) in json {
+                        if subJSON["shopName"].stringValue == item {
+                            self?.userRef.child(Share.userID).child("currentShop").setValue(key)
+                        }
+                    }
+                })
+                self?.refreshUI()
             }
         }
     }
     
     fileprivate func setUpFilterButton() {
-        
         self.fillerButton.isHidden = false
         self.filterLabel.isHidden = false
         
         filterDropDown.anchorView = self.fillerButton
         filterDropDown.bottomOffset = CGPoint(x: 0, y: fillerButton.bounds.height)
-        
         filterDropDown.dataSource = self.filterList
-        
         // Action triggered on selection
         filterDropDown.selectionAction = { [weak self] (index, item) in
-            
             if item != "Clear filter" {
-                SharedInstance.filterOption = item
+                Share.filterOption = item
                 self?.filterLabel.text = item
                 self?.delegate?.updateData()
             }else {
                 self?.filterLabel.text = "Filter"
-                SharedInstance.filterOption = ""
+                Share.filterOption = ""
                 self?.delegate?.updateData()
             }
-            
         }
     }
 }
@@ -297,17 +294,6 @@ extension yourShopController {
         DropDown.appearance().backgroundColor = .white
         DropDown.appearance().cornerRadius = 10
         DropDown.appearance().selectionBackgroundColor = UIColor.lightGray
-    }
-    
-    fileprivate func removeChildView() {
-        if self.childViewControllers.count > 0{
-            let viewControllers:[UIViewController] = self.childViewControllers
-            for viewContoller in viewControllers{
-                viewContoller.willMove(toParentViewController: nil)
-                viewContoller.view.removeFromSuperview()
-                viewContoller.removeFromParentViewController()
-            }
-        }
     }
     
     fileprivate func add(asChildViewController viewController: UIViewController) {
