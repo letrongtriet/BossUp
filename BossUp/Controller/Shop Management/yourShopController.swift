@@ -253,8 +253,8 @@ extension yourShopController {
                             self?.userRef.child(Share.userID).child("currentShop").setValue(key)
                         }
                     }
+                    self?.refreshUI()
                 })
-                self?.refreshUI()
             }
         }
     }

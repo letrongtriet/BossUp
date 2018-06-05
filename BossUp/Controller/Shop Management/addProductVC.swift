@@ -313,6 +313,7 @@ extension addProductVC {
     
     fileprivate func openCamera() {
         imagePickerController.delegate = self
+        imagePickerController.imageLimit = 1
         present(imagePickerController, animated: true, completion: nil)
     }
     
