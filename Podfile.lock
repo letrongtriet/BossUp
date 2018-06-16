@@ -6,20 +6,20 @@ PODS:
   - Charts/Core (3.1.1)
   - DeviceKit (1.7.0)
   - DropDown (2.3.2)
-  - Firebase (5.1.0):
-    - Firebase/Core (= 5.1.0)
-  - Firebase/Auth (5.1.0):
+  - Firebase (5.2.0):
+    - Firebase/Core (= 5.2.0)
+  - Firebase/Auth (5.2.0):
     - Firebase/CoreOnly
-    - FirebaseAuth (= 5.0.0)
-  - Firebase/Core (5.1.0):
+    - FirebaseAuth (= 5.0.1)
+  - Firebase/Core (5.2.0):
     - Firebase/CoreOnly
     - FirebaseAnalytics (= 5.0.1)
-  - Firebase/CoreOnly (5.1.0):
-    - FirebaseCore (= 5.0.2)
-  - Firebase/Database (5.1.0):
+  - Firebase/CoreOnly (5.2.0):
+    - FirebaseCore (= 5.0.3)
+  - Firebase/Database (5.2.0):
     - Firebase/CoreOnly
     - FirebaseDatabase (= 5.0.1)
-  - Firebase/Storage (5.1.0):
+  - Firebase/Storage (5.2.0):
     - Firebase/CoreOnly
     - FirebaseStorage (= 3.0.0)
   - FirebaseAnalytics (5.0.1):
@@ -27,15 +27,15 @@ PODS:
     - FirebaseInstanceID (~> 3.0)
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
     - nanopb (~> 0.3)
-  - FirebaseAuth (5.0.0):
+  - FirebaseAuth (5.0.1):
     - FirebaseCore (~> 5.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - FirebaseCore (5.0.2):
+  - FirebaseCore (5.0.3):
     - "GoogleToolboxForMac/NSData+zlib (~> 2.1)"
   - FirebaseDatabase (5.0.1):
     - FirebaseCore (~> 5.0)
     - leveldb-library (~> 1.18)
-  - FirebaseInstanceID (3.0.0):
+  - FirebaseInstanceID (3.1.0):
     - FirebaseCore (~> 5.0)
   - FirebaseStorage (3.0.0):
     - FirebaseCore (~> 5.0)
@@ -49,7 +49,7 @@ PODS:
   - ImagePicker (3.0.0)
   - Imaginary (3.0.3):
     - Cache (~> 4.0)
-  - IQKeyboardManagerSwift (6.0.3)
+  - IQKeyboardManagerSwift (6.0.4)
   - leveldb-library (1.20)
   - Lightbox (2.1.2):
     - Hue (~> 3.0)
@@ -111,12 +111,12 @@ SPEC CHECKSUMS:
   Charts: 90a4d61da0f6e06684c591e3bcab11940fe61736
   DeviceKit: 6a5bdeb103c03757bb94aef1ccb01e08bc8ef4ee
   DropDown: 7f87abecc28f9b4edad810fe1211c5c018c257e5
-  Firebase: e08fb0795f35707aeb1d8a715c731c45bdf6fd56
+  Firebase: 25ed0412036d7d008568d1fb4d2e9d81ea8a0a2c
   FirebaseAnalytics: b3628aea54c50464c32c393fb2ea032566e7ecc2
-  FirebaseAuth: acbeef02fe7c3a26624e309849f3fe30c84115af
-  FirebaseCore: b81044df1044c0857a0737c6324678b72d4f7f00
+  FirebaseAuth: 463b8ce33bd5d05f706dcd4615499e3212b4132b
+  FirebaseCore: a3c87242451633fff8490183898075ce77d168d2
   FirebaseDatabase: 482bad9c2abd422bb2321194fb8c937e67426a89
-  FirebaseInstanceID: 83e0040351565df711a5db3d8ebe5ea21aca998a
+  FirebaseInstanceID: 05d779cbb97bd5bd5c51a38a903fc9cfe1b2454a
   FirebaseStorage: 7ca4bb7b58a25fa647b04f524033fc7cb7eb272b
   Gallery: 5489ae11d8010a3cc163030f6e92d618afbdf4df
   GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
@@ -124,7 +124,7 @@ SPEC CHECKSUMS:
   Hue: 93e852fa6211ab35922ad8c293f51c43d6c79eb2
   ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   Imaginary: 9b45836a5af881f452a86e0a1215772ae4712d00
-  IQKeyboardManagerSwift: 04e8679f85e496bb2c474eeb9284052f1b3c391c
+  IQKeyboardManagerSwift: 36dbe324b4f9793f5f41ba5227f3e7c76dfefd50
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   Lightbox: 2dc267df8be2285bc7724cb11cbbf4aaaf59dced
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3

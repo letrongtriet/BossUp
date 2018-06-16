@@ -584,7 +584,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xRf-9I-746">
                                 <rect key="frame" x="0.0" y="74" width="414" height="368"/>
                                 <connections>
-                                    <segue destination="iRh-H0-96y" kind="embed" id="Htf-Vs-iA4"/>
+                                    <segue destination="iRh-H0-96y" kind="embed" identifier="toChartVC" id="Htf-Vs-iA4"/>
                                 </connections>
                             </containerView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="s5T-WT-d8p">

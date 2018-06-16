@@ -10,7 +10,10 @@ import UIKit
 import Charts
 import SwiftyJSON
 
-class chartsVC: UIViewController {
+class chartsVC: UIViewController, FilterChangedDelegate {
+    
+    var shopManagement: reportController?
+    
     fileprivate let userRef = BackendManager.shared.userReference
     fileprivate let shopRef = BackendManager.shared.shopReference
     
@@ -34,13 +37,12 @@ class chartsVC: UIViewController {
             print("Chart VC cannot be loaded")
         }else {
             self.getReportData()
-            NotificationCenter.default.addObserver(self, selector: #selector(self.reload), name: Notification.Name("reloadChart"), object: nil)
+            self.shopManagement?.delegate = self
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self)
+    func updateData() {
+        self.reload()
     }
     
     @objc fileprivate func reload() {
@@ -71,14 +73,12 @@ class chartsVC: UIViewController {
                 }
                 
             }
-            
             self.updateChartData()
             self.updateLabel()
         }
     }
     
     fileprivate func updateChartData() {
-        
         self.pieChartView.chartDescription?.text = nil
         
         for item in self.transactionList {

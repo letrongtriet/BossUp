@@ -18,6 +18,8 @@ class reportController: UIViewController {
     fileprivate let userRef = BackendManager.shared.userReference
     fileprivate let shopRef = BackendManager.shared.shopReference
     
+    weak var delegate: FilterChangedDelegate?
+    
     @IBOutlet weak var menuButton: MyButton!
     @IBOutlet weak var menuBar: UIView!
     @IBOutlet weak var containerView: UIView!
@@ -57,6 +59,13 @@ class reportController: UIViewController {
         self.setShadow()
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? chartsVC,
+            segue.identifier == "toChartVC" {
+            vc.shopManagement = self
+        }
+    }
+    
     @IBAction func didPressOpenTransaction(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let viewController = storyboard.instantiateViewController(withIdentifier: "transactionVC") as! transactionVC
@@ -66,7 +75,6 @@ class reportController: UIViewController {
     @IBAction func didPressFilterButton(_ sender: UIButton) {
         self.filterDropDown.show()
     }
-    
     
     fileprivate func setShadow() {
         menuBar.layer.shadowColor = UIColor.lightGray.cgColor
@@ -124,10 +132,7 @@ class reportController: UIViewController {
             }
             
             self?.getData()
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: Notification.Name("reloadChart"), object: nil)
-            }
-
+            self?.delegate?.updateData()
         }
     }
     
